@@ -28,3 +28,6 @@ repo
 
 # Local decompiled Minecraft/NeoForge references for porting.
 .decompiled/
+
+# Local internal porting documentation.
+docs/
