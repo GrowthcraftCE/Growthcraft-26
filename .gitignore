@@ -1,0 +1,23 @@
+# Gradle / Java build output
+.gradle/
+build/
+out/
+
+# IDE metadata
+.idea/
+*.iml
+.vscode/
+
+# Minecraft dev runtime output
+run/
+runs/
+logs/
+
+# Generated local artifacts
+*.log
+*.tmp
+*.bak
+
+# OS files
+Thumbs.db
+.DS_Store
