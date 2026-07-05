@@ -1,23 +1,30 @@
-# Gradle / Java build output
-.gradle/
-build/
-out/
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
 
-# IDE metadata
-.idea/
+# idea
+out
+*.ipr
+*.iws
 *.iml
-.vscode/
+.idea
 
-# Minecraft dev runtime output
-run/
-runs/
-logs/
+# gradle
+build
+.gradle
 
-# Generated local artifacts
-*.log
-*.tmp
-*.bak
+# other
+eclipse
+run
+runs
+run-data
 
-# OS files
-Thumbs.db
-.DS_Store
+repo
+/src/generated/resources/.cache/
+
+# Local decompiled Minecraft/NeoForge references for porting.
+.decompiled/
