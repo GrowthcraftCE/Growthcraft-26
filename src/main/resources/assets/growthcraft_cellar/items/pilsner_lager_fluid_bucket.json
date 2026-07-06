@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_cellar:item/pilsner_lager_fluid_bucket",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -602066
+                                }
+                            ]
+              }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Cultivated Farmland",
+  "icon": "growthcraft_rice:cultivated_farmland",
+  "category": "growthcraft:rice",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Cultivated Farmland is prepared soil for water-loving crops such as rice.$(br2)It starts as normal farmland, then is worked with a Cultivator."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "growthcraft_rice:cultivator",
+      "text": "Craft a Cultivator, then use it on farmland to convert the block."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "growthcraft_rice:cultivated_farmland",
+      "text": "Cultivated Farmland needs nearby water before rice can be planted. It will flood naturally when water is close enough.$(br2)You can also use a water bucket on it to flood it immediately."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "growthcraft_rice:rice_stalk",
+      "text": "Once you see that there is a layer of water on top of the farmland, plant your crops that require cultivated farmland.$(br2)Rice grows at about the same rate as wheat."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:grain/barley"
+      }
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "growthcraft:config_value",
+        "module": "cellar",
+        "name": "brewing.allow_additional_adjunct_grains"
+      }
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "growthcraft_cellar:adjunct_grains_basic"
+      }
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "growthcraft_cellar",
+  "ingredients": [
+    "#c:grain/barley",
+    "#c:grain/barley",
+    "#growthcraft_cellar:adjunct_grains_basic",
+    "#growthcraft_cellar:adjunct_grains_basic"
+  ],
+  "result": {
+    "count": 3,
+    "id": "growthcraft_cellar:grain"
+  }
+}

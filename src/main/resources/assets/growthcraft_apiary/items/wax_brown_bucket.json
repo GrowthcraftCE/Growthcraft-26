@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_apiary:item/wax_brown_bucket",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -6927616
+                                }
+                            ]
+              }
+}

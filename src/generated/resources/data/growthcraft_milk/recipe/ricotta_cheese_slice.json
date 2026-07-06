@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "growthcraft_milk",
+  "ingredients": [
+    "minecraft:bowl",
+    "growthcraft_milk:ricotta_cheese_curds_drained",
+    "growthcraft_milk:ricotta_cheese_curds_drained"
+  ],
+  "result": {
+    "id": "growthcraft_milk:ricotta_cheese_slice"
+  }
+}

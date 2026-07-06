@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_rice",
+  "key": {
+    "K": "minecraft:dried_kelp",
+    "R": "growthcraft_rice:rice_cooked",
+    "S": "#c:dusts/salt"
+  },
+  "pattern": [
+    " R ",
+    " S ",
+    " K "
+  ],
+  "result": {
+    "id": "growthcraft_rice:onigiri"
+  },
+  "show_notification": true,
+  "neoforge:conditions": [
+    {
+      "type": "growthcraft:config_value",
+      "feature": "rice"
+    }
+  ]
+}

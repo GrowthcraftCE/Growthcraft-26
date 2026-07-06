@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_cellar:item/copper_ale_fluid_bucket",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -7451855
+                                }
+                            ]
+              }
+}

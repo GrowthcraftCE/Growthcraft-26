@@ -1,0 +1,29 @@
+{
+  "type": "cucumber:shaped_no_mirror",
+  "pattern": [
+    "AAA",
+    " B ",
+    "DDD"
+  ],
+  "key": {
+    "A": {
+      "item": "mysticalagriculture:nature_essence"
+    },
+    "B": {
+      "item": "mysticalagriculture:earth_essence"
+    },
+    "D": {
+      "item": "mysticalagriculture:dirt_essence"
+    }
+  },
+  "result": {
+    "item": "growthcraft_rice:yeast_seishu",
+    "count": 8
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ]
+}

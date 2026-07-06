@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_rice:item/rice_wine_fluid_bucket",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -2499877
+                                }
+                            ]
+              }
+}

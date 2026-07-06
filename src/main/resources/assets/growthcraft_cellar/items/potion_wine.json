@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_cellar:item/potion_wine",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:potion",
+                                    "default":  -13083194
+                                }
+                            ]
+              }
+}

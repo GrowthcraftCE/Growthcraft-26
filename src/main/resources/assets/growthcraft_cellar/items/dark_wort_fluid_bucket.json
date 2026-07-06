@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_cellar:item/dark_wort_fluid_bucket",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -12244455
+                                }
+                            ]
+              }
+}

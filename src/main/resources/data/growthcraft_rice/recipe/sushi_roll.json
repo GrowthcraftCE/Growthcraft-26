@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_rice",
+  "key": {
+    "F": "#minecraft:fishes",
+    "K": "minecraft:dried_kelp",
+    "R": "growthcraft_rice:rice_cooked"
+  },
+  "pattern": [
+    " F ",
+    "RRR",
+    "KKK"
+  ],
+  "result": {
+    "count": 12,
+    "id": "growthcraft_rice:sushi_roll"
+  },
+  "show_notification": true,
+  "neoforge:conditions": [
+    {
+      "type": "growthcraft:config_value",
+      "feature": "rice"
+    }
+  ]
+}

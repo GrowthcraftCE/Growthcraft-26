@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "growthcraft_rice",
+  "ingredients": [
+    "growthcraft_rice:rice_cooked",
+    "minecraft:cooked_chicken",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "id": "growthcraft_rice:chicken_rice"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "growthcraft:config_value",
+      "feature": "rice"
+    }
+  ]
+}

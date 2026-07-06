@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "growthcraft_rice",
+  "ingredients": [
+    "growthcraft_rice:rice"
+  ],
+  "result": {
+    "count": 4,
+    "id": "growthcraft_rice:rice_grains"
+  },
+  "neoforge:conditions": []
+}

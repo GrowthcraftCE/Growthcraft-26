@@ -1,0 +1,26 @@
+{
+  "type": "cucumber:shaped_no_mirror",
+  "pattern": [
+    "A A",
+    " B ",
+    "A A"
+  ],
+  "key": {
+    "A": {
+      "item": "mysticalagriculture:spider_essence"
+    },
+    "B": {
+      "item": "mysticalagriculture:slime_essence"
+    }
+  },
+  "result": {
+    "item": "growthcraft:rope_linen",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ]
+}

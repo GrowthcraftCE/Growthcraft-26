@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_milk:item/parmesan_cheese_slice",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -1845319
+                                }
+                            ]
+              }
+}

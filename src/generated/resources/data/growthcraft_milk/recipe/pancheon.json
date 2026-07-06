@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_milk",
+  "key": {
+    "C": "minecraft:clay_ball"
+  },
+  "pattern": [
+    "C C",
+    "CCC"
+  ],
+  "result": {
+    "id": "growthcraft_milk:pancheon"
+  }
+}

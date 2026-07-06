@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_milk:item/appenzeller_cheese_curds",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -1451366
+                                }
+                            ]
+              }
+}

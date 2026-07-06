@@ -1,0 +1,29 @@
+{
+  "type": "cucumber:shaped_no_mirror",
+  "pattern": [
+    "AAA",
+    "CBC",
+    "CCC"
+  ],
+  "key": {
+    "A": {
+      "item": "mysticalagriculture:nature_essence"
+    },
+    "B": {
+      "item": "mysticalagriculture:iron_essence"
+    },
+    "C": {
+      "item": "mysticalagriculture:coal_essence"
+    }
+  },
+  "result": {
+    "item": "growthcraft_cellar:grain_dark",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ]
+}

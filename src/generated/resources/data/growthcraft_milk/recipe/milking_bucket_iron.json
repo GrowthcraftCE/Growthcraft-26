@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": "#c:ingots/iron",
+    "N": "#c:nuggets/iron"
+  },
+  "pattern": [
+    "NNN",
+    "I I",
+    " I "
+  ],
+  "result": {
+    "id": "growthcraft_milk:milking_bucket_iron"
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_cellar:item/grain_golden",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -2375587
+                                }
+                            ]
+              }
+}

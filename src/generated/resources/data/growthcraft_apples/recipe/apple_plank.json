@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "growthcraft_apples",
+  "ingredients": [
+    "growthcraft_apples:apple_wood_log"
+  ],
+  "result": {
+    "count": 4,
+    "id": "growthcraft_apples:apple_plank"
+  }
+}

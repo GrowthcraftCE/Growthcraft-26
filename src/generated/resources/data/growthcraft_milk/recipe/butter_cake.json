@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_milk",
+  "key": {
+    "B": "#c:butter",
+    "E": "minecraft:egg",
+    "M": "#growthcraft_milk:milk_buckets",
+    "S": "minecraft:sugar",
+    "W": "minecraft:wheat"
+  },
+  "pattern": [
+    "MBM",
+    "SES",
+    "WWW"
+  ],
+  "result": {
+    "id": "minecraft:cake"
+  }
+}

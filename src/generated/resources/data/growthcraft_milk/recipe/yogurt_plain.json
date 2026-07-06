@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "growthcraft_milk",
+  "ingredients": [
+    "#growthcraft_milk:milk_buckets",
+    "growthcraft_milk:starter_culture",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "id": "growthcraft_milk:yogurt_plain"
+  }
+}

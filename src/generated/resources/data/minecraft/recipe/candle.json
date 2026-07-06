@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_apiary",
+  "key": {
+    "H": "#growthcraft_apiary:honey_comb",
+    "S": "minecraft:string"
+  },
+  "pattern": [
+    "S",
+    "H"
+  ],
+  "result": {
+    "id": "minecraft:candle"
+  }
+}

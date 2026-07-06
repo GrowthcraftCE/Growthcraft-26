@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:grain/barley"
+      }
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "growthcraft_cellar",
+  "ingredients": [
+    "#c:grain/barley",
+    "#c:grain/barley",
+    "#c:grain/barley"
+  ],
+  "result": {
+    "count": 3,
+    "id": "growthcraft_cellar:grain"
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_cellar:item/grain_amber",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -4480946
+                                }
+                            ]
+              }
+}

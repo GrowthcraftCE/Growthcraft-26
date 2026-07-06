@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": "#c:nuggets/iron",
+    "B": "#c:ingots/iron",
+    "C": "minecraft:red_carpet"
+  },
+  "pattern": [
+    "  A",
+    "CBC",
+    "A  "
+  ],
+  "result": {
+    "id": "growthcraft:crowbar_red"
+  }
+}

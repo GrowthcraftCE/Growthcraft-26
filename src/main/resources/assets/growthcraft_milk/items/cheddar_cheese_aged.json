@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_milk:item/cheddar_cheese_aged",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -868753
+                                }
+                            ]
+              }
+}
