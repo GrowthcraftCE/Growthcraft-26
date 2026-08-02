@@ -3,7 +3,6 @@ package growthcraft.core.config;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import growthcraft.cellar.config.GrowthcraftCellarConfig;
 import growthcraft.core.Growthcraft;
 import net.neoforged.neoforge.common.conditions.ICondition;
 
@@ -31,12 +30,18 @@ public record ConfigValueCondition(String module, String name) implements ICondi
             return isLegacyFeatureEnabled(name);
         }
 
-        if ("cellar".equals(module) && "brewing.allow_additional_adjunct_grains".equals(name)) {
-            return GrowthcraftCellarConfig.isSecondaryAdjunctGrainsAllowed();
+        Optional<net.neoforged.neoforge.common.ModConfigSpec.BooleanValue> configValue =
+                ConfigValueConditionResolver.findBooleanConfigValue(module, name);
+        if (configValue.isEmpty()) {
+            return false;
         }
-
-        Growthcraft.LOGGER.error("Growthcraft condition error: invalid config value {}.{}", module, name);
-        return false;
+        try {
+            return configValue.get().get();
+        } catch (IllegalStateException exception) {
+            Growthcraft.LOGGER.error("Growthcraft condition error: config value {}.{} was read before its config loaded",
+                    module, name, exception);
+            return false;
+        }
     }
 
     @Override
