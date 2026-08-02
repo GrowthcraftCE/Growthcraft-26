@@ -5,6 +5,7 @@
 	"render_type": "cutout",
 	"textures": {
 		"1": "growthcraft_cellar:block/cork/cork_coaster",
+		"all": "growthcraft_cellar:block/cork/cork_coaster",
 		"particle": "growthcraft_cellar:block/cork/cork_coaster"
 	},
 	"elements": [

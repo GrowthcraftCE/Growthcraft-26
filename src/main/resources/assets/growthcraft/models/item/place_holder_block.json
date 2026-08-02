@@ -1,3 +1,6 @@
 {
-  "parent": "growthcraft:block/place_holder_block"
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "growthcraft:block/place_holder_block"
+  }
 }

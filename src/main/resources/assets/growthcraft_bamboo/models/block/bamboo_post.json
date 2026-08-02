@@ -3,6 +3,7 @@
   "parent": "minecraft:block/cube_all",
   "textures": {
     "0": "minecraft:block/bamboo_fence",
+    "all": "minecraft:block/bamboo_fence",
     "particle": "minecraft:block/bamboo_fence_particle"
   },
   "elements": [

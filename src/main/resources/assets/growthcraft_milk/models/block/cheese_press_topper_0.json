@@ -1,6 +1,7 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
+    "particle": "growthcraft_milk:block/cheese_press/base",
     "2": "growthcraft_milk:block/cheese_press/vice_top",
     "3": "growthcraft_milk:block/cheese_press/iron_frame",
     "default": "growthcraft_milk:block/cheese_press/base",
