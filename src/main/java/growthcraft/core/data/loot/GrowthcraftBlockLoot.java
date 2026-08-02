@@ -48,6 +48,10 @@ public class GrowthcraftBlockLoot extends BlockLootSubProvider {
     protected Iterable<Block> getKnownBlocks() {
         return GrowthcraftBlocks.BLOCKS.getEntries().stream()
                 .map(entry -> entry.get())
+                .filter(block -> block != GrowthcraftBlocks.SALT_ORE.get())
+                .filter(block -> block != GrowthcraftBlocks.SALT_ORE_DEEPSLATE.get())
+                .filter(block -> block != GrowthcraftBlocks.SALT_ORE_NETHER.get())
+                .filter(block -> block != GrowthcraftBlocks.SALT_ORE_END.get())
                 .collect(Collectors.toList());
     }
 }
