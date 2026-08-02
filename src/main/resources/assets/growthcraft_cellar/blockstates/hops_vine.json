@@ -71,7 +71,7 @@
     },
     {
       "when": {
-        "north": "true"
+        "north_ex": "1|2"
       },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
@@ -80,7 +80,7 @@
     },
     {
       "when": {
-        "east": "true"
+        "east_ex": "1|2"
       },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
@@ -90,7 +90,7 @@
     },
     {
       "when": {
-        "south": "true"
+        "south_ex": "1|2"
       },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
@@ -100,7 +100,7 @@
     },
     {
       "when": {
-        "west": "true"
+        "west_ex": "1|2"
       },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
@@ -110,7 +110,7 @@
     },
     {
       "when": {
-        "up": "true"
+        "up_ex": "1|2"
       },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",
@@ -120,7 +120,7 @@
     },
     {
       "when": {
-        "down": "true"
+        "down_ex": "1|2"
       },
       "apply": {
         "model": "growthcraft:block/rope_linen_side",

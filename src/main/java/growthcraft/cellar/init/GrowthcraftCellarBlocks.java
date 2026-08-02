@@ -7,9 +7,9 @@ import growthcraft.cellar.block.BrewKettleBlock;
 import growthcraft.cellar.block.FermentationBarrelBlock;
 import growthcraft.cellar.block.FruitPressBlock;
 import growthcraft.cellar.block.FruitPressPistonBlock;
-import growthcraft.cellar.block.GrapeVineCropBlock;
+import growthcraft.cellar.block.GrapeVineStemBlock;
 import growthcraft.cellar.block.GrapeVineFruitBlock;
-import growthcraft.cellar.block.GrapeVineLeavesCropBlock;
+import growthcraft.cellar.block.GrapeVineLeavesBlock;
 import growthcraft.cellar.block.HopsCropBlock;
 import growthcraft.cellar.block.RoasterBlock;
 import growthcraft.cellar.config.Reference;
@@ -61,18 +61,18 @@ public final class GrowthcraftCellarBlocks {
             properties -> new GrapeVineFruitBlock(GrowthcraftCellarItems.GRAPE_RED, properties));
     public static final DeferredBlock<GrapeVineFruitBlock> WHITE_GRAPE_VINE_FRUIT = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.WHITE_GRAPE_VINE_FRUIT,
             properties -> new GrapeVineFruitBlock(GrowthcraftCellarItems.GRAPE_WHITE, properties));
-    public static final DeferredBlock<GrapeVineLeavesCropBlock> PURPLE_GRAPE_VINE_LEAVES = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.PURPLE_GRAPE_VINE_LEAVES,
-            properties -> new GrapeVineLeavesCropBlock(PURPLE_GRAPE_VINE_FRUIT, properties));
-    public static final DeferredBlock<GrapeVineLeavesCropBlock> RED_GRAPE_VINE_LEAVES = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.RED_GRAPE_VINE_LEAVES,
-            properties -> new GrapeVineLeavesCropBlock(RED_GRAPE_VINE_FRUIT, properties));
-    public static final DeferredBlock<GrapeVineLeavesCropBlock> WHITE_GRAPE_VINE_LEAVES = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.WHITE_GRAPE_VINE_LEAVES,
-            properties -> new GrapeVineLeavesCropBlock(WHITE_GRAPE_VINE_FRUIT, properties));
-    public static final DeferredBlock<GrapeVineCropBlock> PURPLE_GRAPE_VINE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.PURPLE_GRAPE_VINE,
-            properties -> new GrapeVineCropBlock(PURPLE_GRAPE_VINE_LEAVES, properties));
-    public static final DeferredBlock<GrapeVineCropBlock> RED_GRAPE_VINE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.RED_GRAPE_VINE,
-            properties -> new GrapeVineCropBlock(RED_GRAPE_VINE_LEAVES, properties));
-    public static final DeferredBlock<GrapeVineCropBlock> WHITE_GRAPE_VINE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.WHITE_GRAPE_VINE,
-            properties -> new GrapeVineCropBlock(WHITE_GRAPE_VINE_LEAVES, properties));
+    public static final DeferredBlock<GrapeVineLeavesBlock> PURPLE_GRAPE_VINE_LEAVES = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.PURPLE_GRAPE_VINE_LEAVES,
+            properties -> new GrapeVineLeavesBlock(PURPLE_GRAPE_VINE_FRUIT, GrowthcraftCellarItems.GRAPE_SEEDS_PURPLE, properties));
+    public static final DeferredBlock<GrapeVineLeavesBlock> RED_GRAPE_VINE_LEAVES = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.RED_GRAPE_VINE_LEAVES,
+            properties -> new GrapeVineLeavesBlock(RED_GRAPE_VINE_FRUIT, GrowthcraftCellarItems.GRAPE_SEEDS_RED, properties));
+    public static final DeferredBlock<GrapeVineLeavesBlock> WHITE_GRAPE_VINE_LEAVES = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.WHITE_GRAPE_VINE_LEAVES,
+            properties -> new GrapeVineLeavesBlock(WHITE_GRAPE_VINE_FRUIT, GrowthcraftCellarItems.GRAPE_SEEDS_WHITE, properties));
+    public static final DeferredBlock<GrapeVineStemBlock> PURPLE_GRAPE_VINE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.PURPLE_GRAPE_VINE,
+            properties -> new GrapeVineStemBlock(PURPLE_GRAPE_VINE_LEAVES, GrowthcraftCellarItems.GRAPE_SEEDS_PURPLE, properties));
+    public static final DeferredBlock<GrapeVineStemBlock> RED_GRAPE_VINE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.RED_GRAPE_VINE,
+            properties -> new GrapeVineStemBlock(RED_GRAPE_VINE_LEAVES, GrowthcraftCellarItems.GRAPE_SEEDS_RED, properties));
+    public static final DeferredBlock<GrapeVineStemBlock> WHITE_GRAPE_VINE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.WHITE_GRAPE_VINE,
+            properties -> new GrapeVineStemBlock(WHITE_GRAPE_VINE_LEAVES, GrowthcraftCellarItems.GRAPE_SEEDS_WHITE, properties));
     public static final DeferredBlock<HopsCropBlock> HOPS_VINE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.HOPS_VINE, HopsCropBlock::new);
 
     public static final DeferredBlock<Block> CORK_COASTER = BLOCKS.registerBlock(Reference.UnlocalizedName.Item.CORK_COASTER, CorkCoasterBlock::new);

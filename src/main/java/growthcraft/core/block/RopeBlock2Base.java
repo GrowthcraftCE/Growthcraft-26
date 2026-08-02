@@ -1,6 +1,6 @@
 package growthcraft.core.block;
 
-import growthcraft.lib.block.GrowthcraftCropsRopeBlock;
+import growthcraft.cellar.block.GrapeVineStemBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -51,7 +51,7 @@ public abstract class RopeBlock2Base extends Block {
 
     protected int connection(BlockState state, boolean vertical) {
         if (state.getBlock() instanceof RopeBlock2Base) return 1;
-        if (vertical && state.getBlock() instanceof GrowthcraftCropsRopeBlock) return 1;
+        if (vertical && state.getBlock() instanceof GrapeVineStemBlock) return 1;
         return state.is(BlockTags.FENCES) ? 2 : 0;
     }
 
@@ -65,7 +65,6 @@ public abstract class RopeBlock2Base extends Block {
     public static boolean canConnect(BlockState state) {
         return state.getBlock() instanceof RopeBlock2Base
                 || state.getBlock() instanceof RopeFenceBlock
-                || state.getBlock() instanceof GrowthcraftCropsRopeBlock
                 || state.is(growthcraft.core.init.GrowthcraftTags.Blocks.ROPE);
     }
 
