@@ -1,26 +1,32 @@
 {
-  "type": "cucumber:shaped_no_mirror",
-  "pattern": [
-    "DSS",
-    "SDS",
-    "SSD"
-  ],
-  "key": {
-    "S": {
-      "item": "mysticalagriculture:stone_essence"
-    },
-    "D": {
-      "item": "mysticalagriculture:dye_essence"
-    }
-  },
-  "result": {
-    "item": "growthcraft:salt",
-    "count": 4
-  },
-  "neoforge:conditions": [
-    {
-      "type": "neoforge:mod_loaded",
-      "modid": "mysticalagriculture"
-    }
-  ]
+    "type":  "cucumber:shaped_no_mirror",
+    "pattern":  [
+                    "DSS",
+                    "SDS",
+                    "SSD"
+                ],
+    "key":  {
+                "S":  {
+                          "item":  "mysticalagriculture:stone_essence"
+                      },
+                "D":  {
+                          "item":  "mysticalagriculture:dye_essence"
+                      }
+            },
+    "result":  {
+                   "item":  "growthcraft:salt",
+                   "count":  4
+               },
+    "neoforge:conditions":  [
+                                {
+                                    "type":  "neoforge:mod_loaded",
+                                    "modid":  "mysticalagriculture"
+                                },
+                                {
+                                    "type":  "growthcraft:third_party_condition",
+                                    "target_type":  "mysticalagriculture:crop_enabled",
+                                    "target_content":  "{ \"crop\": \"mysticalagriculture:dye\" }",
+                                    "value_if_not_present":  false
+                                }
+                            ]
 }

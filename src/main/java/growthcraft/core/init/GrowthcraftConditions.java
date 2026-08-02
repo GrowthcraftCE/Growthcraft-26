@@ -2,6 +2,7 @@ package growthcraft.core.init;
 
 import com.mojang.serialization.MapCodec;
 import growthcraft.core.config.ConfigValueCondition;
+import growthcraft.core.compat.ThirdPartyRecipeCondition;
 import growthcraft.core.config.Reference;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -16,4 +17,7 @@ public final class GrowthcraftConditions {
 
     public static final DeferredHolder<MapCodec<? extends ICondition>, MapCodec<ConfigValueCondition>> CONFIG_VALUE =
             CONDITION_CODECS.register("config_value", () -> ConfigValueCondition.CODEC);
+
+    public static final DeferredHolder<MapCodec<? extends ICondition>, MapCodec<ThirdPartyRecipeCondition>> THIRD_PARTY =
+            CONDITION_CODECS.register("third_party_condition", () -> ThirdPartyRecipeCondition.CODEC);
 }

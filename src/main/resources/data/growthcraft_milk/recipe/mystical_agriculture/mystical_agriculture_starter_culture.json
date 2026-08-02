@@ -1,36 +1,42 @@
 {
-  "type": "cucumber:shaped_no_mirror",
-  "pattern": [
-    "   ",
-    "ACA",
-    "FAI"
-  ],
-  "key": {
-    "A": {
-      "item": "mysticalagriculture:iron_essence"
-    },
-    "C": {
-      "item": "mysticalagriculture:cow_essence"
-    },
-    "F": {
-      "item": "mysticalagriculture:fire_essence"
-    },
-    "I": {
-      "item": "mysticalagriculture:ice_essence"
-    }
-  },
-  "result": {
-    "item": "growthcraft_milk:starter_culture",
-    "count": 8
-  },
-  "neoforge:conditions": [
-    {
-      "type": "neoforge:mod_loaded",
-      "modid": "mysticalagriculture"
-    },
-    {
-      "type": "growthcraft:config_value",
-      "feature": "milk"
-    }
-  ]
+    "type":  "cucumber:shaped_no_mirror",
+    "pattern":  [
+                    "   ",
+                    "ACA",
+                    "FAI"
+                ],
+    "key":  {
+                "A":  {
+                          "item":  "mysticalagriculture:iron_essence"
+                      },
+                "C":  {
+                          "item":  "mysticalagriculture:cow_essence"
+                      },
+                "F":  {
+                          "item":  "mysticalagriculture:fire_essence"
+                      },
+                "I":  {
+                          "item":  "mysticalagriculture:ice_essence"
+                      }
+            },
+    "result":  {
+                   "item":  "growthcraft_milk:starter_culture",
+                   "count":  8
+               },
+    "neoforge:conditions":  [
+                                {
+                                    "type":  "neoforge:mod_loaded",
+                                    "modid":  "mysticalagriculture"
+                                },
+                                {
+                                    "type":  "growthcraft:config_value",
+                                    "feature":  "milk"
+                                },
+                                {
+                                    "type":  "growthcraft:third_party_condition",
+                                    "target_type":  "mysticalagriculture:crop_enabled",
+                                    "target_content":  "{ \"crop\": \"mysticalagriculture:nature\" }",
+                                    "value_if_not_present":  false
+                                }
+                            ]
 }
