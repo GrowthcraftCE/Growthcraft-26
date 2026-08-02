@@ -39,6 +39,7 @@ public class GrowthcraftCellar {
         GrowthcraftCellarMenus.MENUS.register(modEventBus);
         GrowthcraftCellarRecipes.SERIALIZERS.register(modEventBus);
         GrowthcraftCellarRecipes.TYPES.register(modEventBus);
+        GrowthcraftCellarLootModifiers.register(modEventBus);
 
         // Capabilities registration
         modEventBus.addListener(GrowthcraftCellarCapabilities::registerCapabilities);
