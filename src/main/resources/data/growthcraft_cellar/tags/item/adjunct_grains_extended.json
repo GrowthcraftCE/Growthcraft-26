@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#c:grain/oat",
+    "#growthcraft_cellar:adjunct_grains_basic",
     "#c:crops/rice",
     "#c:grain/corn"
   ]
