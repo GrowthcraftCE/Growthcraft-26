@@ -21,12 +21,9 @@ public class GrowthcraftBlockLoot extends BlockLootSubProvider {
         // Rope block should drop the rope item (since there is no BlockItem for the rope block)
         this.add(GrowthcraftBlocks.ROPE_LINEN.get(), createSingleItemTable(GrowthcraftItems.ROPE_LINEN.get()));
 
-        // Salt blocks and ores (retain existing behavior; custom JSONs may override at runtime)
+        // Salt ore tables are authored resources because they drop salt with fortune/silk-touch behavior.
+        // Do not generate competing self-drop tables for them.
         this.dropSelf(GrowthcraftBlocks.SALT_BLOCK.get());
-        this.dropSelf(GrowthcraftBlocks.SALT_ORE.get());
-        this.dropSelf(GrowthcraftBlocks.SALT_ORE_DEEPSLATE.get());
-        this.dropSelf(GrowthcraftBlocks.SALT_ORE_NETHER.get());
-        this.dropSelf(GrowthcraftBlocks.SALT_ORE_END.get());
 
         // Rope Linen Fence variants
         this.dropRope(GrowthcraftBlocks.ROPE_LINEN_OAK_FENCE.get());
