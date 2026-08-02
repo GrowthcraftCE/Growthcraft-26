@@ -1,31 +1,18 @@
 package growthcraft.lib.fluid;
 
-import org.joml.Vector4f;
-import growthcraft.lib.client.ClientFluidTypeExtensions;
-import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.client.renderer.fog.FogData;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.common.SoundActions;
-import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -40,7 +27,7 @@ public class FluidRegistryContainer {
         public net.neoforged.neoforge.registries.DeferredHolder<Item, BucketItem> bucket;
     public final net.neoforged.neoforge.registries.DeferredHolder<Fluid, net.neoforged.neoforge.fluids.BaseFlowingFluid.Source> source;
     public final net.neoforged.neoforge.registries.DeferredHolder<Fluid, net.neoforged.neoforge.fluids.BaseFlowingFluid.Flowing> flowing;
-    public final Supplier<IClientFluidTypeExtensions> clientExtensions;
+    public final FluidClientProperties clientProperties;
     private net.neoforged.neoforge.fluids.BaseFlowingFluid.Properties properties;
 
     public DeferredRegister<Fluid> FLUID_REGISTRY;
@@ -51,7 +38,7 @@ public class FluidRegistryContainer {
 
     public FluidRegistryContainer(String name,
                                   FluidType.Properties typeProperties,
-                                  Supplier<IClientFluidTypeExtensions> clientExtensions,
+                                  FluidClientProperties clientProperties,
                                   @Nullable AdditionalProperties additionalProperties,
                                   BlockBehaviour.Properties blockProperties,
                                   Item.Properties itemProperties,
@@ -60,7 +47,7 @@ public class FluidRegistryContainer {
                                   DeferredRegister<Block> BLOCK_REGISTRY,
                                   DeferredRegister<Item> ITEM_REGISTRY) {
         this.name = name;
-        this.clientExtensions = clientExtensions;
+        this.clientProperties = clientProperties;
 
         this.FLUID_REGISTRY = FLUID_REGISTRY;
         this.FLUID_TYPE_REGISTRY = FLUID_TYPE_REGISTRY;
@@ -102,61 +89,14 @@ public class FluidRegistryContainer {
     }
 
     public FluidRegistryContainer(String name, FluidType.Properties typeProperties,
-                                  Supplier<IClientFluidTypeExtensions> clientExtensions, BlockBehaviour.Properties blockProperties,
+                                  FluidClientProperties clientProperties, BlockBehaviour.Properties blockProperties,
                                   Item.Properties itemProperties,
                                   DeferredRegister<Fluid>  FLUID_REGISTRY,
                                   DeferredRegister<FluidType> FLUID_TYPE_REGISTRY,
                                   DeferredRegister<Block> BLOCK_REGISTRY,
                                   DeferredRegister<Item> ITEM_REGISTRY) {
-        this(name, typeProperties, clientExtensions, null, blockProperties, itemProperties,
+        this(name, typeProperties, clientProperties, null, blockProperties, itemProperties,
                 FLUID_REGISTRY, FLUID_TYPE_REGISTRY, BLOCK_REGISTRY, ITEM_REGISTRY);
-    }
-
-    public static IClientFluidTypeExtensions createExtension(ClientFluidTypeExtensions extensions) {
-        return new IClientFluidTypeExtensions() {
-            private static final Identifier UNDERWATER_LOCATION = Identifier.parse("textures/misc/underwater.png");
-
-            @Override
-            public Identifier getRenderOverlayTexture(Minecraft mc) {
-                return extensions.renderOverlay != null ? extensions.renderOverlay : UNDERWATER_LOCATION;
-            }
-
-            public int getTintColor(FluidState state, BlockAndTintGetter getter, BlockPos pos) {
-                if (extensions.tintFunction != null) {
-                    Integer c = extensions.tintFunction.apply(state, getter, pos);
-                    if (c != null) return c;
-                }
-                return this.getTintColor();
-            }
-
-            public int getTintColor(FluidStack stack) {
-                return this.getTintColor();
-            }
-
-            public int getTintColor() {
-                return extensions.tintColor;
-            }
-
-            public Identifier getStillTexture() {
-                return extensions.still;
-            }
-
-            public Identifier getFlowingTexture() {
-                return extensions.flowing;
-            }
-
-            public Identifier getOverlayTexture() {
-                return extensions.overlay;
-            }
-
-            @Override
-            public void modifyFogColor(Camera camera, float partialTick, ClientLevel level,
-                                       int renderDistance, float darkenWorldAmount, Vector4f fluidFogColor) {
-                if (extensions.fogColor != null) {
-                    fluidFogColor.set(extensions.fogColor.x(), extensions.fogColor.y(), extensions.fogColor.z(), fluidFogColor.w());
-                }
-            }
-        };
     }
 
     /**

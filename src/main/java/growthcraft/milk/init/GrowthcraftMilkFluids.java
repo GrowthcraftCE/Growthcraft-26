@@ -1,6 +1,6 @@
 package growthcraft.milk.init;
 
-import growthcraft.lib.client.ClientFluidTypeExtensions;
+import growthcraft.lib.fluid.FluidClientProperties;
 import growthcraft.lib.fluid.FluidRegistryContainer;
 import growthcraft.lib.utils.ColorUtils;
 import growthcraft.milk.config.Reference;
@@ -57,7 +57,7 @@ public final class GrowthcraftMilkFluids {
                 .canDrown(false)
                 .lightLevel(0);
 
-        ClientFluidTypeExtensions client = new ClientFluidTypeExtensions(Reference.MODID, name)
+        FluidClientProperties client = new FluidClientProperties(Reference.MODID, name)
                 .tint(color);
 
         BlockBehaviour.Properties blockProps = BlockBehaviour.Properties.of()
@@ -83,7 +83,7 @@ public final class GrowthcraftMilkFluids {
         return new FluidRegistryContainer(
                 name,
                 typeProps,
-                () -> FluidRegistryContainer.createExtension(client),
+                client,
                 additionalProperties,
                 blockProps,
                 itemProps,

@@ -18,14 +18,14 @@ public final class GrowthcraftFluidModels {
 
     public static void registerContainers(RegisterFluidModelsEvent event, String namespace, FluidRegistryContainer[] containers) {
         for (FluidRegistryContainer container : containers) {
-            IClientFluidTypeExtensions extensions = container.clientExtensions.get();
+            IClientFluidTypeExtensions extensions = new ClientFluidTypeExtensions(container.clientProperties);
             event.register(model(namespace, container.name, tint(extensions), extensions), container.source, container.flowing);
         }
     }
 
     public static void registerClientExtensions(RegisterClientExtensionsEvent event, FluidRegistryContainer[] containers) {
         for (FluidRegistryContainer container : containers) {
-            event.registerFluidType(container.clientExtensions.get(), container.type.get());
+            event.registerFluidType(new ClientFluidTypeExtensions(container.clientProperties), container.type.get());
         }
     }
 

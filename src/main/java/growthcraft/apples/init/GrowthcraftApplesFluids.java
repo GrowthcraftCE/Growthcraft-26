@@ -1,7 +1,7 @@
 package growthcraft.apples.init;
 
 import growthcraft.apples.config.Reference;
-import growthcraft.lib.client.ClientFluidTypeExtensions;
+import growthcraft.lib.fluid.FluidClientProperties;
 import growthcraft.lib.fluid.FluidRegistryContainer;
 import growthcraft.lib.utils.ColorUtils;
 import net.minecraft.core.registries.Registries;
@@ -41,7 +41,7 @@ public final class GrowthcraftApplesFluids {
                 .supportsBoating(true)
                 .lightLevel(0);
 
-        ClientFluidTypeExtensions client = new ClientFluidTypeExtensions(Reference.MODID, fluidName)
+        FluidClientProperties client = new FluidClientProperties(Reference.MODID, fluidName)
                 .tint(color.toIntValue())
                 .fogColor(
                         color.toFloatValues().get("red"),
@@ -62,7 +62,7 @@ public final class GrowthcraftApplesFluids {
         return new FluidRegistryContainer(
                 fluidName,
                 typeProperties,
-                () -> FluidRegistryContainer.createExtension(client),
+                client,
                 new FluidRegistryContainer.AdditionalProperties()
                         .explosionResistance(100.0F)
                         .levelDecreasePerBlock(1)

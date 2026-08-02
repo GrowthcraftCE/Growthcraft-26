@@ -1,7 +1,7 @@
 package growthcraft.cellar.init;
 
 import growthcraft.cellar.config.Reference;
-import growthcraft.lib.client.ClientFluidTypeExtensions;
+import growthcraft.lib.fluid.FluidClientProperties;
 import growthcraft.lib.fluid.FluidRegistryContainer;
 import growthcraft.lib.utils.ColorUtils;
 import net.minecraft.core.registries.Registries;
@@ -79,7 +79,7 @@ public class GrowthcraftCellarFluids {
 
         // Client visuals: use per-fluid textures under assets/growthcraft_cellar/block/fluid/{name}_*
         int tint = color.toIntValue();
-        ClientFluidTypeExtensions client = new ClientFluidTypeExtensions(Reference.MODID, fluidName)
+        FluidClientProperties client = new FluidClientProperties(Reference.MODID, fluidName)
                 .tint(tint);
         if (usesSharedFluidTexture(fluidName)) {
             client.sharedFluidTextures(Reference.MODID);
@@ -102,7 +102,7 @@ public class GrowthcraftCellarFluids {
         return new FluidRegistryContainer(
                 fluidName,
                 typeProps,
-                () -> FluidRegistryContainer.createExtension(client),
+                client,
                 new FluidRegistryContainer.AdditionalProperties().tickRate(5).slopeFindDistance(4).levelDecreasePerBlock(1).explosionResistance(100f),
                 blockProps,
                 itemProps,

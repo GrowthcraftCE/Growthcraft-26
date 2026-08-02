@@ -5,7 +5,7 @@ import growthcraft.apiary.config.Reference;
 import growthcraft.apiary.init.GrowthcraftApiaryBlocks;
 import growthcraft.apiary.init.GrowthcraftApiaryFluids;
 import growthcraft.lib.client.GrowthcraftFluidModels;
-import growthcraft.lib.fluid.FluidRegistryContainer;
+import growthcraft.lib.client.ClientFluidTypeExtensions;
 import growthcraft.lib.utils.ColorUtils;
 import net.minecraft.client.color.block.BlockTintSources;
 import net.neoforged.api.distmarker.Dist;
@@ -57,7 +57,7 @@ public final class GrowthcraftApiaryClient {
     public static void onRegisterFluidModels(RegisterFluidModelsEvent event) {
         GrowthcraftFluidModels.registerContainers(event, Reference.MODID, GrowthcraftApiaryFluids.ALL);
         for (GrowthcraftApiaryFluids.WaxFluid wax : GrowthcraftApiaryFluids.WAXES) {
-            var extension = FluidRegistryContainer.createExtension(wax.client);
+            var extension = new ClientFluidTypeExtensions(wax.client);
             GrowthcraftFluidModels.register(
                     event,
                     wax.client.still,
@@ -74,7 +74,7 @@ public final class GrowthcraftApiaryClient {
     public static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
         GrowthcraftFluidModels.registerClientExtensions(event, GrowthcraftApiaryFluids.ALL);
         for (GrowthcraftApiaryFluids.WaxFluid wax : GrowthcraftApiaryFluids.WAXES) {
-            event.registerFluidType(FluidRegistryContainer.createExtension(wax.client), wax.type.get());
+            event.registerFluidType(new ClientFluidTypeExtensions(wax.client), wax.type.get());
         }
     }
 

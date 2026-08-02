@@ -1,104 +1,39 @@
 package growthcraft.lib.client;
 
-import org.joml.Vector3f;
+import growthcraft.lib.fluid.FluidClientProperties;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
-import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.material.FluidState;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import org.apache.commons.lang3.function.TriFunction;
-import growthcraft.lib.utils.ColorUtils;
+import net.neoforged.neoforge.fluids.FluidStack;
+import org.joml.Vector4f;
 
 public class ClientFluidTypeExtensions implements IClientFluidTypeExtensions {
-    public final String modid;
-    public Identifier still;
-    public Identifier flowing;
-    public Identifier overlay;
-    public Identifier renderOverlay;
-    public Vector3f fogColor;
-    public TriFunction<FluidState, BlockAndTintGetter, BlockPos, Integer> tintFunction;
-    public int tintColor = 0xFFFFFFFF; // default to opaque white (no tint)
+    private static final Identifier UNDERWATER_LOCATION = Identifier.parse("textures/misc/underwater.png");
+    private final FluidClientProperties properties;
 
-    public ClientFluidTypeExtensions(String modid, String fluidName) {
-        this.modid = modid;
-        still(fluidName);
-        flowing(fluidName);
-        overlay(fluidName);
+    public ClientFluidTypeExtensions(FluidClientProperties properties) { this.properties = properties; }
+    public Identifier getStillTexture() { return properties.still; }
+    public Identifier getFlowingTexture() { return properties.flowing; }
+    public Identifier getOverlayTexture() { return properties.overlay; }
+    public int getTintColor() { return properties.tintColor; }
+    public int getTintColor(FluidStack stack) { return getTintColor(); }
+    public int getTintColor(FluidState state, BlockAndTintGetter getter, BlockPos pos) { return getTintColor(); }
+
+    @Override
+    public Identifier getRenderOverlayTexture(Minecraft minecraft) {
+        return properties.renderOverlay != null ? properties.renderOverlay : UNDERWATER_LOCATION;
     }
 
-    public ClientFluidTypeExtensions flowing(String name) {
-        return flowing(name, "block/fluid");
-    }
-
-    public ClientFluidTypeExtensions flowing(String name, String folder) {
-        // Match asset naming convention: <name>_fluid_flowing.png under textures/<folder>
-        this.flowing = Identifier.fromNamespaceAndPath(this.modid, folder + "/" + name + "_fluid_flowing");
-        return this;
-    }
-
-    public ClientFluidTypeExtensions fogColor(float red, float green, float blue) {
-        this.fogColor = new Vector3f(red, green, blue);
-        return this;
-    }
-
-    public ClientFluidTypeExtensions overlay(String name) {
-        return overlay(name, "block/fluid");
-    }
-
-    public ClientFluidTypeExtensions overlay(String name, String folder) {
-        // Match asset naming convention: <name>_fluid_overlay.png under textures/<folder>
-        this.overlay = Identifier.fromNamespaceAndPath(this.modid, folder + "/" + name + "_fluid_overlay");
-        return renderOverlay(Identifier.fromNamespaceAndPath(this.modid, "textures/" + folder + "/" + name + "_fluid_overlay.png"));
-    }
-
-    public ClientFluidTypeExtensions renderOverlay(Identifier path) {
-        this.renderOverlay = path;
-        return this;
-    }
-
-    public ClientFluidTypeExtensions sharedFluidTextures(String namespace) {
-        this.still = Identifier.fromNamespaceAndPath(namespace, "block/fluid/fluid_still");
-        this.flowing = Identifier.fromNamespaceAndPath(namespace, "block/fluid/fluid_flowing");
-        this.overlay = Identifier.fromNamespaceAndPath(namespace, "block/fluid/fluid_overlay");
-        this.renderOverlay = Identifier.fromNamespaceAndPath(namespace, "textures/block/fluid/fluid_overlay.png");
-        return this;
-    }
-
-    public ClientFluidTypeExtensions useTexturesFrom(String namespace, String name) {
-        this.still = Identifier.fromNamespaceAndPath(namespace, "block/fluid/" + name + "_fluid_still");
-        this.flowing = Identifier.fromNamespaceAndPath(namespace, "block/fluid/" + name + "_fluid_flowing");
-        this.overlay = Identifier.fromNamespaceAndPath(namespace, "block/fluid/" + name + "_fluid_overlay");
-        this.renderOverlay = Identifier.fromNamespaceAndPath(namespace, "textures/block/fluid/" + name + "_fluid_overlay.png");
-        return this;
-    }
-
-    public ClientFluidTypeExtensions still(String name) {
-        return still(name, "block/fluid");
-    }
-
-    public ClientFluidTypeExtensions still(String name, String folder) {
-        // Match asset naming convention: <name>_fluid_still.png under textures/<folder>
-        this.still = Identifier.fromNamespaceAndPath(this.modid, folder + "/" + name + "_fluid_still");
-        return this;
-    }
-
-    public ClientFluidTypeExtensions tint(int tint) {
-        // Accept packed ARGB or RGB. If no alpha is provided (0x00RRGGBB), default to semi-transparent (0x7F).
-        int alpha = (tint >>> 24) & 0xFF;
-        if (alpha == 0x00) {
-            tint |= 0x7F000000; // default to ~50% transparency when alpha is absent
+    @Override
+    public void modifyFogColor(Camera camera, float partialTick, ClientLevel level,
+                               int renderDistance, float darkenWorldAmount, Vector4f fluidFogColor) {
+        if (properties.fogColor != null) {
+            fluidFogColor.set(properties.fogColor.x(), properties.fogColor.y(), properties.fogColor.z(), fluidFogColor.w());
         }
-        this.tintColor = tint;
-        this.tintFunction = ($0, $1, $2) -> this.tintColor;
-        return this;
-    }
-
-    public ClientFluidTypeExtensions tint(ColorUtils.GrowthcraftColor color) {
-        return tint(color.toIntValue());
-    }
-
-    public ClientFluidTypeExtensions tint(TriFunction<FluidState, BlockAndTintGetter, BlockPos, Integer> tinter) {
-        this.tintFunction = tinter;
-        return this;
     }
 }

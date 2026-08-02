@@ -1,7 +1,7 @@
 package growthcraft.apiary.init;
 
 import growthcraft.apiary.config.Reference;
-import growthcraft.lib.client.ClientFluidTypeExtensions;
+import growthcraft.lib.fluid.FluidClientProperties;
 import growthcraft.lib.fluid.FluidRegistryContainer;
 import growthcraft.lib.utils.ColorUtils;
 import net.minecraft.core.registries.Registries;
@@ -87,7 +87,7 @@ public final class GrowthcraftApiaryFluids {
                 .supportsBoating(true)
                 .lightLevel(0);
 
-        ClientFluidTypeExtensions client = new ClientFluidTypeExtensions(Reference.MODID, name)
+        FluidClientProperties client = new FluidClientProperties(Reference.MODID, name)
                 .tint(color)
                 .fogColor(
                         color.toFloatValues().get("red"),
@@ -118,7 +118,7 @@ public final class GrowthcraftApiaryFluids {
         return new FluidRegistryContainer(
                 name,
                 typeProperties,
-                () -> FluidRegistryContainer.createExtension(client),
+                client,
                 additionalProperties,
                 blockProperties,
                 new Item.Properties().stacksTo(1),
@@ -137,7 +137,7 @@ public final class GrowthcraftApiaryFluids {
                 .supportsBoating(true)
                 .lightLevel(0);
 
-        ClientFluidTypeExtensions client = new ClientFluidTypeExtensions(Reference.MODID, name);
+        FluidClientProperties client = new FluidClientProperties(Reference.MODID, name);
         client.still = Identifier.fromNamespaceAndPath("growthcraft", "block/fluid/fluid_still");
         client.flowing = Identifier.fromNamespaceAndPath("growthcraft", "block/fluid/fluid_flowing");
         client.overlay = Identifier.fromNamespaceAndPath("growthcraft", "block/fluid/fluid_overlay");
@@ -195,7 +195,7 @@ public final class GrowthcraftApiaryFluids {
         public DeferredHolder<Fluid, BaseFlowingFluid.Flowing> flowing;
         public DeferredHolder<Block, LiquidBlock> block;
         public DeferredHolder<Item, BucketItem> bucket;
-        public ClientFluidTypeExtensions client;
+        public FluidClientProperties client;
         private BaseFlowingFluid.Properties properties;
 
         private WaxFluid(DeferredHolder<FluidType, FluidType> type) {

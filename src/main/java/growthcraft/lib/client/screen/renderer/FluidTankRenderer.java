@@ -120,8 +120,8 @@ public record FluidTankRenderer(int width, int height, int capacityMb, float alp
     private static Identifier texture(FluidStack stack) {
         IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(stack.getFluid());
         if (extensions instanceof ClientFluidTypeExtensions growthcraftExtensions) {
-            if (growthcraftExtensions.still != null) return growthcraftExtensions.still;
-            if (growthcraftExtensions.flowing != null) return growthcraftExtensions.flowing;
+            if (growthcraftExtensions.getStillTexture() != null) return growthcraftExtensions.getStillTexture();
+            if (growthcraftExtensions.getFlowingTexture() != null) return growthcraftExtensions.getFlowingTexture();
         }
 
         Identifier reflected = extensionTexture(extensions, stack);
@@ -150,7 +150,7 @@ public record FluidTankRenderer(int width, int height, int capacityMb, float alp
         int tint = vanillaTint(stack);
         if (tint == 0) {
             tint = extensions instanceof ClientFluidTypeExtensions growthcraftExtensions
-                ? growthcraftExtensions.tintColor
+                ? growthcraftExtensions.getTintColor()
                 : extensionTint(extensions, stack);
         }
         int alpha = (int) (((tint >>> 24) & 0xFF) * this.alphaScale);

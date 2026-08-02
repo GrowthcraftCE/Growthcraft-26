@@ -123,9 +123,9 @@ public final class MachineFluidRenderer {
             return null;
         }
 
-        Identifier texture = growthcraftExtensions.still;
+        Identifier texture = growthcraftExtensions.getStillTexture();
         if (texture == null) {
-            texture = growthcraftExtensions.flowing;
+            texture = growthcraftExtensions.getFlowingTexture();
         }
         if (texture == null) return null;
 
@@ -133,7 +133,7 @@ public final class MachineFluidRenderer {
                 .getAtlasManager()
                 .getAtlasOrThrow(AtlasIds.BLOCKS)
                 .getSprite(texture);
-        int tint = growthcraftExtensions.tintColor;
+        int tint = growthcraftExtensions.getTintColor();
         float alpha = alpha(tint);
         float red = ((tint >> 16) & 0xFF) / 255.0F;
         float green = ((tint >> 8) & 0xFF) / 255.0F;
