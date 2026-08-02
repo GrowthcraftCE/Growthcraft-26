@@ -2,7 +2,7 @@ package growthcraft.cellar.block;
 
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.cellar.init.GrowthcraftCellarItems;
-import growthcraft.core.block.RopeBlock;
+import growthcraft.core.block.RopeBlock2Base;
 import growthcraft.lib.block.GrowthcraftCropsRopeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -45,7 +45,7 @@ public class HopsCropBlock extends GrowthcraftCropsRopeBlock {
 
     @Override
     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
-        return super.isValidBonemealTarget(level, pos, state) || level.getBlockState(pos.above()).getBlock() instanceof RopeBlock;
+        return super.isValidBonemealTarget(level, pos, state) || level.getBlockState(pos.above()).getBlock() instanceof RopeBlock2Base;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class HopsCropBlock extends GrowthcraftCropsRopeBlock {
         BlockPos above = pos.above();
         BlockState aboveState = level.getBlockState(above);
 
-        if (isMaxAge(state) && aboveState.getBlock() instanceof RopeBlock) {
+        if (isMaxAge(state) && aboveState.getBlock() instanceof RopeBlock2Base) {
             setCropBlock(level, above, GrowthcraftCellarBlocks.HOPS_VINE.get().getActualBlockStateWithAge(level, above, 0));
         }
     }

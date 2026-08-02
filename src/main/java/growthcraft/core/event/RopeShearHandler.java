@@ -1,6 +1,6 @@
 package growthcraft.core.event;
 
-import growthcraft.core.block.RopeBlock;
+import growthcraft.core.block.RopeBlock2Base;
 import growthcraft.core.block.RopeFenceBlock;
 import growthcraft.core.init.GrowthcraftItems;
 import net.minecraft.core.BlockPos;
@@ -66,7 +66,7 @@ public class RopeShearHandler {
         }
 
         // Case 2: RopeBlock -> remove rope and drop rope item (preserve water if waterlogged)
-        if (state.getBlock() instanceof RopeBlock) {
+        if (state.getBlock() instanceof RopeBlock2Base) {
             if (level.isClientSide()) {
                 event.setCancellationResult(InteractionResult.SUCCESS);
                 event.setCanceled(true);

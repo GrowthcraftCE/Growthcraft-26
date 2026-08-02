@@ -1,7 +1,7 @@
 package growthcraft.cellar.item;
 
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
-import growthcraft.core.block.RopeBlock;
+import growthcraft.core.block.RopeBlock2Base;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
@@ -25,7 +25,7 @@ public class HopsSeedsItem extends Item {
         if (block instanceof FarmlandBlock && level.getBlockState(plantPos).isAir()) {
             if (!level.isClientSide()) {
                 level.setBlock(plantPos, GrowthcraftCellarBlocks.HOPS_VINE.get().getActualBlockStateWithAge(level, plantPos, 0), Block.UPDATE_ALL);
-                RopeBlock.refreshAdjacentConnections(level, plantPos);
+                RopeBlock2Base.refreshAdjacentConnections(level, plantPos);
                 if (context.getPlayer() == null || !context.getPlayer().isCreative()) {
                     context.getItemInHand().shrink(1);
                 }

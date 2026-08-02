@@ -62,6 +62,26 @@ public abstract class RopeBlock2Base extends Block {
         };
     }
 
+    public static boolean canConnect(BlockState state) {
+        return state.getBlock() instanceof RopeBlock2Base
+                || state.getBlock() instanceof RopeFenceBlock
+                || state.getBlock() instanceof GrowthcraftCropsRopeBlock
+                || state.is(growthcraft.core.init.GrowthcraftTags.Blocks.ROPE);
+    }
+
+    public static void refreshConnections(LevelAccessor level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        if (state.getBlock() instanceof RopeBlock2Base rope) {
+            level.setBlock(pos, rope.getConnectedState(level, pos), Block.UPDATE_ALL);
+        } else if (state.getBlock() instanceof RopeFenceBlock fence) {
+            level.setBlock(pos, fence.withRopeConnections(level, pos, state), Block.UPDATE_ALL);
+        }
+    }
+
+    public static void refreshAdjacentConnections(LevelAccessor level, BlockPos pos) {
+        for (Direction direction : Direction.values()) refreshConnections(level, pos.relative(direction));
+    }
+
     @Override
     protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos,
                                      Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {

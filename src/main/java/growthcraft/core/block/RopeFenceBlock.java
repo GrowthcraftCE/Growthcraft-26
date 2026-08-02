@@ -79,7 +79,7 @@ public class RopeFenceBlock extends FenceBlock {
 
     @Override
     public boolean connectsTo(BlockState neighborState, boolean neighborIsFullBlock, Direction side) {
-        if (RopeBlock.canConnect(neighborState)) return true;
+        if (RopeBlock2Base.canConnect(neighborState)) return true;
         return super.connectsTo(neighborState, neighborIsFullBlock, side);
     }
 
@@ -89,8 +89,8 @@ public class RopeFenceBlock extends FenceBlock {
                 .setValue(EAST, connectsTo(level, pos, Direction.EAST))
                 .setValue(SOUTH, connectsTo(level, pos, Direction.SOUTH))
                 .setValue(WEST, connectsTo(level, pos, Direction.WEST))
-                .setValue(UP, RopeBlock.canConnect(level.getBlockState(pos.above())))
-                .setValue(DOWN, RopeBlock.canConnect(level.getBlockState(pos.below())));
+                .setValue(UP, RopeBlock2Base.canConnect(level.getBlockState(pos.above())))
+                .setValue(DOWN, RopeBlock2Base.canConnect(level.getBlockState(pos.below())));
     }
 
     private boolean connectsTo(BlockGetter level, BlockPos pos, Direction direction) {

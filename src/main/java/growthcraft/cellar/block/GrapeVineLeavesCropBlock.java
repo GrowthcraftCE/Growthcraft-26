@@ -1,6 +1,6 @@
 package growthcraft.cellar.block;
 
-import growthcraft.core.block.RopeBlock;
+import growthcraft.core.block.RopeBlock2Base;
 import growthcraft.core.init.GrowthcraftBlocks;
 import growthcraft.lib.block.GrowthcraftCropsRopeBlock;
 import net.minecraft.core.BlockPos;
@@ -84,7 +84,7 @@ public class GrapeVineLeavesCropBlock extends GrowthcraftCropsRopeBlock {
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         for (Direction direction : Direction.values()) {
             BlockState adjacent = level.getBlockState(pos.relative(direction));
-            if (adjacent.getBlock() instanceof GrapeVineCropBlock || adjacent.getBlock() instanceof GrapeVineLeavesCropBlock || RopeBlock.canConnect(adjacent)) {
+            if (adjacent.getBlock() instanceof GrapeVineCropBlock || adjacent.getBlock() instanceof GrapeVineLeavesCropBlock || RopeBlock2Base.canConnect(adjacent)) {
                 return true;
             }
         }

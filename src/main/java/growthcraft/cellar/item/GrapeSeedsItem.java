@@ -1,7 +1,7 @@
 package growthcraft.cellar.item;
 
 import growthcraft.cellar.block.GrapeVineCropBlock;
-import growthcraft.core.block.RopeBlock;
+import growthcraft.core.block.RopeBlock2Base;
 import growthcraft.lib.block.GrowthcraftCropsRopeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
@@ -29,13 +29,13 @@ public class GrapeSeedsItem extends Item {
 
         if (block instanceof FarmlandBlock
                 && level.getBlockState(plantPos).isAir()
-                && RopeBlock.canConnect(level.getBlockState(pos.above(2)))) {
+                && RopeBlock2Base.canConnect(level.getBlockState(pos.above(2)))) {
             if (!level.isClientSide()) {
                 BlockState state = grapeVineCropBlock.get().getActualBlockStateWithAge(level, plantPos, 0)
                         .setValue(GrowthcraftCropsRopeBlock.UP, true)
                         .setValue(GrowthcraftCropsRopeBlock.DOWN, false);
                 level.setBlock(plantPos, state, Block.UPDATE_ALL);
-                growthcraft.core.block.RopeBlock.refreshAdjacentConnections(level, plantPos);
+                growthcraft.core.block.RopeBlock2Base.refreshAdjacentConnections(level, plantPos);
                 if (context.getPlayer() == null || !context.getPlayer().isCreative()) {
                     context.getItemInHand().shrink(1);
                 }

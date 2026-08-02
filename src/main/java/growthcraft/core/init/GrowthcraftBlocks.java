@@ -1,6 +1,6 @@
 package growthcraft.core.init;
 
-import growthcraft.core.block.RopeBlock;
+import growthcraft.core.block.RopeBlock2;
 import growthcraft.core.block.RopeFenceBlock;
 import growthcraft.core.config.Reference;
 import net.minecraft.world.level.block.Block;
@@ -12,8 +12,8 @@ public class GrowthcraftBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Reference.MODID);
 
     // Rope blocks
-    public static final DeferredBlock<RopeBlock> ROPE_LINEN = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.ROPE_LINEN,
-            RopeBlock::new, () -> BlockBehaviour.Properties.of().strength(0.2F))
+    public static final DeferredBlock<RopeBlock2> ROPE_LINEN = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.ROPE_LINEN,
+            RopeBlock2::new, () -> BlockBehaviour.Properties.of().strength(0.2F))
     ;
 
     // Salt blocks and ores

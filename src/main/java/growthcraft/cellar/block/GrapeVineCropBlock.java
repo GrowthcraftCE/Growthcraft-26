@@ -1,7 +1,7 @@
 package growthcraft.cellar.block;
 
 import growthcraft.cellar.config.GrowthcraftCellarConfig;
-import growthcraft.core.block.RopeBlock;
+import growthcraft.core.block.RopeBlock2Base;
 import growthcraft.lib.block.GrowthcraftCropsRopeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -70,12 +70,12 @@ public class GrapeVineCropBlock extends GrowthcraftCropsRopeBlock {
 
         BlockPos above = pos.above();
         BlockState aboveState = level.getBlockState(above);
-        if (!(aboveState.getBlock() instanceof RopeBlock)) {
+        if (!(aboveState.getBlock() instanceof RopeBlock2Base)) {
             return;
         }
 
         BlockState nextState;
-        if (canGrowHigher(level, pos) && level.getBlockState(pos.above(2)).getBlock() instanceof RopeBlock) {
+        if (canGrowHigher(level, pos) && level.getBlockState(pos.above(2)).getBlock() instanceof RopeBlock2Base) {
             nextState = getActualBlockStateWithAge(level, above, 0);
         } else {
             nextState = leavesBlock.get().getActualBlockStateWithAge(level, above, 0);
