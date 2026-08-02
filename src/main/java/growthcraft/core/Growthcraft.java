@@ -5,6 +5,7 @@ import growthcraft.core.config.Reference;
 import growthcraft.core.init.GrowthcraftBlocks;
 import growthcraft.core.init.GrowthcraftConditions;
 import growthcraft.core.init.GrowthcraftCreativeTabs;
+import growthcraft.core.init.GrowthcraftGameTests;
 import growthcraft.core.init.GrowthcraftItems;
 import growthcraft.core.init.GrowthcraftParticles;
 import growthcraft.core.event.RopeShearHandler;
@@ -41,6 +42,8 @@ public class Growthcraft {
         GrowthcraftCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         GrowthcraftConditions.CONDITION_CODECS.register(modEventBus);
         GrowthcraftParticles.PARTICLE_TYPES.register(modEventBus);
+        GrowthcraftGameTests.TEST_FUNCTIONS.register(modEventBus);
+        modEventBus.addListener(GrowthcraftGameTests::registerTests);
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.addListener(RopeShearHandler::onRightClickBlock);
