@@ -1,6 +1,9 @@
 package growthcraft.core.init;
 
 import growthcraft.apples.init.GrowthcraftApplesBlocks;
+import growthcraft.cellar.block.BrewKettleBlock;
+import growthcraft.cellar.block.CultureJarBlock;
+import growthcraft.cellar.block.RoasterBlock;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.core.config.Reference;
 import growthcraft.milk.init.GrowthcraftMilkBlocks;
@@ -14,6 +17,7 @@ import net.minecraft.gametest.framework.TestData;
 import net.minecraft.gametest.framework.TestEnvironmentDefinition;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -60,6 +64,7 @@ public final class GrowthcraftGameTests {
         cycleBlock(helper, testPosition, GrowthcraftMilkBlocks.CHEESE_PRESS.get());
         cycleBlock(helper, testPosition, GrowthcraftApplesBlocks.APPLE_PLANK.get());
         cycleBlock(helper, testPosition, GrowthcraftRiceBlocks.CULTIVATED_FARMLAND.get());
+        verifyCellarHeatDetection(helper, new BlockPos(1, 2, 1));
 
         helper.succeed();
     }
@@ -69,5 +74,24 @@ public final class GrowthcraftGameTests {
         helper.assertBlockPresent(block, position);
         helper.destroyBlock(position);
         helper.assertBlockNotPresent(block, position);
+    }
+
+    private static void verifyCellarHeatDetection(GameTestHelper helper, BlockPos machinePosition) {
+        helper.setBlock(machinePosition.below(), Blocks.MAGMA_BLOCK);
+
+        helper.setBlock(machinePosition, GrowthcraftCellarBlocks.BREW_KETTLE.get());
+        BrewKettleBlock.updateLitState(helper.getLevel(), helper.absolutePos(machinePosition), helper.getBlockState(machinePosition));
+        helper.assertBlockProperty(machinePosition, BrewKettleBlock.LIT, true);
+
+        helper.setBlock(machinePosition, GrowthcraftCellarBlocks.ROASTER.get());
+        RoasterBlock.updateLitState(helper.getLevel(), helper.absolutePos(machinePosition), helper.getBlockState(machinePosition));
+        helper.assertBlockProperty(machinePosition, RoasterBlock.LIT, true);
+
+        helper.setBlock(machinePosition, GrowthcraftCellarBlocks.CULTURE_JAR.get());
+        CultureJarBlock.updateLitState(helper.getLevel(), helper.absolutePos(machinePosition), helper.getBlockState(machinePosition));
+        helper.assertBlockProperty(machinePosition, CultureJarBlock.LIT, true);
+
+        helper.destroyBlock(machinePosition);
+        helper.destroyBlock(machinePosition.below());
     }
 }
