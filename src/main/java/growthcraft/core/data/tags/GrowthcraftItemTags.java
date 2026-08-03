@@ -24,6 +24,8 @@ import java.util.concurrent.CompletableFuture;
 public class GrowthcraftItemTags extends IntrinsicHolderTagsProvider<Item> {
     public static final TagKey<Item> C_WRENCHES = TagKey.create(Registries.ITEM,
             Identifier.fromNamespaceAndPath("c", "tools/wrench"));
+    public static final TagKey<Item> C_SWORDS = TagKey.create(Registries.ITEM,
+            Identifier.fromNamespaceAndPath("c", "tools/sword"));
 
     public GrowthcraftItemTags(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, Registries.ITEM, lookupProvider, item -> item.builtInRegistryHolder().key());
@@ -60,6 +62,18 @@ public class GrowthcraftItemTags extends IntrinsicHolderTagsProvider<Item> {
 
         this.tag(GrowthcraftTags.Items.KNIVES)
                 .add(GrowthcraftRiceItems.KNIFE.get());
+
+        this.tag(GrowthcraftTags.Items.CHEESE_CUTTING_TOOLS)
+                .addTag(GrowthcraftTags.Items.KNIVES)
+                .add(
+                        Items.WOODEN_SWORD,
+                        Items.STONE_SWORD,
+                        Items.IRON_SWORD,
+                        Items.GOLDEN_SWORD,
+                        Items.DIAMOND_SWORD,
+                        Items.NETHERITE_SWORD
+                )
+                .addOptionalTag(C_SWORDS);
 
         this.tag(ItemTags.LEAVES)
                 .add(GrowthcraftApplesItems.APPLE_TREE_LEAVES.get());
