@@ -27,9 +27,12 @@ class ManualCompatibilityTest {
         String build = Files.readString(Path.of("build.gradle"));
         String properties = Files.readString(Path.of("gradle.properties"));
 
-        assertTrue(build.contains("localRuntime \"maven.modrinth:patchouli:${patchouli_version}\""));
+        assertTrue(build.contains("runtimeOnly \"curse.maven:patchouli-306770:${patchouli_version}\""));
         assertFalse(build.contains("implementation \"maven.modrinth:patchouli"));
-        assertTrue(properties.contains("patchouli_version=26.1-94-beta"));
+        assertTrue(properties.contains("patchouli_version=8404543"));
+        assertTrue(build.contains("growthcraftCompatibilityRuntime"));
+        assertTrue(build.contains("maven.modrinth:mystical-agriculture:${mystical_agriculture_version}"));
+        assertTrue(build.contains("curse.maven:packing-tape-238659:${packing_tape_version}"));
     }
 
     @Test

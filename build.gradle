@@ -140,24 +140,23 @@ neoForge {
     }
 }
 
-// Sets up a dependency configuration called 'localRuntime'.
-// This configuration should be used instead of 'runtimeOnly' to declare
-// a dependency that will be present for runtime testing but that is
-// "optional", meaning it will not be pulled by dependents of this mod.
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
-}
-
 dependencies {
     // Optional mod dependency with JEI.
     compileOnly "mezz.jei:jei-${minecraft_version_short}-neoforge:${jei_version}"
-    localRuntime "mezz.jei:jei-${minecraft_version_short}-neoforge:${jei_version}"
+    runtimeOnly "mezz.jei:jei-${minecraft_version_short}-neoforge:${jei_version}"
 
     // Patchouli remains optional for users; include it only in development to validate the Growthcraft manual.
-    localRuntime "maven.modrinth:patchouli:${patchouli_version}"
+    runtimeOnly "curse.maven:patchouli-306770:${patchouli_version}"
 
     // AppleSkin is only needed for runtime compatibility checks.
-    localRuntime "maven.modrinth:appleskin:${appleskin_version}"
+    runtimeOnly "maven.modrinth:appleskin:${appleskin_version}"
+
+    // Keep compatibility mods out of normal development runs while making supported-mod validation reproducible.
+    if (providers.gradleProperty("growthcraftCompatibilityRuntime").getOrElse("false").toBoolean()) {
+        runtimeOnly "maven.modrinth:cucumber:${cucumber_version}"
+        runtimeOnly "maven.modrinth:mystical-agriculture:${mystical_agriculture_version}"
+        runtimeOnly "curse.maven:packing-tape-238659:${packing_tape_version}"
+    }
 
     testImplementation platform('org.junit:junit-bom:5.14.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
