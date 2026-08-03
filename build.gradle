@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'jacoco'
+    id 'org.sonarqube' version '7.2.3.7755'
     id 'maven-publish'
     id 'net.neoforged.moddev' version '2.0.141'
     id 'idea'
@@ -20,6 +21,25 @@ group = mod_group_id
 
 jacoco {
     toolVersion = '0.8.14'
+}
+
+sonar {
+    properties {
+        property 'sonar.organization', 'growthcraftce'
+        property 'sonar.projectKey', 'GrowthcraftCE_Growthcraft-26'
+        property 'sonar.projectName', 'Growthcraft-26 (NeoForge)'
+        property 'sonar.projectVersion', project.version.toString()
+        property 'sonar.host.url', 'https://sonarcloud.io'
+        property 'sonar.java.source', '25'
+        property 'sonar.java.target', '25'
+        property 'sonar.coverage.jacoco.xmlReportPaths', layout.buildDirectory.file('reports/jacoco/test/jacocoTestReport.xml').get().asFile.path
+        property 'sonar.exclusions', [
+                'src/generated/**',
+                'src/main/resources/**',
+                'run/**',
+                '.decompile/**'
+        ].join(',')
+    }
 }
 
 sourceSets.main.resources {
