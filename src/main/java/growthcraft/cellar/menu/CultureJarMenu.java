@@ -171,7 +171,7 @@ public class CultureJarMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        return this.container.stillValid(player);
     }
 
     @Override
