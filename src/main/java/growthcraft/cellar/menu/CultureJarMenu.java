@@ -150,6 +150,12 @@ public class CultureJarMenu extends AbstractContainerMenu {
         return Math.min(pixels, (getProcess() * pixels) / total);
     }
 
+    public int getPercentProgress() {
+        int total = getProcessTotal();
+        if (total <= 0) return 0;
+        return Math.min(100, (getProcess() * 100) / total);
+    }
+
     public FluidStack getClientFluidStack() {
         int id = getFluidRawId();
         if (id < 0) return FluidStack.EMPTY;
