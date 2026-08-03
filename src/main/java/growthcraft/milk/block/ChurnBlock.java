@@ -1,7 +1,10 @@
 package growthcraft.milk.block;
 
+import growthcraft.lib.fluid.FluidRegistryContainer;
 import growthcraft.milk.block.entity.ChurnBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
+import growthcraft.milk.init.GrowthcraftMilkFluids;
+import growthcraft.milk.init.GrowthcraftMilkItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -11,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -25,12 +29,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class ChurnBlock extends Block implements EntityBlock {
@@ -99,6 +107,10 @@ public class ChurnBlock extends Block implements EntityBlock {
 
     @Override
     protected InteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (tryGrowthcraftBucketInteraction(heldStack, level, pos, player, hand)) {
+            return (level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER);
+        }
+
         if (FluidUtil.getFluidHandler(heldStack).isPresent() && FluidUtil.interactWithFluidHandler(player, hand, level, pos, hitResult.getDirection())) {
             return (level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER);
         }
@@ -116,6 +128,91 @@ public class ChurnBlock extends Block implements EntityBlock {
             return InteractionResult.CONSUME;
         }
         return InteractionResult.SUCCESS;
+    }
+
+    private static boolean tryGrowthcraftBucketInteraction(ItemStack heldStack, Level level, BlockPos pos, Player player, InteractionHand hand) {
+        if (!(level.getBlockEntity(pos) instanceof ChurnBlockEntity churn)) {
+            return false;
+        }
+
+        Fluid filledFluid = getFluidFromBucket(heldStack);
+        if (filledFluid != Fluids.EMPTY) {
+            if (!level.isClientSide()) {
+                FluidStack bucketFluid = new FluidStack(filledFluid, 1000);
+                int filled = churn.getTank().fill(bucketFluid, IFluidHandler.FluidAction.SIMULATE);
+                if (filled == 1000) {
+                    churn.getTank().fill(bucketFluid, IFluidHandler.FluidAction.EXECUTE);
+                    level.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    if (!player.getAbilities().instabuild) {
+                        replaceHeldItem(player, hand, heldStack, getEmptyBucketRemainder(heldStack));
+                    }
+                }
+            }
+            return true;
+        }
+
+        if (heldStack.is(Items.BUCKET) || heldStack.is(GrowthcraftMilkItems.MILKING_BUCKET_IRON.get())) {
+            FluidStack drained = churn.getTank().drain(1000, IFluidHandler.FluidAction.SIMULATE);
+            ItemStack filledBucket = getBucketForFluid(drained);
+            if (drained.getAmount() == 1000 && !filledBucket.isEmpty()) {
+                if (!level.isClientSide()) {
+                    churn.getTank().drain(drained, IFluidHandler.FluidAction.EXECUTE);
+                    level.playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    if (!player.getAbilities().instabuild) {
+                        replaceHeldItem(player, hand, heldStack, filledBucket);
+                    }
+                }
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static Fluid getFluidFromBucket(ItemStack stack) {
+        if (stack.is(Items.MILK_BUCKET) || stack.is(GrowthcraftMilkItems.MILK_BUCKET_IRON.get())) {
+            return GrowthcraftMilkFluids.MILK.source.get();
+        }
+
+        for (FluidRegistryContainer container : GrowthcraftMilkFluids.ALL) {
+            if (container.bucket != null && stack.is(container.bucket.get())) {
+                return container.source.get();
+            }
+        }
+        return Fluids.EMPTY;
+    }
+
+    private static ItemStack getBucketForFluid(FluidStack fluidStack) {
+        if (fluidStack.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+        if (fluidStack.getFluid().getFluidType() == GrowthcraftMilkFluids.MILK.source.get().getFluidType()) {
+            return new ItemStack(GrowthcraftMilkItems.MILK_BUCKET_IRON.get());
+        }
+
+        for (FluidRegistryContainer container : GrowthcraftMilkFluids.ALL) {
+            if (container.bucket != null && fluidStack.getFluid().getFluidType() == container.source.get().getFluidType()) {
+                return new ItemStack(container.bucket.get());
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    private static ItemStack getEmptyBucketRemainder(ItemStack stack) {
+        ItemStack remainder = stack.getItem().getCraftingRemainder().create();
+        return remainder.isEmpty() ? new ItemStack(Items.BUCKET) : remainder;
+    }
+
+    private static void replaceHeldItem(Player player, InteractionHand hand, ItemStack heldStack, ItemStack replacement) {
+        if (heldStack.getCount() == 1) {
+            player.setItemInHand(hand, replacement);
+            return;
+        }
+
+        heldStack.shrink(1);
+        if (!player.addItem(replacement)) {
+            player.drop(replacement, false);
+        }
     }
 
     private static void togglePlunger(Level level, BlockPos pos, BlockState state, ChurnBlockEntity churn) {

@@ -20,6 +20,15 @@ class MilkMachineFluidParityTest {
     void bucketDepositsRequireRoomForTheWholeBucket() throws IOException {
         assertSimulatesBeforeExecuting(source("MixingVatBlock.java"));
         assertSimulatesBeforeExecuting(source("PancheonBlock.java"));
+        assertSimulatesBeforeExecuting(source("ChurnBlock.java"));
+    }
+
+    @Test
+    void churnAdaptsVanillaMilkBucketsToTheMilkFluid() throws IOException {
+        String source = source("ChurnBlock.java");
+
+        assertTrue(source.contains("stack.is(Items.MILK_BUCKET)"));
+        assertTrue(source.contains("GrowthcraftMilkFluids.MILK.source.get()"));
     }
 
     private static void assertSimulatesBeforeExecuting(String source) {
