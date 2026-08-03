@@ -1,5 +1,7 @@
 package growthcraft.milk.item;
 
+import growthcraft.milk.GrowthcraftMilk;
+import growthcraft.milk.config.GrowthcraftMilkConfig;
 import growthcraft.milk.init.GrowthcraftMilkFluids;
 import growthcraft.milk.init.GrowthcraftMilkTags;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -39,6 +41,12 @@ import java.util.function.Supplier;
 public class MilkingBucketItem extends Item implements DispensibleContainerItem {
     private final Supplier<? extends Fluid> fluidSupplier;
 
+    private static void debug(String message, Object... arguments) {
+        if (GrowthcraftMilkConfig.isBucketsDebugEnabled()) {
+            GrowthcraftMilk.LOGGER.debug(message, arguments);
+        }
+    }
+
     public MilkingBucketItem(Supplier<? extends Fluid> fluidSupplier, Properties properties) {
         super(properties);
         this.fluidSupplier = fluidSupplier;
@@ -53,13 +61,14 @@ public class MilkingBucketItem extends Item implements DispensibleContainerItem 
 
         // Check tag first, then fallback to vanilla cow
         EntityType<?> type = target.getType();
-        boolean milkable = target instanceof Cow;
-        growthcraft.milk.GrowthcraftMilk.LOGGER.debug("[MilkingBucket] interactLivingEntity(Server): Player={} Target={} Milkable?={} StackCount={} Hand={}",
+        boolean milkable = type.builtInRegistryHolder().is(GrowthcraftMilkTags.EntityTypes.MILKABLE)
+                || target instanceof Cow;
+        debug("[MilkingBucket] interactLivingEntity(Server): Player={} Target={} Milkable?={} StackCount={} Hand={}",
                 player.getName().getString(), type.toShortString(), milkable, stack.getCount(), hand);
         if (milkable) {
             ItemStack milkBucket = new ItemStack(growthcraft.milk.init.GrowthcraftMilkItems.MILK_BUCKET_IRON.get());
             boolean added = player.getInventory().add(milkBucket);
-            growthcraft.milk.GrowthcraftMilk.LOGGER.debug("[MilkingBucket] Milking result: created {} addedToInv?={} (will drop if false)", milkBucket.getItem(), added);
+            debug("[MilkingBucket] Milking result: created {} addedToInv?={} (will drop if false)", milkBucket.getItem(), added);
             if (!added) {
                 player.drop(milkBucket, false);
             }

@@ -1,5 +1,7 @@
 package growthcraft.milk.item;
 
+import growthcraft.milk.GrowthcraftMilk;
+import growthcraft.milk.config.GrowthcraftMilkConfig;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +21,12 @@ import java.util.function.Supplier;
 public class GrowthcraftMilkBucketItem extends BucketItem {
     private final Supplier<Item> emptyReturn;
 
+    private static void debug(String message, Object... arguments) {
+        if (GrowthcraftMilkConfig.isBucketsDebugEnabled()) {
+            GrowthcraftMilk.LOGGER.debug(message, arguments);
+        }
+    }
+
     public GrowthcraftMilkBucketItem(Fluid content, Supplier<Item> emptyReturn, Properties properties) {
         super(content, properties);
         this.emptyReturn = emptyReturn;
@@ -32,11 +40,11 @@ public class GrowthcraftMilkBucketItem extends BucketItem {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         InteractionResult ret = super.use(level, player, hand);
         if (!level.isClientSide() && ret.consumesAction() && !player.getAbilities().instabuild) {
-            growthcraft.milk.GrowthcraftMilk.LOGGER.debug("[MilkBucket] use(Server): Player={} Hand={} replacing with emptyReturn={}",
+            debug("[MilkBucket] use(Server): Player={} Hand={} replacing with emptyReturn={}",
                     player.getName().getString(), hand, this.emptyReturn.get());
             player.setItemInHand(hand, new ItemStack(this.emptyReturn.get()));
         } else if (level.isClientSide()) {
-            growthcraft.milk.GrowthcraftMilk.LOGGER.debug("[MilkBucket] use(Client): deferring to server. Player={} Hand={}", player.getName().getString(), hand);
+            debug("[MilkBucket] use(Client): deferring to server. Player={} Hand={}", player.getName().getString(), hand);
         }
         return ret;
     }
