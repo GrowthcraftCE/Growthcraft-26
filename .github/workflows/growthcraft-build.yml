@@ -7,7 +7,7 @@ on:
     branches: [base, main, development]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -48,6 +48,7 @@ jobs:
         with:
           name: build-artifacts
           path: build/libs/
+          if-no-files-found: error
 
   codeql:
     name: CodeQL Analysis
