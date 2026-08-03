@@ -274,6 +274,10 @@ public class CheeseWheelBlock extends HorizontalDirectionalBlock {
         return wax != null && waxedBlock.get() != null && stack.is(wax);
     }
 
+    public Item getWaxingItem() {
+        return waxItem.get();
+    }
+
     private void displayAgingStatus(BlockState state, Level level, BlockPos pos, Player player) {
         player.sendOverlayMessage(agingStatus(state, level, pos).withStyle(Style.EMPTY.withColor(0xffddcc88)));
     }
