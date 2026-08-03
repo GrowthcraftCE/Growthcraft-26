@@ -1,12 +1,13 @@
 package growthcraft.milk.client;
 
 import growthcraft.lib.client.GrowthcraftFluidModels;
-import growthcraft.lib.client.screen.MachineScreen;
 import growthcraft.milk.config.Reference;
 import growthcraft.milk.client.renderer.MixingVatBlockEntityRenderer;
 import growthcraft.milk.client.renderer.PancheonBlockEntityRenderer;
 import growthcraft.milk.client.screen.MixingVatScreen;
 import growthcraft.milk.client.screen.PancheonScreen;
+import growthcraft.milk.client.screen.CheesePressScreen;
+import growthcraft.milk.client.screen.ChurnScreen;
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import growthcraft.milk.init.GrowthcraftMilkBlocks;
 import growthcraft.milk.init.GrowthcraftMilkFluids;
@@ -86,8 +87,8 @@ public final class GrowthcraftMilkClient {
 
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
-        event.register(GrowthcraftMilkMenus.CHEESE_PRESS.get(), MachineScreen::new);
-        event.register(GrowthcraftMilkMenus.CHURN.get(), MachineScreen::new);
+        event.register(GrowthcraftMilkMenus.CHEESE_PRESS.get(), CheesePressScreen::new);
+        event.register(GrowthcraftMilkMenus.CHURN.get(), ChurnScreen::new);
         event.register(GrowthcraftMilkMenus.MIXING_VAT.get(), MixingVatScreen::new);
         event.register(GrowthcraftMilkMenus.PANCHEON.get(), PancheonScreen::new);
     }

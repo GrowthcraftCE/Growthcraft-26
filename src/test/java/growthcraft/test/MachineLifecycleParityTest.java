@@ -51,6 +51,8 @@ class MachineLifecycleParityTest {
                 "cellar/menu/FermentationBarrelMenu.java",
                 "cellar/menu/FruitPressMenu.java",
                 "cellar/menu/RoasterMenu.java",
+                "milk/menu/CheesePressMenu.java",
+                "milk/menu/ChurnMenu.java",
                 "milk/menu/MixingVatMenu.java"
         }) {
             String source = Files.readString(Path.of("src/main/java/growthcraft", menu));

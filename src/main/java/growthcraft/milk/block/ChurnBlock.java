@@ -94,6 +94,11 @@ public class ChurnBlock extends Block implements EntityBlock {
             return InteractionResult.PASS;
         }
 
+        if (player.isShiftKeyDown()) {
+            if (!level.isClientSide()) player.openMenu(churn);
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+        }
+
         if (!level.isClientSide() && churn.collectByProduct(player)) {
             return InteractionResult.CONSUME;
         }
@@ -117,6 +122,11 @@ public class ChurnBlock extends Block implements EntityBlock {
 
         if (!(level.getBlockEntity(pos) instanceof ChurnBlockEntity churn)) {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
+        }
+
+        if (player.isShiftKeyDown()) {
+            if (!level.isClientSide()) player.openMenu(churn);
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         if (!level.isClientSide() && churn.collectByProduct(player)) {

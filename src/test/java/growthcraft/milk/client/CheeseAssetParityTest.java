@@ -16,8 +16,8 @@ class CheeseAssetParityTest {
     void cheesePressAndChurnScreensAreRegistered() throws IOException {
         String client = Files.readString(Path.of("src/main/java/growthcraft/milk/client/GrowthcraftMilkClient.java"));
 
-        assertTrue(client.contains("GrowthcraftMilkMenus.CHEESE_PRESS.get(), MachineScreen::new"));
-        assertTrue(client.contains("GrowthcraftMilkMenus.CHURN.get(), MachineScreen::new"));
+        assertTrue(client.contains("GrowthcraftMilkMenus.CHEESE_PRESS.get(), CheesePressScreen::new"));
+        assertTrue(client.contains("GrowthcraftMilkMenus.CHURN.get(), ChurnScreen::new"));
     }
 
     private static final Path ASSETS = Path.of("src/main/resources/assets/growthcraft_milk");

@@ -31,7 +31,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 import java.util.Optional;
 
-public class ChurnBlockEntity extends BlockEntity implements WorldlyContainer, Clearable {
+public class ChurnBlockEntity extends BlockEntity implements WorldlyContainer, Clearable, net.minecraft.world.MenuProvider {
     public static final int SLOT_BYPRODUCT = 0;
     public static final int SLOT_COUNT = 1;
     public static final int TANK_CAPACITY = 1000;
@@ -232,6 +232,16 @@ public class ChurnBlockEntity extends BlockEntity implements WorldlyContainer, C
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public net.minecraft.network.chat.Component getDisplayName() {
+        return net.minecraft.network.chat.Component.translatable("container.growthcraft_milk.churn");
+    }
+
+    @Override
+    public net.minecraft.world.inventory.AbstractContainerMenu createMenu(int containerId, net.minecraft.world.entity.player.Inventory inventory, Player player) {
+        return new growthcraft.milk.menu.ChurnMenu(containerId, inventory, this);
     }
 
 

@@ -31,7 +31,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.Optional;
 
-public class CheesePressBlockEntity extends BlockEntity implements WorldlyContainer, Clearable {
+public class CheesePressBlockEntity extends BlockEntity implements WorldlyContainer, Clearable, net.minecraft.world.MenuProvider {
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_OUTPUT = 1;
     public static final int SLOT_COUNT = 2;
@@ -277,6 +277,16 @@ public class CheesePressBlockEntity extends BlockEntity implements WorldlyContai
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public net.minecraft.network.chat.Component getDisplayName() {
+        return net.minecraft.network.chat.Component.translatable("container.growthcraft_milk.cheese_press");
+    }
+
+    @Override
+    public net.minecraft.world.inventory.AbstractContainerMenu createMenu(int containerId, net.minecraft.world.entity.player.Inventory inventory, Player player) {
+        return new growthcraft.milk.menu.CheesePressMenu(containerId, inventory, this);
     }
 
 }

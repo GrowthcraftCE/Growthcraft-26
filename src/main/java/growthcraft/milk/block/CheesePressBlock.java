@@ -80,6 +80,10 @@ public class CheesePressBlock extends Block implements EntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof CheesePressBlockEntity press) {
+            if (!level.isClientSide()) player.openMenu(press);
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+        }
         if (!(level.getBlockEntity(pos) instanceof CheesePressBlockEntity press) || !press.isOpen()) {
             if (!level.isClientSide() && level.getBlockEntity(pos) instanceof CheesePressBlockEntity closedPress) {
                 displayClosedPressStatus(closedPress, player, level);
@@ -102,6 +106,11 @@ public class CheesePressBlock extends Block implements EntityBlock {
     protected InteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!(level.getBlockEntity(pos) instanceof CheesePressBlockEntity press)) {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
+        }
+
+        if (player.isShiftKeyDown()) {
+            if (!level.isClientSide()) player.openMenu(press);
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         if (heldStack.is(GrowthcraftItems.WRENCH.get())) {
