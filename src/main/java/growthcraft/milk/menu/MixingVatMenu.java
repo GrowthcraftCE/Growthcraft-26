@@ -106,6 +106,19 @@ public class MixingVatMenu extends AbstractContainerMenu {
                 return false;
             }
         });
+        this.addSlot(new Slot(container, MixingVatBlockEntity.SLOT_RESULT_TOOL, 99999, 99999) {
+            @Override
+            public boolean mayPlace(ItemStack stack) { return false; }
+
+            @Override
+            public boolean mayPickup(Player player) { return false; }
+
+            @Override
+            public boolean isFake() { return true; }
+
+            @Override
+            public boolean isActive() { return false; }
+        });
 
         int startX = 8;
         int startY = 84;
@@ -205,5 +218,9 @@ public class MixingVatMenu extends AbstractContainerMenu {
             slot.onTake(player, stackInSlot);
         }
         return itemstack;
+    }
+
+    public ItemStack getResultActivationTool() {
+        return this.slots.get(MixingVatBlockEntity.SLOT_RESULT_TOOL).getItem();
     }
 }

@@ -226,7 +226,16 @@ public class MixingVatBlock extends Block implements EntityBlock {
     @Override
     protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
         if (level.getBlockEntity(pos) instanceof MixingVatBlockEntity vat) {
-            Containers.dropContents(level, pos, vat);
+            for (int slot = 0; slot < vat.getContainerSize(); slot++) {
+                if (slot == MixingVatBlockEntity.SLOT_RESULT_TOOL) {
+                    continue;
+                }
+                if (slot == MixingVatBlockEntity.SLOT_RESULT
+                        && !vat.getItem(MixingVatBlockEntity.SLOT_RESULT_TOOL).isEmpty()) {
+                    continue;
+                }
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), vat.getItem(slot));
+            }
         }
         super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }

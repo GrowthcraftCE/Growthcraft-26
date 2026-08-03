@@ -46,7 +46,8 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
     public static final int SLOT_INPUT_1 = 1;
     public static final int SLOT_INPUT_2 = 2;
     public static final int SLOT_RESULT = 3;
-    public static final int SLOT_COUNT = 4;
+    public static final int SLOT_RESULT_TOOL = 4;
+    public static final int SLOT_COUNT = 5;
     public static final int MAIN_TANK_CAPACITY = 4000;
     public static final int SIDE_TANK_CAPACITY = 1000;
 
@@ -160,6 +161,7 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
             mainTank.setFluid(FluidStack.EMPTY);
             sideTank.setFluid(FluidStack.EMPTY);
             setItem(SLOT_RESULT, recipe.getResultItemStack());
+            setItem(SLOT_RESULT_TOOL, recipe.getResultActivationTool());
         }
         activated = false;
         processTime = 0;
@@ -204,17 +206,14 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
             return false;
         }
 
-        Optional<RecipeHolder<MixingVatRecipe>> match = level == null ? Optional.empty()
-                : RecipeLookup.getAll(level, GrowthcraftMilkRecipes.MIXING_VAT_TYPE.get()).stream()
-                        .filter(holder -> ItemStack.isSameItemSameComponents(holder.value().getResultItemStack(), result))
-                        .findFirst();
-        ItemStack tool = match.map(holder -> holder.value().getResultActivationTool()).orElse(ItemStack.EMPTY);
+        ItemStack tool = getItem(SLOT_RESULT_TOOL);
         if (!tool.isEmpty() && !ItemStack.isSameItem(tool, heldStack)) {
             return false;
         }
 
         ItemStack toGive = result.copy();
         setItem(SLOT_RESULT, ItemStack.EMPTY);
+        setItem(SLOT_RESULT_TOOL, ItemStack.EMPTY);
         if (!tool.isEmpty() && !player.getAbilities().instabuild) {
             heldStack.shrink(1);
         }
