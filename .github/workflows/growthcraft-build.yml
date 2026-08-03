@@ -50,6 +50,16 @@ jobs:
           path: build/libs/
           if-no-files-found: error
 
+      - name: Upload test and coverage reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-and-coverage-reports
+          path: |
+            build/reports/tests/test/
+            build/reports/jacoco/test/
+          if-no-files-found: error
+
   codeql:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
