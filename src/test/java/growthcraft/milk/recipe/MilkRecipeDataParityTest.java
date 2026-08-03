@@ -5,8 +5,11 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MilkRecipeDataParityTest {
     private static final Path RECIPE_ROOT = Path.of("src/main/resources/data/growthcraft_milk/recipe");
@@ -20,6 +23,24 @@ class MilkRecipeDataParityTest {
         assertEquals(250, numberField(skimMilk, "amount"));
         assertEquals(1200, numberField(milk, "time"));
         assertEquals(1200, numberField(skimMilk, "time"));
+    }
+
+    @Test
+    void cheesePressStacksUseDelayedItemStackTemplateFields() throws IOException {
+        List<Path> recipes;
+        try (var paths = Files.list(RECIPE_ROOT)) {
+            recipes = paths
+                    .filter(path -> path.getFileName().toString().startsWith("cheese_press_"))
+                    .filter(path -> path.getFileName().toString().endsWith("_cheese.json"))
+                    .toList();
+        }
+
+        assertEquals(10, recipes.size());
+        for (Path path : recipes) {
+            String json = Files.readString(path);
+            assertTrue(json.contains("\"id\""), () -> path + " must use ItemStackTemplate's id field");
+            assertFalse(json.contains("\"item\""), () -> path + " must not eagerly decode an ItemStack");
+        }
     }
 
     private static String recipe(String name) throws IOException {
