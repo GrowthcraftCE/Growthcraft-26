@@ -26,7 +26,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "growthcraft_milk:yogurt_pumpkin",
-      "recipe": "growthcraft_milk:yogurt_watermelon"
+      "recipe2": "growthcraft_milk:yogurt_watermelon"
     },
     {
       "type": "patchouli:crafting",
