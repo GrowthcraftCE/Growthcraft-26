@@ -1,6 +1,7 @@
 package growthcraft.milk.client;
 
 import growthcraft.lib.client.GrowthcraftFluidModels;
+import growthcraft.lib.client.screen.MachineScreen;
 import growthcraft.milk.config.Reference;
 import growthcraft.milk.client.renderer.MixingVatBlockEntityRenderer;
 import growthcraft.milk.client.renderer.PancheonBlockEntityRenderer;
@@ -24,7 +25,6 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import java.util.List;
 
 /**
- * Client-only registrations for Growthcraft Milk.
  * Client-only registrations for Growthcraft Milk.
  */
 @EventBusSubscriber(modid = Reference.MODID, value = Dist.CLIENT)
@@ -86,9 +86,10 @@ public final class GrowthcraftMilkClient {
 
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(GrowthcraftMilkMenus.CHEESE_PRESS.get(), MachineScreen::new);
+        event.register(GrowthcraftMilkMenus.CHURN.get(), MachineScreen::new);
         event.register(GrowthcraftMilkMenus.MIXING_VAT.get(), MixingVatScreen::new);
         event.register(GrowthcraftMilkMenus.PANCHEON.get(), PancheonScreen::new);
-        // TODO 26.1: re-enable CHEESE_PRESS and CHURN screens after the shared MachineScreen draw hooks are restored.
     }
 
     private static void registerCheeseColor(RegisterColorHandlersEvent.BlockTintSources event, ColorUtils.GrowthcraftColor color,

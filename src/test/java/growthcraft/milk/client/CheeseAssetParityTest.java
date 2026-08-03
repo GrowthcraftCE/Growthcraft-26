@@ -12,6 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CheeseAssetParityTest {
+    @Test
+    void cheesePressAndChurnScreensAreRegistered() throws IOException {
+        String client = Files.readString(Path.of("src/main/java/growthcraft/milk/client/GrowthcraftMilkClient.java"));
+
+        assertTrue(client.contains("GrowthcraftMilkMenus.CHEESE_PRESS.get(), MachineScreen::new"));
+        assertTrue(client.contains("GrowthcraftMilkMenus.CHURN.get(), MachineScreen::new"));
+    }
+
     private static final Path ASSETS = Path.of("src/main/resources/assets/growthcraft_milk");
     private static final Pattern MODEL_REFERENCE = Pattern.compile("\\\"model\\\"\\s*:\\s*\\\"growthcraft_milk:block/([^\\\"]+)\\\"");
 
