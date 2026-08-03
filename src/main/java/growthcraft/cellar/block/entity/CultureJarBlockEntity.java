@@ -2,6 +2,7 @@ package growthcraft.cellar.block.entity;
 
 import growthcraft.cellar.GrowthcraftCellar;
 import growthcraft.cellar.block.CultureJarBlock;
+import growthcraft.cellar.config.GrowthcraftCellarConfig;
 import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import growthcraft.cellar.init.GrowthcraftCellarRecipes;
 import growthcraft.lib.recipe.RecipeLookup;
@@ -38,6 +39,12 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
     public static final int SLOT_COUNT = 2;
     public static final int TANK_CAPACITY = 1000; // 1 bucket
 
+    private static void debug(String message, Object... arguments) {
+        if (GrowthcraftCellarConfig.isCultureJarDebugEnabled()) {
+            GrowthcraftCellar.LOGGER.debug(message, arguments);
+        }
+    }
+
     private final NonNullList<ItemStack> items = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY);
     private final int[] TOP_SLOTS = new int[] { SLOT_INPUT };
     private final int[] BOTTOM_SLOTS = new int[] { SLOT_OUTPUT };
@@ -49,7 +56,7 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
             setChanged();
             var fluid = getFluid();
             String name = fluid.isEmpty() ? "<empty>" : fluid.getHoverName().getString();
-            GrowthcraftCellar.LOGGER.debug("[CultureJarBE] Tank changed at {}: {} mB {}", worldPosition, fluid.getAmount(), name);
+            debug("[CultureJarBE] Tank changed at {}: {} mB {}", worldPosition, fluid.getAmount(), name);
             // Ensure clients are notified so GUIs and rendering update
             if (level != null && !level.isClientSide()) {
                 BlockState state = getBlockState();
@@ -58,7 +65,7 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
                 if (level instanceof net.minecraft.server.level.ServerLevel serverLevel) {
                     serverLevel.getChunkSource().blockChanged(worldPosition);
                 }
-                GrowthcraftCellar.LOGGER.debug("[CultureJarBE] Sent block update for GUI sync at {}", worldPosition);
+                debug("[CultureJarBE] Sent block update for GUI sync at {}", worldPosition);
             }
         }
     };
@@ -234,7 +241,7 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
 
         java.util.Optional<net.minecraft.world.item.crafting.RecipeHolder<CultureJarRecipe>> match = jar.findMatch(level, input, inTank);
         if (match.isEmpty()) {
-            GrowthcraftCellar.LOGGER.debug("[CultureJarBE] No recipe match at {}. Input={}, Tank={} {}mB, LIT={}.", pos, input.getItem().toString(), inTank.getFluid().builtInRegistryHolder().key().identifier(), inTank.getAmount(), state.getValue(CultureJarBlock.LIT));
+            debug("[CultureJarBE] No recipe match at {}. Input={}, Tank={} {}mB, LIT={}.", pos, input.getItem().toString(), inTank.getFluid().builtInRegistryHolder().key().identifier(), inTank.getAmount(), state.getValue(CultureJarBlock.LIT));
             jar.resetProgress();
             return;
         }
@@ -242,7 +249,7 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
         CultureJarRecipe recipe = match.get().value();
         // Check output room
         if (!jar.canOutput(recipe.getResult())) {
-            GrowthcraftCellar.LOGGER.debug("[CultureJarBE] Match found but output full at {}. Recipe result={}, current out={}", pos, recipe.getResult().getItem().toString(), jar.getItem(SLOT_OUTPUT));
+            debug("[CultureJarBE] Match found but output full at {}. Recipe result={}, current out={}", pos, recipe.getResult().getItem().toString(), jar.getItem(SLOT_OUTPUT));
             jar.resetProgress();
             return;
         }
@@ -251,14 +258,14 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
         jar.processTimeTotal = recipe.getTime();
         jar.processTime++;
         if ((jar.processTime & 31) == 0) { // every 32 ticks
-            GrowthcraftCellar.LOGGER.debug("[CultureJarBE] Processing '{}' at {}: {}/{} ticks", recipe.getResult().getItem().toString(), pos, jar.processTime, jar.processTimeTotal);
+            debug("[CultureJarBE] Processing '{}' at {}: {}/{} ticks", recipe.getResult().getItem().toString(), pos, jar.processTime, jar.processTimeTotal);
         }
         if (jar.processTime >= jar.processTimeTotal) {
             // Complete: consume fluid while preserving the input item as the culture catalyst.
             int toDrain = Math.max(1, recipe.getFluid().amount());
             jar.tank.drain(toDrain, net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
             jar.insertOutput(recipe.getResult());
-            GrowthcraftCellar.LOGGER.debug("[CultureJarBE] Completed recipe at {}. Drained {} mB, output now {}", pos, toDrain, jar.getItem(SLOT_OUTPUT));
+            debug("[CultureJarBE] Completed recipe at {}. Drained {} mB, output now {}", pos, toDrain, jar.getItem(SLOT_OUTPUT));
             jar.processTime = 0;
             jar.processTimeTotal = 0;
             jar.setChanged();
@@ -294,20 +301,20 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
     private Optional<RecipeHolder<CultureJarRecipe>> findMatch(Level level, ItemStack input, net.neoforged.neoforge.fluids.FluidStack tankFluid) {
         java.util.List<RecipeHolder<CultureJarRecipe>> list = RecipeLookup.getAll(level, GrowthcraftCellarRecipes.CULTURE_JAR_TYPE.get());
         Identifier tankId = net.minecraft.core.registries.BuiltInRegistries.FLUID.getKey(tankFluid.getFluid());
-        GrowthcraftCellar.LOGGER.debug("[CultureJarBE] findMatch: {} recipes, input='{}', tank='{}' {}mB, LIT={} at {}", list.size(), input.getItem(), tankId, tankFluid.getAmount(), level.getBlockState(this.worldPosition).getValue(CultureJarBlock.LIT), this.worldPosition);
+        debug("[CultureJarBE] findMatch: {} recipes, input='{}', tank='{}' {}mB, LIT={} at {}", list.size(), input.getItem(), tankId, tankFluid.getAmount(), level.getBlockState(this.worldPosition).getValue(CultureJarBlock.LIT), this.worldPosition);
         for (RecipeHolder<CultureJarRecipe> holder : list) {
             CultureJarRecipe r = holder.value();
             Identifier rid = holder.id().identifier();
             boolean itemOk = r.matches(new CultureJarInput(input), level);
             if (!itemOk) {
-                GrowthcraftCellar.LOGGER.debug("[CultureJarBE] - {}: item doesn't match ingredient {}", rid, r.getIngredient());
+                debug("[CultureJarBE] - {}: item doesn't match ingredient {}", rid, r.getIngredient());
                 continue;
             }
             // heat requirement
             boolean needsHeat = r.requiresHeatSource();
             boolean lit = level.getBlockState(this.worldPosition).getValue(CultureJarBlock.LIT);
             if (needsHeat && !lit) {
-                GrowthcraftCellar.LOGGER.debug("[CultureJarBE] - {}: rejected due to missing heat source", rid);
+                debug("[CultureJarBE] - {}: rejected due to missing heat source", rid);
                 continue;
             }
             // fluid check: accept exact ID match, or fluids that share the same FluidType (source/flowing),
@@ -331,17 +338,17 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
                 }
             }
             if (!fluidOk) {
-                GrowthcraftCellar.LOGGER.debug("[CultureJarBE] - {}: fluid mismatch. required='{}' ({} mB), tank='{}' ({} mB)", rid, reqId, r.getFluid().amount(), tankId, tankFluid.getAmount());
+                debug("[CultureJarBE] - {}: fluid mismatch. required='{}' ({} mB), tank='{}' ({} mB)", rid, reqId, r.getFluid().amount(), tankId, tankFluid.getAmount());
                 continue;
             }
             if (tankFluid.getAmount() < r.getFluid().amount()) {
-                GrowthcraftCellar.LOGGER.debug("[CultureJarBE] - {}: insufficient fluid. need {} mB, have {} mB", rid, r.getFluid().amount(), tankFluid.getAmount());
+                debug("[CultureJarBE] - {}: insufficient fluid. need {} mB, have {} mB", rid, r.getFluid().amount(), tankFluid.getAmount());
                 continue;
             }
-            GrowthcraftCellar.LOGGER.debug("[CultureJarBE] - {}: MATCH (reason: {}, time={}t, result={})", rid, fluidWhy, r.getTime(), r.getResult());
+            debug("[CultureJarBE] - {}: MATCH (reason: {}, time={}t, result={})", rid, fluidWhy, r.getTime(), r.getResult());
             return Optional.of(holder);
         }
-        GrowthcraftCellar.LOGGER.debug("[CultureJarBE] findMatch: no matches for the given state at {}", this.worldPosition);
+        debug("[CultureJarBE] findMatch: no matches for the given state at {}", this.worldPosition);
         return Optional.empty();
     }
 }

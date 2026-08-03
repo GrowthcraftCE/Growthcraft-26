@@ -5,6 +5,7 @@ import growthcraft.cellar.block.entity.BrewKettleBlockEntity;
 import growthcraft.cellar.block.entity.CultureJarBlockEntity;
 import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
 import growthcraft.cellar.block.entity.FruitPressBlockEntity;
+import growthcraft.cellar.config.GrowthcraftCellarConfig;
 import growthcraft.lib.fluid.LegacyFluidResourceHandler;
 import net.minecraft.core.Direction;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -17,7 +18,9 @@ public final class GrowthcraftCellarCapabilities {
     private GrowthcraftCellarCapabilities() {}
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        GrowthcraftCellar.LOGGER.debug("[Capabilities] Registering Cellar fluid transfer capabilities");
+        if (GrowthcraftCellarConfig.isCapabilitiesDebugEnabled()) {
+            GrowthcraftCellar.LOGGER.debug("[Capabilities] Registering Cellar fluid transfer capabilities");
+        }
         event.registerBlockEntity(Capabilities.Fluid.BLOCK, GrowthcraftCellarBlockEntities.CULTURE_JAR.get(),
                 (CultureJarBlockEntity be, Direction side) -> LegacyFluidResourceHandler.of(be.getTank()));
         event.registerBlockEntity(Capabilities.Fluid.BLOCK, GrowthcraftCellarBlockEntities.BREW_KETTLE.get(),

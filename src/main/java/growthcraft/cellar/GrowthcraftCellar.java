@@ -7,17 +7,11 @@ import growthcraft.cellar.init.*;
 import growthcraft.core.init.GrowthcraftCreativeTabs;
 import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(GrowthcraftCellar.MODID)
@@ -26,9 +20,6 @@ public class GrowthcraftCellar {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public GrowthcraftCellar(IEventBus modEventBus, ModContainer modContainer) {
-        // Register the commonSetup
-        modEventBus.addListener(this::commonSetup);
-
         // Register Deferred Registers
         GrowthcraftCellarItems.ITEMS.register(modEventBus);
         GrowthcraftCellarBlocks.BLOCKS.register(modEventBus);
@@ -47,13 +38,7 @@ public class GrowthcraftCellar {
         // Add creative tab contributions
         modEventBus.addListener(this::buildCreativeTab);
 
-        NeoForge.EVENT_BUS.register(this);
-
         modContainer.registerConfig(ModConfig.Type.COMMON, GrowthcraftCellarConfig.SPEC);
-    }
-
-    private void commonSetup(FMLCommonSetupEvent event) {
-        LOGGER.info("HELLO FROM COMMON SETUP");
     }
 
     private void buildCreativeTab(BuildCreativeModeTabContentsEvent event) {
@@ -118,29 +103,4 @@ public class GrowthcraftCellar {
         }
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        LOGGER.info("HELLO from server starting");
-        // Diagnostics: report our custom recipe registrations and loaded recipes
-        try {
-            var server = event.getServer();
-            var rm = server.getRecipeManager();
-
-            var type = GrowthcraftCellarRecipes.CULTURE_JAR_TYPE.get();
-            var serializer = GrowthcraftCellarRecipes.CULTURE_JAR_SERIALIZER.get();
-
-            LOGGER.info("[Diag][CultureJar] Recipe Registry Size={}", rm.getRecipes().size());
-            AtomicInteger i = new AtomicInteger();
-            var typeKey = net.minecraft.core.registries.BuiltInRegistries.RECIPE_TYPE.getKey(type);
-            var serKey = net.minecraft.core.registries.BuiltInRegistries.RECIPE_SERIALIZER.getKey(serializer);
-            LOGGER.info("[Diag][CultureJar] RecipeType key={} Serializer key={}", typeKey, serKey);
-
-            java.util.List<net.minecraft.world.item.crafting.RecipeHolder<growthcraft.cellar.recipe.CultureJarRecipe>> list = growthcraft.lib.recipe.RecipeLookup.getAll(server.overworld(), type);
-            java.util.List<net.minecraft.resources.Identifier> ids = list.stream().map(holder -> holder.id().identifier()).toList();
-            LOGGER.info("[Diag][CultureJar] Loaded {} culture_jar recipes: {}", list.size(), ids);
-        } catch (Throwable t) {
-            LOGGER.warn("[Diag][CultureJar] Failed to dump recipe diagnostics", t);
-        }
-    }
 }
