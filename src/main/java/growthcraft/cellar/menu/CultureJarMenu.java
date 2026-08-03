@@ -91,7 +91,12 @@ public class CultureJarMenu extends AbstractContainerMenu {
 
         // Culture Jar slots: place input and output
         // Coordinates based on 176x166 texture: left area
-        this.addSlot(new Slot(container, INPUT_SLOT, 57, 35));
+        this.addSlot(new Slot(container, INPUT_SLOT, 57, 35) {
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
+        });
         this.addSlot(new Slot(container, OUTPUT_SLOT, 103, 20) {
             @Override
             public boolean mayPlace(ItemStack stack) {

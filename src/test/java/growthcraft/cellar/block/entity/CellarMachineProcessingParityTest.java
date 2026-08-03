@@ -20,6 +20,24 @@ class CellarMachineProcessingParityTest {
     }
 
     @Test
+    void cultureJarRestrictsCatalystInsertionAndStackSize() throws IOException {
+        String source = source("CultureJarBlockEntity.java");
+        String menu = Files.readString(Path.of("src/main/java/growthcraft/cellar/menu/CultureJarMenu.java"));
+
+        assertTrue(source.contains("index == SLOT_INPUT ? 1 : getMaxStackSize()"));
+        assertTrue(source.contains("index == SLOT_INPUT && this.getItem(SLOT_INPUT).isEmpty()"));
+        assertTrue(source.contains("if (index == SLOT_OUTPUT) return false"));
+        assertTrue(menu.contains("public int getMaxStackSize()"));
+    }
+
+    @Test
+    void cultureJarConstructionDoesNotSpamTheInfoLog() throws IOException {
+        String source = source("CultureJarBlockEntity.java");
+
+        assertFalse(source.contains("LOGGER.info(\"[CultureJarBE] Constructed"));
+    }
+
+    @Test
     void fermentationBatchSizeScalesProcessingTime() throws IOException {
         String source = source("FermentationBarrelBlockEntity.java");
 

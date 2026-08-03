@@ -83,7 +83,6 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
 
     public CultureJarBlockEntity(BlockPos pos, BlockState state) {
         super(GrowthcraftCellarBlockEntities.CULTURE_JAR.get(), pos, state);
-        GrowthcraftCellar.LOGGER.info("[CultureJarBE] Constructed at {} (client={})", pos, state.getBlock().defaultMapColor().col);
     }
 
     // Inventory API
@@ -123,7 +122,8 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
     @Override
     public void setItem(int index, ItemStack stack) {
         items.set(index, stack);
-        if (stack.getCount() > getMaxStackSize()) stack.setCount(getMaxStackSize());
+        int maxStackSize = index == SLOT_INPUT ? 1 : getMaxStackSize();
+        if (stack.getCount() > maxStackSize) stack.setCount(maxStackSize);
         setChanged();
     }
 
@@ -147,8 +147,13 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
 
     @Override
     public boolean canPlaceItemThroughFace(int index, ItemStack stack, Direction side) {
-        if (index == SLOT_OUTPUT) return false; // don't insert into output
-        return true;
+        return this.canPlaceItem(index, stack);
+    }
+
+    @Override
+    public boolean canPlaceItem(int index, ItemStack stack) {
+        if (index == SLOT_OUTPUT) return false;
+        return index == SLOT_INPUT && this.getItem(SLOT_INPUT).isEmpty();
     }
 
     @Override
