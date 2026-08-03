@@ -16,7 +16,7 @@ NeoForge 26.1.2.77. This is a UAT candidate, not an authorized production releas
 
 ## Verification
 
-- Clean Gradle build and 71 automated tests pass.
+- Clean Gradle build and 70 automated tests pass.
 - Normal and representative-compatibility dedicated servers start cleanly.
 - Normal and representative-compatibility GameTest runs pass all required tests.
 - The representative-compatibility client enters a world, save/quits, and reconnects with a clean final log.
