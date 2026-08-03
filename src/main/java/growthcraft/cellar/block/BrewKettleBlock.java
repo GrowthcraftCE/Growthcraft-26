@@ -31,7 +31,11 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class BrewKettleBlock extends Block implements EntityBlock {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
@@ -96,10 +100,30 @@ public class BrewKettleBlock extends Block implements EntityBlock {
 
     @Override
     protected InteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (FluidUtil.getFluidHandler(heldStack).isPresent() && FluidUtil.interactWithFluidHandler(player, hand, level, pos, hitResult.getDirection())) {
+        Optional<IFluidHandlerItem> heldFluidHandler = FluidUtil.getFluidHandler(heldStack);
+        if (heldFluidHandler.isPresent() && interactWithKettleFluidHandler(player, hand, level, pos, heldFluidHandler.get())) {
             return (level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER);
         }
         return InteractionResult.TRY_WITH_EMPTY_HAND;
+    }
+
+    private static boolean interactWithKettleFluidHandler(Player player, InteractionHand hand, Level level, BlockPos pos,
+                                                           IFluidHandlerItem heldFluidHandler) {
+        if (containsFluid(heldFluidHandler)) {
+            return FluidUtil.interactWithFluidHandler(player, hand, level, pos, Direction.UP);
+        }
+
+        return FluidUtil.interactWithFluidHandler(player, hand, level, pos, Direction.DOWN)
+                || FluidUtil.interactWithFluidHandler(player, hand, level, pos, Direction.UP);
+    }
+
+    private static boolean containsFluid(IFluidHandler heldFluidHandler) {
+        for (int tank = 0; tank < heldFluidHandler.getTanks(); tank++) {
+            if (!heldFluidHandler.getFluidInTank(tank).isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

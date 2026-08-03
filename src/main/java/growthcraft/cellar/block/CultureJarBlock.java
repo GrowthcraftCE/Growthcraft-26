@@ -173,7 +173,10 @@ public class CultureJarBlock extends HorizontalDirectionalBlock implements Entit
                 net.neoforged.neoforge.fluids.FluidStack toInsert = new net.neoforged.neoforge.fluids.FluidStack(
                         growthcraft.milk.init.GrowthcraftMilkFluids.MILK.source.get(), 1000);
                 GrowthcraftCellar.LOGGER.debug("[CultureJar] Vanilla milk bucket deposit: request={}mB spaceAvailable={}mB", 1000, capacity - jar.getTank().getFluidAmount());
-                int filled = jar.getTank().fill(toInsert, IFluidHandler.FluidAction.EXECUTE);
+                int filled = jar.getTank().fill(toInsert, IFluidHandler.FluidAction.SIMULATE);
+                if (filled == 1000) {
+                    filled = jar.getTank().fill(toInsert, IFluidHandler.FluidAction.EXECUTE);
+                }
                 GrowthcraftCellar.LOGGER.debug("[CultureJar] Vanilla milk bucket deposit result: filled={} newTank={}mB", filled, jar.getTank().getFluidAmount());
                 if (filled == 1000) {
                     if (!player.getAbilities().instabuild) {
@@ -196,7 +199,10 @@ public class CultureJarBlock extends HorizontalDirectionalBlock implements Entit
                 net.neoforged.neoforge.fluids.FluidStack toInsert = new net.neoforged.neoforge.fluids.FluidStack(
                         growthcraft.milk.init.GrowthcraftMilkFluids.MILK.source.get(), 1000);
                 GrowthcraftCellar.LOGGER.debug("[CultureJar] Attempting priority milk deposit: request={}mB spaceAvailable={}mB", 1000, capacity - jar.getTank().getFluidAmount());
-                int filled = jar.getTank().fill(toInsert, IFluidHandler.FluidAction.EXECUTE);
+                int filled = jar.getTank().fill(toInsert, IFluidHandler.FluidAction.SIMULATE);
+                if (filled == 1000) {
+                    filled = jar.getTank().fill(toInsert, IFluidHandler.FluidAction.EXECUTE);
+                }
                 GrowthcraftCellar.LOGGER.debug("[CultureJar] Priority milk deposit result: filled={} newTank={}mB", filled, jar.getTank().getFluidAmount());
                 if (filled == 1000) {
                     if (!player.getAbilities().instabuild) {
