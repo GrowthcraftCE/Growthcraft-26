@@ -254,10 +254,9 @@ public class CultureJarBlockEntity extends BlockEntity implements WorldlyContain
             GrowthcraftCellar.LOGGER.debug("[CultureJarBE] Processing '{}' at {}: {}/{} ticks", recipe.getResult().getItem().toString(), pos, jar.processTime, jar.processTimeTotal);
         }
         if (jar.processTime >= jar.processTimeTotal) {
-            // Complete: consume inputs and produce output
+            // Complete: consume fluid while preserving the input item as the culture catalyst.
             int toDrain = Math.max(1, recipe.getFluid().amount());
             jar.tank.drain(toDrain, net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
-            input.shrink(1);
             jar.insertOutput(recipe.getResult());
             GrowthcraftCellar.LOGGER.debug("[CultureJarBE] Completed recipe at {}. Drained {} mB, output now {}", pos, toDrain, jar.getItem(SLOT_OUTPUT));
             jar.processTime = 0;
