@@ -39,6 +39,8 @@ public class GrowthcraftItems {
     public static final DeferredItem<Item> CROWBAR_PURPLE = ITEMS.registerItem(Reference.UnlocalizedName.Item.CROWBAR_PURPLE, properties -> new CrowbarItem(OffsetTier.IRON_MINUS2, properties));
     public static final DeferredItem<Item> CROWBAR_MAGENTA = ITEMS.registerItem(Reference.UnlocalizedName.Item.CROWBAR_MAGENTA, properties -> new CrowbarItem(OffsetTier.IRON_MINUS2, properties));
     public static final DeferredItem<Item> CROWBAR_PINK = ITEMS.registerItem(Reference.UnlocalizedName.Item.CROWBAR_PINK, properties -> new CrowbarItem(OffsetTier.IRON_MINUS2, properties));
-    public static final DeferredItem<Item> WRENCH = ITEMS.registerSimpleItem(Reference.UnlocalizedName.Item.WRENCH);
+    public static final DeferredItem<Item> WRENCH = ITEMS.registerItem(
+            Reference.UnlocalizedName.Item.WRENCH,
+            properties -> new Item(properties.stacksTo(1)));
 
 }

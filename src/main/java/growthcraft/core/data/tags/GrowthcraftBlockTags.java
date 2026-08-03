@@ -24,8 +24,9 @@ public class GrowthcraftBlockTags extends BlockTagsProvider {
         // Ensure salt ores are mineable with a pickaxe (including wooden pickaxe)
         // Do NOT put them into needs_stone_tool/needs_iron_tool/etc. tags so wooden works.
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .add(
-                        GrowthcraftBlocks.SALT_ORE.get(),
+                  .add(
+                          GrowthcraftBlocks.SALT_BLOCK.get(),
+                          GrowthcraftBlocks.SALT_ORE.get(),
                         GrowthcraftBlocks.SALT_ORE_DEEPSLATE.get(),
                         GrowthcraftBlocks.SALT_ORE_NETHER.get(),
                         GrowthcraftBlocks.SALT_ORE_END.get(),
