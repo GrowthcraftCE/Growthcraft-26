@@ -9,18 +9,18 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import growthcraft.lib.recipe.MachineRecipe;
-import growthcraft.lib.recipe.RecipeCodecs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
 public class RoasterRecipe implements MachineRecipe<RoasterInput> {
     private final int roastingLevel;
-    private final ItemStack inputItem;
-    private final ItemStack result;
+    private final ItemStackTemplate inputItem;
+    private final ItemStackTemplate result;
 
-    public RoasterRecipe(int roastingLevel, ItemStack inputItem, ItemStack result) {
+    public RoasterRecipe(int roastingLevel, ItemStackTemplate inputItem, ItemStackTemplate result) {
         this.roastingLevel = roastingLevel;
         this.inputItem = inputItem;
         this.result = result;
@@ -31,25 +31,26 @@ public class RoasterRecipe implements MachineRecipe<RoasterInput> {
     }
 
     public ItemStack getInputItem() {
-        return inputItem.copy();
+        return inputItem.create();
     }
 
     public ItemStack getResult() {
-        return result.copy();
+        return result.create();
     }
 
     @Override
     public boolean matches(RoasterInput input, Level level) {
         ItemStack stack = input.getItem(0);
-        return ItemStack.isSameItemSameComponents(stack, inputItem) && stack.getCount() >= inputItem.getCount();
+        ItemStack required = inputItem.create();
+        return ItemStack.isSameItemSameComponents(stack, required) && stack.getCount() >= required.getCount();
     }
 
     @Override
     public ItemStack assemble(RoasterInput input) {
-        return result.copy();
+        return result.create();
     }
     public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return result.copy();
+        return result.create();
     }
 
     @Override
@@ -65,24 +66,24 @@ public class RoasterRecipe implements MachineRecipe<RoasterInput> {
     public static class Serializer  {
         public static final MapCodec<RoasterRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 ExtraCodecs.intRange(1, 8).fieldOf("roasting_level").forGetter(RoasterRecipe::getRoastingLevel),
-                RecipeCodecs.LEGACY_ITEM_STACK_CODEC.fieldOf("input_item").forGetter(RoasterRecipe::getInputItem),
-                RecipeCodecs.LEGACY_ITEM_STACK_CODEC.fieldOf("result").forGetter(RoasterRecipe::getResult)
+                ItemStackTemplate.MAP_CODEC.codec().fieldOf("input_item").forGetter(recipe -> recipe.inputItem),
+                ItemStackTemplate.MAP_CODEC.codec().fieldOf("result").forGetter(recipe -> recipe.result)
         ).apply(instance, RoasterRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, RoasterRecipe> STREAM_CODEC = new StreamCodec<>() {
             @Override
             public RoasterRecipe decode(RegistryFriendlyByteBuf buf) {
                 int roastingLevel = buf.readVarInt();
-                ItemStack inputItem = ItemStack.STREAM_CODEC.decode(buf);
-                ItemStack result = ItemStack.STREAM_CODEC.decode(buf);
+                ItemStackTemplate inputItem = ItemStackTemplate.STREAM_CODEC.decode(buf);
+                ItemStackTemplate result = ItemStackTemplate.STREAM_CODEC.decode(buf);
                 return new RoasterRecipe(roastingLevel, inputItem, result);
             }
 
             @Override
             public void encode(RegistryFriendlyByteBuf buf, RoasterRecipe recipe) {
                 buf.writeVarInt(recipe.roastingLevel);
-                ItemStack.STREAM_CODEC.encode(buf, recipe.inputItem);
-                ItemStack.STREAM_CODEC.encode(buf, recipe.result);
+                ItemStackTemplate.STREAM_CODEC.encode(buf, recipe.inputItem);
+                ItemStackTemplate.STREAM_CODEC.encode(buf, recipe.result);
             }
         };
         public MapCodec<RoasterRecipe> codec() {

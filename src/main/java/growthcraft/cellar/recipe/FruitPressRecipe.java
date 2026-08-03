@@ -9,18 +9,22 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import growthcraft.lib.recipe.MachineRecipe;
 import growthcraft.lib.recipe.RecipeCodecs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+
+import java.util.Optional;
 
 public class FruitPressRecipe implements MachineRecipe<FruitPressInput> {
     public record FluidAmount(Identifier fluidId, int amount) {}
@@ -33,14 +37,15 @@ public class FruitPressRecipe implements MachineRecipe<FruitPressInput> {
     private final int processingTime;
     private final CountedIngredient inputItem;
     private final FluidAmount outputFluid;
-    private final ItemStack byProduct;
+    private final Optional<ItemStackTemplate> byProduct;
     private final int byProductChance;
 
-    public FruitPressRecipe(int processingTime, CountedIngredient inputItem, FluidAmount outputFluid, ItemStack byProduct, int byProductChance) {
+    public FruitPressRecipe(int processingTime, CountedIngredient inputItem, FluidAmount outputFluid,
+                            Optional<ItemStackTemplate> byProduct, int byProductChance) {
         this.processingTime = processingTime <= 0 ? 600 : processingTime;
         this.inputItem = inputItem;
         this.outputFluid = outputFluid;
-        this.byProduct = byProduct.copy();
+        this.byProduct = byProduct;
         this.byProductChance = Math.max(0, Math.min(100, byProductChance));
     }
 
@@ -57,7 +62,7 @@ public class FruitPressRecipe implements MachineRecipe<FruitPressInput> {
     }
 
     public ItemStack getByProduct() {
-        return byProduct.copy();
+        return byProduct.map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
     }
 
     public int getByProductChance() {
@@ -71,10 +76,10 @@ public class FruitPressRecipe implements MachineRecipe<FruitPressInput> {
 
     @Override
     public ItemStack assemble(FruitPressInput input) {
-        return byProduct.copy();
+        return getByProduct();
     }
     public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return byProduct.copy();
+        return getByProduct();
     }
 
     @Override
@@ -103,7 +108,7 @@ public class FruitPressRecipe implements MachineRecipe<FruitPressInput> {
                 ExtraCodecs.POSITIVE_INT.optionalFieldOf("processing_time", 600).forGetter(FruitPressRecipe::getProcessingTime),
                 COUNTED_INGREDIENT_CODEC.fieldOf("input_item").forGetter(FruitPressRecipe::getInputItem),
                 FLUID_AMOUNT_CODEC.fieldOf("output_fluid").forGetter(FruitPressRecipe::getOutputFluid),
-                RecipeCodecs.LEGACY_ITEM_STACK_CODEC.optionalFieldOf("by_product", ItemStack.EMPTY).forGetter(FruitPressRecipe::getByProduct),
+                ItemStackTemplate.MAP_CODEC.codec().optionalFieldOf("by_product").forGetter(recipe -> recipe.byProduct),
                 ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("by_product_chance", 100).forGetter(FruitPressRecipe::getByProductChance)
         ).apply(instance, FruitPressRecipe::new));
 
@@ -114,7 +119,7 @@ public class FruitPressRecipe implements MachineRecipe<FruitPressInput> {
                 Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
                 int ingredientCount = buf.readVarInt();
                 FluidAmount outputFluid = new FluidAmount(buf.readIdentifier(), buf.readVarInt());
-                ItemStack byProduct = ItemStack.OPTIONAL_STREAM_CODEC.decode(buf);
+                Optional<ItemStackTemplate> byProduct = ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).decode(buf);
                 int byProductChance = buf.readVarInt();
                 return new FruitPressRecipe(processingTime, new CountedIngredient(ingredient, ingredientCount), outputFluid, byProduct, byProductChance);
             }
@@ -126,7 +131,7 @@ public class FruitPressRecipe implements MachineRecipe<FruitPressInput> {
                 buf.writeVarInt(recipe.inputItem.count());
                 buf.writeIdentifier(recipe.outputFluid.fluidId());
                 buf.writeVarInt(recipe.outputFluid.amount());
-                ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.byProduct);
+                ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).encode(buf, recipe.byProduct);
                 buf.writeVarInt(recipe.byProductChance);
             }
         };

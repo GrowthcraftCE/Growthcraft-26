@@ -8,18 +8,20 @@ import growthcraft.milk.recipe.input.ChurnInput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import growthcraft.lib.recipe.MachineRecipe;
-import growthcraft.lib.recipe.RecipeCodecs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
+
+import java.util.Optional;
 
 public class ChurnRecipe implements MachineRecipe<ChurnInput> {
     public record FluidAmount(Identifier fluidId, int amount) {}
@@ -27,14 +29,15 @@ public class ChurnRecipe implements MachineRecipe<ChurnInput> {
     private final int plungesNeeded;
     private final FluidAmount inputFluid;
     private final FluidAmount outputFluid;
-    private final ItemStack byProduct;
+    private final Optional<ItemStackTemplate> byProduct;
     private final int byProductChance;
 
-    public ChurnRecipe(int plungesNeeded, FluidAmount inputFluid, FluidAmount outputFluid, ItemStack byProduct, int byProductChance) {
+    public ChurnRecipe(int plungesNeeded, FluidAmount inputFluid, FluidAmount outputFluid,
+                       Optional<ItemStackTemplate> byProduct, int byProductChance) {
         this.plungesNeeded = Math.max(1, plungesNeeded);
         this.inputFluid = inputFluid;
         this.outputFluid = outputFluid;
-        this.byProduct = byProduct.copy();
+        this.byProduct = byProduct;
         this.byProductChance = Math.clamp(byProductChance, 0, 100);
     }
 
@@ -51,7 +54,7 @@ public class ChurnRecipe implements MachineRecipe<ChurnInput> {
     }
 
     public ItemStack getByProduct() {
-        return byProduct.copy();
+        return byProduct.map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
     }
 
     public int getByProductChance() {
@@ -78,10 +81,10 @@ public class ChurnRecipe implements MachineRecipe<ChurnInput> {
 
     @Override
     public ItemStack assemble(ChurnInput input) {
-        return byProduct.copy();
+        return getByProduct();
     }
     public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return byProduct.copy();
+        return getByProduct();
     }
 
     @Override
@@ -104,7 +107,7 @@ public class ChurnRecipe implements MachineRecipe<ChurnInput> {
                 ExtraCodecs.POSITIVE_INT.optionalFieldOf("plunges", 7).forGetter(ChurnRecipe::getPlungesNeeded),
                 FLUID_AMOUNT_CODEC.fieldOf("input_fluid").forGetter(ChurnRecipe::getInputFluid),
                 FLUID_AMOUNT_CODEC.fieldOf("output_fluid").forGetter(ChurnRecipe::getOutputFluid),
-                RecipeCodecs.LEGACY_ITEM_STACK_CODEC.optionalFieldOf("by_product", ItemStack.EMPTY).forGetter(ChurnRecipe::getByProduct),
+                ItemStackTemplate.MAP_CODEC.codec().optionalFieldOf("by_product").forGetter(recipe -> recipe.byProduct),
                 ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("by_product_chance", 100).forGetter(ChurnRecipe::getByProductChance)
         ).apply(instance, ChurnRecipe::new));
 
@@ -114,7 +117,7 @@ public class ChurnRecipe implements MachineRecipe<ChurnInput> {
                 int plunges = buf.readVarInt();
                 FluidAmount inputFluid = new FluidAmount(buf.readIdentifier(), buf.readVarInt());
                 FluidAmount outputFluid = new FluidAmount(buf.readIdentifier(), buf.readVarInt());
-                ItemStack byProduct = ItemStack.OPTIONAL_STREAM_CODEC.decode(buf);
+                Optional<ItemStackTemplate> byProduct = ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).decode(buf);
                 int byProductChance = buf.readVarInt();
                 return new ChurnRecipe(plunges, inputFluid, outputFluid, byProduct, byProductChance);
             }
@@ -126,7 +129,7 @@ public class ChurnRecipe implements MachineRecipe<ChurnInput> {
                 buf.writeVarInt(recipe.inputFluid.amount());
                 buf.writeIdentifier(recipe.outputFluid.fluidId());
                 buf.writeVarInt(recipe.outputFluid.amount());
-                ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.byProduct);
+                ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).encode(buf, recipe.byProduct);
                 buf.writeVarInt(recipe.byProductChance);
             }
         };

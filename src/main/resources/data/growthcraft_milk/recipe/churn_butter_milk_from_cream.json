@@ -1,23 +1,23 @@
-{
-  "type": "growthcraft_milk:churn_recipe",
-  "plunges": 7,
-  "input_fluid": {
-    "fluid": "growthcraft_milk:cream_fluid_source",
-    "amount": 1000
-  },
-  "output_fluid": {
-    "fluid": "growthcraft_milk:butter_milk_fluid_source",
-    "amount": 1000
-  },
-  "by_product": {
-    "item": "growthcraft_milk:butter",
-    "count": 1
-  },
-  "by_product_chance": 100,
-  "neoforge:conditions": [
-    {
-      "type": "growthcraft:config_value",
-      "feature": "milk"
-    }
-  ]
+﻿{
+    "type":  "growthcraft_milk:churn_recipe",
+    "plunges":  7,
+    "input_fluid":  {
+                        "fluid":  "growthcraft_milk:cream_fluid_source",
+                        "amount":  1000
+                    },
+    "output_fluid":  {
+                         "fluid":  "growthcraft_milk:butter_milk_fluid_source",
+                         "amount":  1000
+                     },
+    "by_product":  {
+                       "count":  1,
+                       "id":  "growthcraft_milk:butter"
+                   },
+    "by_product_chance":  100,
+    "neoforge:conditions":  [
+                                {
+                                    "type":  "growthcraft:config_value",
+                                    "feature":  "milk"
+                                }
+                            ]
 }

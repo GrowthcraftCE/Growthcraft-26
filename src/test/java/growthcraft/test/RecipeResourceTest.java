@@ -66,6 +66,30 @@ class RecipeResourceTest {
         }
     }
 
+    @Test
+    void customRecipesDoNotEagerlyDecodeItemStacks() throws IOException {
+        Path sourceRoot = Path.of("src/main/java/growthcraft");
+        List<Path> offenders;
+        try (Stream<Path> files = Files.walk(sourceRoot)) {
+            offenders = files
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith("Recipe.java"))
+                    .filter(path -> {
+                        try {
+                            String source = Files.readString(path);
+                            return source.contains("LEGACY_ITEM_STACK_CODEC")
+                                    || source.contains("ItemStack.STREAM_CODEC")
+                                    || source.contains("ItemStack.OPTIONAL_STREAM_CODEC");
+                        } catch (IOException e) {
+                            throw new IllegalStateException("Unable to read " + path, e);
+                        }
+                    })
+                    .toList();
+        }
+
+        assertTrue(offenders.isEmpty(), () -> "Custom recipes must delay ItemStack creation: " + offenders);
+    }
+
     private static boolean declaresType(Path path) {
         try {
             return TYPE_FIELD.matcher(Files.readString(path)).find();

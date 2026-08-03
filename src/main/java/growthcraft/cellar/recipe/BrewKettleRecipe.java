@@ -9,18 +9,22 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import growthcraft.lib.recipe.MachineRecipe;
 import growthcraft.lib.recipe.RecipeCodecs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+
+import java.util.Optional;
 
 public class BrewKettleRecipe implements MachineRecipe<BrewKettleInput> {
     public record FluidAmount(Identifier fluidId, int amount) {}
@@ -37,10 +41,11 @@ public class BrewKettleRecipe implements MachineRecipe<BrewKettleInput> {
     private final FluidAmount inputFluid;
     private final CountedIngredient inputItem;
     private final FluidAmount outputFluid;
-    private final ItemStack byProduct;
+    private final Optional<ItemStackTemplate> byProduct;
 
     public BrewKettleRecipe(boolean requiresHeat, boolean requiresLid, int processingTime, int byProductChance,
-                            FluidAmount inputFluid, CountedIngredient inputItem, FluidAmount outputFluid, ItemStack byProduct) {
+                            FluidAmount inputFluid, CountedIngredient inputItem, FluidAmount outputFluid,
+                            Optional<ItemStackTemplate> byProduct) {
         this.requiresHeat = requiresHeat;
         this.requiresLid = requiresLid;
         this.processingTime = processingTime <= 0 ? 600 : processingTime;
@@ -48,7 +53,7 @@ public class BrewKettleRecipe implements MachineRecipe<BrewKettleInput> {
         this.inputFluid = inputFluid;
         this.inputItem = inputItem;
         this.outputFluid = outputFluid;
-        this.byProduct = byProduct.copy();
+        this.byProduct = byProduct;
     }
 
     public boolean requiresHeat() {
@@ -80,7 +85,7 @@ public class BrewKettleRecipe implements MachineRecipe<BrewKettleInput> {
     }
 
     public ItemStack getByProduct() {
-        return byProduct.copy();
+        return byProduct.map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
     }
 
     @Override
@@ -90,10 +95,10 @@ public class BrewKettleRecipe implements MachineRecipe<BrewKettleInput> {
 
     @Override
     public ItemStack assemble(BrewKettleInput input) {
-        return byProduct.copy();
+        return getByProduct();
     }
     public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return byProduct.copy();
+        return getByProduct();
     }
 
     @Override
@@ -128,7 +133,7 @@ public class BrewKettleRecipe implements MachineRecipe<BrewKettleInput> {
                 FLUID_AMOUNT_CODEC.fieldOf("input_fluid").forGetter(BrewKettleRecipe::getInputFluid),
                 COUNTED_INGREDIENT_CODEC.fieldOf("input_item").forGetter(BrewKettleRecipe::getInputItem),
                 FLUID_AMOUNT_CODEC.fieldOf("output_fluid").forGetter(BrewKettleRecipe::getOutputFluid),
-                RecipeCodecs.LEGACY_ITEM_STACK_CODEC.optionalFieldOf("by_product", ItemStack.EMPTY).forGetter(BrewKettleRecipe::getByProduct)
+                ItemStackTemplate.MAP_CODEC.codec().optionalFieldOf("by_product").forGetter(recipe -> recipe.byProduct)
         ).apply(instance, BrewKettleRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, BrewKettleRecipe> STREAM_CODEC = new StreamCodec<>() {
@@ -142,7 +147,7 @@ public class BrewKettleRecipe implements MachineRecipe<BrewKettleInput> {
                 Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
                 int ingredientCount = buf.readVarInt();
                 FluidAmount outputFluid = new FluidAmount(buf.readIdentifier(), buf.readVarInt());
-                ItemStack byProduct = ItemStack.OPTIONAL_STREAM_CODEC.decode(buf);
+                Optional<ItemStackTemplate> byProduct = ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).decode(buf);
                 return new BrewKettleRecipe(requiresHeat, requiresLid, processingTime, byProductChance,
                         inputFluid, new CountedIngredient(ingredient, ingredientCount), outputFluid, byProduct);
             }
@@ -159,7 +164,7 @@ public class BrewKettleRecipe implements MachineRecipe<BrewKettleInput> {
                 buf.writeVarInt(recipe.inputItem.count());
                 buf.writeIdentifier(recipe.outputFluid.fluidId());
                 buf.writeVarInt(recipe.outputFluid.amount());
-                ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.byProduct);
+                ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).encode(buf, recipe.byProduct);
             }
         };
         public MapCodec<BrewKettleRecipe> codec() {

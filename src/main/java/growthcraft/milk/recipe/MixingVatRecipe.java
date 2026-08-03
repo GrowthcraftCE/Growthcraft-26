@@ -10,11 +10,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import growthcraft.lib.recipe.MachineRecipe;
 import growthcraft.lib.recipe.RecipeCodecs;
@@ -54,14 +56,15 @@ public class MixingVatRecipe implements MachineRecipe<MixingVatInput> {
     private final List<IngredientStack> ingredients;
     private final Optional<FluidAmount> resultFluid;
     private final Optional<FluidAmount> resultFluidWaste;
-    private final ItemStack resultItem;
-    private final ItemStack activationTool;
-    private final ItemStack resultActivationTool;
+    private final Optional<ItemStackTemplate> resultItem;
+    private final ItemStackTemplate activationTool;
+    private final Optional<ItemStackTemplate> resultActivationTool;
 
     public MixingVatRecipe(int processingTime, boolean requiresHeat, String resultType, FluidAmount inputFluid,
                            Optional<FluidAmount> reagentFluid, List<IngredientStack> ingredients,
                            Optional<FluidAmount> resultFluid, Optional<FluidAmount> resultFluidWaste,
-                           ItemStack resultItem, ItemStack activationTool, ItemStack resultActivationTool) {
+                           Optional<ItemStackTemplate> resultItem, ItemStackTemplate activationTool,
+                           Optional<ItemStackTemplate> resultActivationTool) {
         this(processingTime, requiresHeat, ResultType.parse(resultType), inputFluid, reagentFluid, ingredients,
                 resultFluid, resultFluidWaste, resultItem, activationTool, resultActivationTool);
     }
@@ -69,7 +72,8 @@ public class MixingVatRecipe implements MachineRecipe<MixingVatInput> {
     public MixingVatRecipe(int processingTime, boolean requiresHeat, ResultType resultType, FluidAmount inputFluid,
                            Optional<FluidAmount> reagentFluid, List<IngredientStack> ingredients,
                            Optional<FluidAmount> resultFluid, Optional<FluidAmount> resultFluidWaste,
-                           ItemStack resultItem, ItemStack activationTool, ItemStack resultActivationTool) {
+                           Optional<ItemStackTemplate> resultItem, ItemStackTemplate activationTool,
+                           Optional<ItemStackTemplate> resultActivationTool) {
         this.processingTime = Math.max(1, processingTime);
         this.requiresHeat = requiresHeat;
         this.resultType = resultType;
@@ -78,9 +82,9 @@ public class MixingVatRecipe implements MachineRecipe<MixingVatInput> {
         this.ingredients = List.copyOf(ingredients);
         this.resultFluid = resultFluid;
         this.resultFluidWaste = resultFluidWaste;
-        this.resultItem = resultItem.copy();
-        this.activationTool = activationTool.copy();
-        this.resultActivationTool = resultActivationTool.copy();
+        this.resultItem = resultItem;
+        this.activationTool = activationTool;
+        this.resultActivationTool = resultActivationTool;
     }
 
     public int getProcessingTime() {
@@ -120,15 +124,15 @@ public class MixingVatRecipe implements MachineRecipe<MixingVatInput> {
     }
 
     public ItemStack getResultItemStack() {
-        return resultItem.copy();
+        return resultItem.map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
     }
 
     public ItemStack getActivationTool() {
-        return activationTool.copy();
+        return activationTool.create();
     }
 
     public ItemStack getResultActivationTool() {
-        return resultActivationTool.copy();
+        return resultActivationTool.map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
     }
 
     public FluidStack getResultFluidStack() {
@@ -202,10 +206,10 @@ public class MixingVatRecipe implements MachineRecipe<MixingVatInput> {
 
     @Override
     public ItemStack assemble(MixingVatInput input) {
-        return resultItem.copy();
+        return getResultItemStack();
     }
     public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return resultItem.copy();
+        return getResultItemStack();
     }
 
     @Override
@@ -238,9 +242,9 @@ public class MixingVatRecipe implements MachineRecipe<MixingVatInput> {
                 INGREDIENT_STACK_CODEC.listOf(0, 3).optionalFieldOf("ingredients", List.of()).forGetter(MixingVatRecipe::getIngredientStacks),
                 FLUID_AMOUNT_CODEC.optionalFieldOf("result_fluid").forGetter(MixingVatRecipe::getResultFluid),
                 FLUID_AMOUNT_CODEC.optionalFieldOf("result_fluid_waste").forGetter(MixingVatRecipe::getResultFluidWaste),
-                RecipeCodecs.LEGACY_ITEM_STACK_CODEC.optionalFieldOf("result_item", ItemStack.EMPTY).forGetter(MixingVatRecipe::getResultItemStack),
-                RecipeCodecs.LEGACY_ITEM_STACK_CODEC.fieldOf("activation_tool").forGetter(MixingVatRecipe::getActivationTool),
-                RecipeCodecs.LEGACY_ITEM_STACK_CODEC.optionalFieldOf("result_activation_tool", ItemStack.EMPTY).forGetter(MixingVatRecipe::getResultActivationTool)
+                ItemStackTemplate.MAP_CODEC.codec().optionalFieldOf("result_item").forGetter(recipe -> recipe.resultItem),
+                ItemStackTemplate.MAP_CODEC.codec().fieldOf("activation_tool").forGetter(recipe -> recipe.activationTool),
+                ItemStackTemplate.MAP_CODEC.codec().optionalFieldOf("result_activation_tool").forGetter(recipe -> recipe.resultActivationTool)
         ).apply(instance, MixingVatRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, MixingVatRecipe> STREAM_CODEC = new StreamCodec<>() {
@@ -258,9 +262,9 @@ public class MixingVatRecipe implements MachineRecipe<MixingVatInput> {
                 }
                 Optional<FluidAmount> resultFluid = decodeOptionalFluidAmount(buf);
                 Optional<FluidAmount> wasteFluid = decodeOptionalFluidAmount(buf);
-                ItemStack resultItem = ItemStack.OPTIONAL_STREAM_CODEC.decode(buf);
-                ItemStack activationTool = ItemStack.STREAM_CODEC.decode(buf);
-                ItemStack resultActivationTool = ItemStack.OPTIONAL_STREAM_CODEC.decode(buf);
+                Optional<ItemStackTemplate> resultItem = ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).decode(buf);
+                ItemStackTemplate activationTool = ItemStackTemplate.STREAM_CODEC.decode(buf);
+                Optional<ItemStackTemplate> resultActivationTool = ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).decode(buf);
                 return new MixingVatRecipe(processingTime, requiresHeat, resultType, inputFluid, reagentFluid, ingredients,
                         resultFluid, wasteFluid, resultItem, activationTool, resultActivationTool);
             }
@@ -279,9 +283,9 @@ public class MixingVatRecipe implements MachineRecipe<MixingVatInput> {
                 }
                 encodeOptionalFluidAmount(buf, recipe.resultFluid);
                 encodeOptionalFluidAmount(buf, recipe.resultFluidWaste);
-                ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.resultItem);
-                ItemStack.STREAM_CODEC.encode(buf, recipe.activationTool);
-                ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.resultActivationTool);
+                ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).encode(buf, recipe.resultItem);
+                ItemStackTemplate.STREAM_CODEC.encode(buf, recipe.activationTool);
+                ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC).encode(buf, recipe.resultActivationTool);
             }
 
             private FluidAmount decodeFluidAmount(RegistryFriendlyByteBuf buf) {

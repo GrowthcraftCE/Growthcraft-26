@@ -5,14 +5,13 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import growthcraft.cellar.init.GrowthcraftCellarRecipes;
 import growthcraft.cellar.recipe.input.CultureJarInput;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import growthcraft.lib.recipe.MachineRecipe;
 import growthcraft.lib.recipe.RecipeCodecs;
@@ -29,11 +28,11 @@ public class CultureJarRecipe implements MachineRecipe<CultureJarInput> {
 
     private final Ingredient ingredient;
     private final FluidRequirement fluid;
-    private final ItemStack result;
+    private final ItemStackTemplate result;
     private final int time;
     private final boolean requiresHeatSource;
 
-    public CultureJarRecipe(Ingredient ingredient, FluidRequirement fluid, ItemStack result, int time, boolean requiresHeatSource) {
+    public CultureJarRecipe(Ingredient ingredient, FluidRequirement fluid, ItemStackTemplate result, int time, boolean requiresHeatSource) {
         this.ingredient = ingredient;
         this.fluid = fluid;
         this.result = result;
@@ -43,7 +42,7 @@ public class CultureJarRecipe implements MachineRecipe<CultureJarInput> {
 
     public Ingredient getIngredient() { return ingredient; }
     public FluidRequirement getFluid() { return fluid; }
-    public ItemStack getResult() { return result.copy(); }
+    public ItemStack getResult() { return result.create(); }
     public int getTime() { return time; }
     public boolean requiresHeatSource() { return requiresHeatSource; }
 
@@ -54,8 +53,8 @@ public class CultureJarRecipe implements MachineRecipe<CultureJarInput> {
     }
 
     @Override
-    public ItemStack assemble(CultureJarInput input) { return result.copy(); }
-    public ItemStack getResultItem(HolderLookup.Provider registries) { return result.copy(); }
+    public ItemStack assemble(CultureJarInput input) { return result.create(); }
+    public ItemStack getResultItem(HolderLookup.Provider registries) { return result.create(); }
 
     @Override
     public RecipeSerializer<? extends net.minecraft.world.item.crafting.Recipe<CultureJarInput>> getSerializer() { return GrowthcraftCellarRecipes.CULTURE_JAR_SERIALIZER.get(); }
@@ -73,7 +72,7 @@ public class CultureJarRecipe implements MachineRecipe<CultureJarInput> {
         public static final MapCodec<CultureJarRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 RecipeCodecs.INGREDIENT_CODEC.fieldOf("ingredient").forGetter(CultureJarRecipe::getIngredient),
                 FLUID_REQ_CODEC.fieldOf("fluid").forGetter(CultureJarRecipe::getFluid),
-                RecipeCodecs.LEGACY_ITEM_STACK_CODEC.fieldOf("result").forGetter(CultureJarRecipe::getResult),
+                ItemStackTemplate.MAP_CODEC.codec().fieldOf("result").forGetter(recipe -> recipe.result),
                 Codec.INT.optionalFieldOf("time", 300).forGetter(CultureJarRecipe::getTime),
                 Codec.BOOL.optionalFieldOf("requires_heat_source", Boolean.TRUE).forGetter(CultureJarRecipe::requiresHeatSource)
         ).apply(instance, (ing, fluidReq, result, time, heat) -> new CultureJarRecipe(ing, fluidReq, result, time, heat)));
@@ -84,7 +83,7 @@ public class CultureJarRecipe implements MachineRecipe<CultureJarInput> {
                 Ingredient ing = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
                 Identifier fluidId = buf.readIdentifier();
                 int amount = buf.readVarInt();
-                ItemStack result = ItemStack.STREAM_CODEC.decode(buf);
+                ItemStackTemplate result = ItemStackTemplate.STREAM_CODEC.decode(buf);
                 int time = buf.readVarInt();
                 boolean heat = buf.readBoolean();
                 return new CultureJarRecipe(ing, new FluidRequirement(fluidId, amount), result, time, heat);
@@ -95,7 +94,7 @@ public class CultureJarRecipe implements MachineRecipe<CultureJarInput> {
                 Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.ingredient);
                 buf.writeIdentifier(recipe.fluid.fluidId());
                 buf.writeVarInt(recipe.fluid.amount());
-                ItemStack.STREAM_CODEC.encode(buf, recipe.result);
+                ItemStackTemplate.STREAM_CODEC.encode(buf, recipe.result);
                 buf.writeVarInt(recipe.time);
                 buf.writeBoolean(recipe.requiresHeatSource);
             }
