@@ -1,6 +1,6 @@
 {
   "name": "Bee Keeping",
-  "icon": "growthcraft_apiary:bee",
+  "icon": "minecraft:bee_nest",
   "category": "growthcraft:apiary",
   "sortnum": 0,
   "pages": [
@@ -9,7 +9,7 @@
       "text": "Growthcraft Apiary works best alongside vanilla bee keeping. Use vanilla bees, nests, and hives for bee production, or pair Growthcraft with the Productivity Bees mod for a deeper bee system."
     },
     {
-      "type": "image",
+      "type": "patchouli:image",
       "images": [
         "growthcraft:textures/patchouli/blocks/bee_box_flowers.png"
       ],
@@ -26,8 +26,8 @@
     },
     {
       "type": "patchouli:spotlight",
-      "item": "growthcraft_apiary:bee",
-      "text": "Growthcraft no longer maintains its own bee box workflow in 1.21.1. For active bee keeping, use vanilla mechanics or Productivity Bees."
+      "item": "minecraft:bee_nest",
+      "text": "Growthcraft no longer maintains its own bee box workflow. Use vanilla bees, nests, and hives for active bee keeping; Growthcraft continues the process with honey, wax, and mead content."
     }
   ]
 }

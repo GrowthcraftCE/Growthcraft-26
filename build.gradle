@@ -153,6 +153,9 @@ dependencies {
     compileOnly "mezz.jei:jei-${minecraft_version_short}-neoforge:${jei_version}"
     localRuntime "mezz.jei:jei-${minecraft_version_short}-neoforge:${jei_version}"
 
+    // Patchouli remains optional for users; include it only in development to validate the Growthcraft manual.
+    localRuntime "maven.modrinth:patchouli:${patchouli_version}"
+
     // AppleSkin is only needed for runtime compatibility checks.
     localRuntime "maven.modrinth:appleskin:${appleskin_version}"
 
