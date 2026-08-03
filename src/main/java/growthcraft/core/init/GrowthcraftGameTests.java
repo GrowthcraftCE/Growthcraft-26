@@ -65,6 +65,7 @@ public final class GrowthcraftGameTests {
         cycleBlock(helper, testPosition, GrowthcraftApplesBlocks.APPLE_PLANK.get());
         cycleBlock(helper, testPosition, GrowthcraftRiceBlocks.CULTIVATED_FARMLAND.get());
         verifyCellarHeatDetection(helper, new BlockPos(1, 2, 1));
+        verifyCorkCoasterSupport(helper, new BlockPos(2, 2, 1));
 
         helper.succeed();
     }
@@ -93,5 +94,14 @@ public final class GrowthcraftGameTests {
 
         helper.destroyBlock(machinePosition);
         helper.destroyBlock(machinePosition.below());
+    }
+
+    private static void verifyCorkCoasterSupport(GameTestHelper helper, BlockPos coasterPosition) {
+        helper.setBlock(coasterPosition.below(), Blocks.STONE);
+        helper.setBlock(coasterPosition, GrowthcraftCellarBlocks.CORK_COASTER.get());
+        helper.assertBlockPresent(GrowthcraftCellarBlocks.CORK_COASTER.get(), coasterPosition);
+
+        helper.destroyBlock(coasterPosition.below());
+        helper.assertBlockNotPresent(GrowthcraftCellarBlocks.CORK_COASTER.get(), coasterPosition);
     }
 }
