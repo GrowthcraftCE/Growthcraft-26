@@ -7,6 +7,7 @@ import growthcraft.cellar.block.RoasterBlock;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.core.config.Reference;
 import growthcraft.milk.init.GrowthcraftMilkBlocks;
+import growthcraft.milk.block.entity.MixingVatBlockEntity;
 import growthcraft.rice.init.GrowthcraftRiceBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -91,6 +92,10 @@ public final class GrowthcraftGameTests {
         helper.setBlock(machinePosition, GrowthcraftCellarBlocks.CULTURE_JAR.get());
         CultureJarBlock.updateLitState(helper.getLevel(), helper.absolutePos(machinePosition), helper.getBlockState(machinePosition));
         helper.assertBlockProperty(machinePosition, CultureJarBlock.LIT, true);
+
+        helper.setBlock(machinePosition, GrowthcraftMilkBlocks.MIXING_VAT.get());
+        helper.assertTrue(MixingVatBlockEntity.isHeated(helper.getLevel(), helper.absolutePos(machinePosition)),
+                "Mixing Vat should recognize the shared heat source");
 
         helper.destroyBlock(machinePosition);
         helper.destroyBlock(machinePosition.below());

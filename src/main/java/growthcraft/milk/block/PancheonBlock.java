@@ -123,9 +123,13 @@ public class PancheonBlock extends Block implements EntityBlock {
         Fluid filledFluid = getFluidFromBucket(heldStack);
         if (filledFluid != Fluids.EMPTY) {
             if (!level.isClientSide()) {
-                int filled = pancheon.getFluidHandler().fill(new FluidStack(filledFluid, 1000), IFluidHandler.FluidAction.EXECUTE);
-                if (filled == 1000 && !player.getAbilities().instabuild) {
-                    replaceHeldItem(player, hand, heldStack, getEmptyBucketRemainder(heldStack));
+                FluidStack bucketFluid = new FluidStack(filledFluid, 1000);
+                int filled = pancheon.getFluidHandler().fill(bucketFluid, IFluidHandler.FluidAction.SIMULATE);
+                if (filled == 1000) {
+                    pancheon.getFluidHandler().fill(bucketFluid, IFluidHandler.FluidAction.EXECUTE);
+                    if (!player.getAbilities().instabuild) {
+                        replaceHeldItem(player, hand, heldStack, getEmptyBucketRemainder(heldStack));
+                    }
                 }
             }
             return true;

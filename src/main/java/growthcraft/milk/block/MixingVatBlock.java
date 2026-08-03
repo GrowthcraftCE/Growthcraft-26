@@ -121,8 +121,10 @@ public class MixingVatBlock extends Block implements EntityBlock {
         Fluid filledFluid = getFluidFromBucket(heldStack);
         if (filledFluid != Fluids.EMPTY) {
             if (!level.isClientSide()) {
-                int filled = vat.getFluidHandler().fill(new FluidStack(filledFluid, 1000), IFluidHandler.FluidAction.EXECUTE);
+                FluidStack bucketFluid = new FluidStack(filledFluid, 1000);
+                int filled = vat.getFluidHandler().fill(bucketFluid, IFluidHandler.FluidAction.SIMULATE);
                 if (filled == 1000) {
+                    vat.getFluidHandler().fill(bucketFluid, IFluidHandler.FluidAction.EXECUTE);
                     level.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                     if (!player.getAbilities().instabuild) {
                         replaceHeldItem(player, hand, heldStack, getEmptyBucketRemainder(heldStack));
