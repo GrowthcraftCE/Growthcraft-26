@@ -2,26 +2,18 @@ package growthcraft.milk.block.entity;
 
 import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
-public class ShopSignBlockEntity extends BlockEntity {
-    private static final String ITEMS_TAG = "Items";
-    private static final String WAXED_TAG = "isWaxed";
-
+public class ShopSignBlockEntity extends SignBlockEntity {
     private final NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
-    private boolean waxed;
 
     public ShopSignBlockEntity(BlockPos pos, BlockState state) {
         super(GrowthcraftMilkBlockEntities.SHOP_SIGN.get(), pos, state);
@@ -39,13 +31,11 @@ public class ShopSignBlockEntity extends BlockEntity {
         setChangedAndUpdate();
     }
 
-    public boolean isWaxed() {
-        return waxed;
-    }
-
-    public void setWaxed(boolean waxed) {
-        this.waxed = waxed;
+    @Override
+    public boolean setWaxed(boolean waxed) {
+        boolean changed = super.setWaxed(waxed);
         setChangedAndUpdate();
+        return changed;
     }
 
     private void setChangedAndUpdate() {
@@ -59,11 +49,26 @@ public class ShopSignBlockEntity extends BlockEntity {
 
 
 
-    @Nullable
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        items.clear();
+        ContainerHelper.loadAllItems(input, items);
     }
 
+    @Override
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, items);
+    }
 
+    @Override
+    public int getTextLineHeight() {
+        return 9;
+    }
+
+    @Override
+    public int getMaxTextLineWidth() {
+        return 60;
+    }
 }

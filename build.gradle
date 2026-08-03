@@ -26,11 +26,6 @@ sourceSets.main.resources {
     exclude("src/generated/**/.cache") // datagen cache files
 }
 
-sourceSets.main.java {
-    // TODO 26.1: port custom shop sign rendering to the new hanging-sign render-state API.
-    exclude 'growthcraft/milk/client/renderer/ShopSignRenderer.java'
-}
-
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
     mavenCentral()

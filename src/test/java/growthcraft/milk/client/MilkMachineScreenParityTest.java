@@ -48,6 +48,22 @@ class MilkMachineScreenParityTest {
         assertTrue(churn.contains("togglePlunger(level, pos, state, churn)"));
     }
 
+    @Test
+    void shopSignsRegisterTheirItemRenderer() throws IOException {
+        String client = source("client/GrowthcraftMilkClient.java");
+        String renderer = source("client/renderer/ShopSignRenderer.java");
+
+        assertTrue(client.contains("GrowthcraftMilkBlockEntities.SHOP_SIGN.get(), ShopSignRenderer::new"));
+        assertTrue(renderer.contains("extends HangingSignRenderer"));
+        assertTrue(renderer.contains("extractRenderState"));
+        assertTrue(renderer.contains("state.item.submit"));
+
+        String entity = source("block/entity/ShopSignBlockEntity.java");
+        assertTrue(entity.contains("extends SignBlockEntity"));
+        assertTrue(entity.contains("ContainerHelper.loadAllItems"));
+        assertTrue(entity.contains("ContainerHelper.saveAllItems"));
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/milk", relativePath));
     }

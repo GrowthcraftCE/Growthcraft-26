@@ -4,6 +4,7 @@ import growthcraft.lib.client.GrowthcraftFluidModels;
 import growthcraft.milk.config.Reference;
 import growthcraft.milk.client.renderer.MixingVatBlockEntityRenderer;
 import growthcraft.milk.client.renderer.PancheonBlockEntityRenderer;
+import growthcraft.milk.client.renderer.ShopSignRenderer;
 import growthcraft.milk.client.screen.MixingVatScreen;
 import growthcraft.milk.client.screen.PancheonScreen;
 import growthcraft.milk.client.screen.CheesePressScreen;
@@ -36,6 +37,7 @@ public final class GrowthcraftMilkClient {
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(GrowthcraftMilkBlockEntities.MIXING_VAT.get(), MixingVatBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(GrowthcraftMilkBlockEntities.PANCHEON.get(), PancheonBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(GrowthcraftMilkBlockEntities.SHOP_SIGN.get(), ShopSignRenderer::new);
     }
 
     @SubscribeEvent
