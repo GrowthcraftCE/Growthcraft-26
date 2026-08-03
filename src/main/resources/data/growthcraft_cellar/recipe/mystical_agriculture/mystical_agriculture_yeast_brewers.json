@@ -1,24 +1,18 @@
-{
-    "type":  "cucumber:shaped_no_mirror",
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
     "pattern":  [
                     "A  ",
                     " B ",
                     "DDD"
                 ],
     "key":  {
-                "A":  {
-                          "item":  "mysticalagriculture:nature_essence"
-                      },
-                "B":  {
-                          "item":  "mysticalagriculture:earth_essence"
-                      },
-                "D":  {
-                          "item":  "mysticalagriculture:dirt_essence"
-                      }
+                "A":  "mysticalagriculture:nature_essence",
+                "B":  "mysticalagriculture:earth_essence",
+                "D":  "mysticalagriculture:dirt_essence"
             },
     "result":  {
-                   "item":  "growthcraft_cellar:yeast_brewers",
-                   "count":  8
+                   "count":  8,
+                   "id":  "growthcraft_cellar:yeast_brewers"
                },
     "neoforge:conditions":  [
                                 {

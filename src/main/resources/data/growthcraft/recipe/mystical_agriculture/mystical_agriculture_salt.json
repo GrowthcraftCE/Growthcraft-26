@@ -1,21 +1,17 @@
-{
-    "type":  "cucumber:shaped_no_mirror",
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
     "pattern":  [
                     "DSS",
                     "SDS",
                     "SSD"
                 ],
     "key":  {
-                "S":  {
-                          "item":  "mysticalagriculture:stone_essence"
-                      },
-                "D":  {
-                          "item":  "mysticalagriculture:dye_essence"
-                      }
+                "S":  "mysticalagriculture:stone_essence",
+                "D":  "mysticalagriculture:dye_essence"
             },
     "result":  {
-                   "item":  "growthcraft:salt",
-                   "count":  4
+                   "count":  4,
+                   "id":  "growthcraft:salt"
                },
     "neoforge:conditions":  [
                                 {

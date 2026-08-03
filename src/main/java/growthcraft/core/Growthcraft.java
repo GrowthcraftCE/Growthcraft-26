@@ -8,6 +8,7 @@ import growthcraft.core.init.GrowthcraftCreativeTabs;
 import growthcraft.core.init.GrowthcraftGameTests;
 import growthcraft.core.init.GrowthcraftItems;
 import growthcraft.core.init.GrowthcraftParticles;
+import growthcraft.core.init.GrowthcraftRecipes;
 import growthcraft.core.event.RopeShearHandler;
 import growthcraft.milk.block.signs.ShopSignTransformHandler;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ public class Growthcraft {
         GrowthcraftCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         GrowthcraftConditions.CONDITION_CODECS.register(modEventBus);
         GrowthcraftParticles.PARTICLE_TYPES.register(modEventBus);
+        GrowthcraftRecipes.SERIALIZERS.register(modEventBus);
         GrowthcraftGameTests.TEST_FUNCTIONS.register(modEventBus);
         modEventBus.addListener(GrowthcraftGameTests::registerTests);
 

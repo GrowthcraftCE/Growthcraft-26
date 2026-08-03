@@ -24,6 +24,7 @@ class RecipeRuntimeCatalogTest {
     private static final Pattern TOP_LEVEL_TYPE_FIELD = Pattern.compile("^\\s{0,4}\"type\"\\s*:\\s*\"([^\"]+)\"");
 
     private static final Set<String> SUPPORTED_CUSTOM_TYPES = Set.of(
+            "growthcraft:shaped_no_mirror",
             "growthcraft_cellar:culture_jar",
             "growthcraft_milk:cheese_press_recipe",
             "growthcraft_milk:churn_recipe",

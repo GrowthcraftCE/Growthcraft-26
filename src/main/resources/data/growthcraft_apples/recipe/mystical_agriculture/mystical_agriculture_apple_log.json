@@ -1,21 +1,17 @@
-{
-    "type":  "cucumber:shaped_no_mirror",
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
     "pattern":  [
                     "B A",
                     " B ",
                     "A B"
                 ],
     "key":  {
-                "A":  {
-                          "item":  "mysticalagriculture:wood_essence"
-                      },
-                "B":  {
-                          "item":  "mysticalagriculture:nature_essence"
-                      }
+                "A":  "mysticalagriculture:wood_essence",
+                "B":  "mysticalagriculture:nature_essence"
             },
     "result":  {
-                   "item":  "growthcraft_apples:apple_wood_log",
-                   "count":  32
+                   "count":  32,
+                   "id":  "growthcraft_apples:apple_wood_log"
                },
     "neoforge:conditions":  [
                                 {

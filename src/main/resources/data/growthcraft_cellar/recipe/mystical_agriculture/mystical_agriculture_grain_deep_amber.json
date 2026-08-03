@@ -1,24 +1,18 @@
-{
-    "type":  "cucumber:shaped_no_mirror",
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
     "pattern":  [
                     "AAA",
                     " B ",
                     " C "
                 ],
     "key":  {
-                "A":  {
-                          "item":  "mysticalagriculture:nature_essence"
-                      },
-                "B":  {
-                          "item":  "mysticalagriculture:iron_essence"
-                      },
-                "C":  {
-                          "item":  "mysticalagriculture:coal_essence"
-                      }
+                "A":  "mysticalagriculture:nature_essence",
+                "B":  "mysticalagriculture:iron_essence",
+                "C":  "mysticalagriculture:coal_essence"
             },
     "result":  {
-                   "item":  "growthcraft_cellar:grain_deep_amber",
-                   "count":  4
+                   "count":  4,
+                   "id":  "growthcraft_cellar:grain_deep_amber"
                },
     "neoforge:conditions":  [
                                 {

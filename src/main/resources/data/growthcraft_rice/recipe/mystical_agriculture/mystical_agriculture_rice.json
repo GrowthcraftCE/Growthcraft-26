@@ -1,24 +1,18 @@
-{
-    "type":  "cucumber:shaped_no_mirror",
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
     "pattern":  [
                     "   ",
                     "WNW",
                     "DDD"
                 ],
     "key":  {
-                "N":  {
-                          "item":  "mysticalagriculture:nature_essence"
-                      },
-                "W":  {
-                          "item":  "mysticalagriculture:water_essence"
-                      },
-                "D":  {
-                          "item":  "mysticalagriculture:dirt_essence"
-                      }
+                "N":  "mysticalagriculture:nature_essence",
+                "W":  "mysticalagriculture:water_essence",
+                "D":  "mysticalagriculture:dirt_essence"
             },
     "result":  {
-                   "item":  "growthcraft_rice:rice",
-                   "count":  8
+                   "count":  8,
+                   "id":  "growthcraft_rice:rice"
                },
     "neoforge:conditions":  [
                                 {

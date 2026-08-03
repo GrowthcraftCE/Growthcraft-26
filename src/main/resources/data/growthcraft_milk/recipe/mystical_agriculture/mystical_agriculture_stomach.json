@@ -1,21 +1,17 @@
-{
-    "type":  "cucumber:shaped_no_mirror",
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
     "pattern":  [
                     "AAA",
                     " B ",
                     "   "
                 ],
     "key":  {
-                "A":  {
-                          "item":  "mysticalagriculture:cow_essence"
-                      },
-                "B":  {
-                          "item":  "mysticalagriculture:iron_essence"
-                      }
+                "A":  "mysticalagriculture:cow_essence",
+                "B":  "mysticalagriculture:iron_essence"
             },
     "result":  {
-                   "item":  "growthcraft_milk:stomach",
-                   "count":  1
+                   "count":  1,
+                   "id":  "growthcraft_milk:stomach"
                },
     "neoforge:conditions":  [
                                 {

@@ -1,21 +1,17 @@
-{
-    "type":  "cucumber:shaped_no_mirror",
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
     "pattern":  [
                     "AAA",
                     " A ",
                     "B B"
                 ],
     "key":  {
-                "A":  {
-                          "item":  "mysticalagriculture:nature_essence"
-                      },
-                "B":  {
-                          "item":  "mysticalagriculture:dirt_essence"
-                      }
+                "A":  "mysticalagriculture:nature_essence",
+                "B":  "mysticalagriculture:dirt_essence"
             },
     "result":  {
-                   "item":  "growthcraft_cellar:hops",
-                   "count":  4
+                   "count":  4,
+                   "id":  "growthcraft_cellar:hops"
                },
     "neoforge:conditions":  [
                                 {

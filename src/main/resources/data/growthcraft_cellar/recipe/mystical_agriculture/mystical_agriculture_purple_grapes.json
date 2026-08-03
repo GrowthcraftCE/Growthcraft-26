@@ -1,21 +1,17 @@
-{
-    "type":  "cucumber:shaped_no_mirror",
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
     "pattern":  [
                     "B A",
                     "B A",
                     " A "
                 ],
     "key":  {
-                "A":  {
-                          "item":  "mysticalagriculture:dye_essence"
-                      },
-                "B":  {
-                          "item":  "mysticalagriculture:nature_essence"
-                      }
+                "A":  "mysticalagriculture:dye_essence",
+                "B":  "mysticalagriculture:nature_essence"
             },
     "result":  {
-                   "item":  "growthcraft_cellar:grape_purple",
-                   "count":  4
+                   "count":  4,
+                   "id":  "growthcraft_cellar:grape_purple"
                },
     "neoforge:conditions":  [
                                 {

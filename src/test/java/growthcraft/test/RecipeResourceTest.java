@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RecipeResourceTest {
@@ -42,6 +44,26 @@ class RecipeResourceTest {
                 () -> "Recipe JSON files missing a type field:" + System.lineSeparator()
                         + String.join(System.lineSeparator(), sortedMissingType.stream().map(Path::toString).toList())
         );
+    }
+
+    @Test
+    void mysticalAgricultureRecipesUseGrowthcraftNoMirrorSerializer() throws IOException {
+        List<Path> recipes;
+        try (Stream<Path> files = Files.walk(DATA_ROOTS.getFirst())) {
+            recipes = files
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.toString().contains("mystical_agriculture"))
+                    .filter(path -> path.toString().endsWith(".json"))
+                    .toList();
+        }
+
+        assertEquals(25, recipes.size());
+        for (Path recipe : recipes) {
+            String json = Files.readString(recipe);
+            assertTrue(json.contains("\"growthcraft:shaped_no_mirror\""), recipe::toString);
+            assertFalse(json.contains("cucumber:shaped_no_mirror"), recipe::toString);
+            assertTrue(json.contains("\"id\""), () -> recipe + " must use the 26.1 result schema");
+        }
     }
 
     private static boolean declaresType(Path path) {
