@@ -48,6 +48,21 @@ class CoreGameplayParityTest {
         }
     }
 
+    @Test
+    void ropeFenceConnectionsUseTheStableBindingModels() throws IOException {
+        String blockstate = resource("assets/growthcraft/blockstates/rope_linen.json");
+        String hopsBlockstate = resource("assets/growthcraft_cellar/blockstates/hops_vine.json");
+
+        assertTrue(blockstate.contains("\"north_ex\": 2"));
+        assertTrue(blockstate.contains("\"east_ex\": 2"));
+        assertTrue(blockstate.contains("\"south_ex\": 2"));
+        assertTrue(blockstate.contains("\"west_ex\": 2"));
+        assertTrue(blockstate.contains("growthcraft:block/rope_linen_side_and_fence"));
+        assertTrue(blockstate.contains("growthcraft:block/rope_linen_vert_and_fence"));
+        assertTrue(hopsBlockstate.contains("growthcraft:block/rope_linen_side_and_fence"));
+        assertTrue(hopsBlockstate.contains("growthcraft:block/rope_linen_vert_and_fence"));
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/core", relativePath));
     }
