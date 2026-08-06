@@ -56,6 +56,10 @@ public class GrapeVineStemBlock extends BushBlock implements BonemealableBlock {
             level.setBlock(pos, state.setValue(AGE, age + 1), Block.UPDATE_ALL);
             return;
         }
+        tryGrow(level, pos);
+    }
+
+    private void tryGrow(ServerLevel level, BlockPos pos) {
         BlockPos above = pos.above();
         if (!(level.getBlockState(above).getBlock() instanceof RopeBlock2Base)) return;
         BlockState replacement = canGrowHigher(level, pos) && level.getBlockState(pos.above(2)).getBlock() instanceof RopeBlock2Base
@@ -77,7 +81,9 @@ public class GrapeVineStemBlock extends BushBlock implements BonemealableBlock {
     }
     @Override public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) { return true; }
     @Override public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
-        level.setBlock(pos, state.setValue(AGE, Math.min(MAX_AGE, state.getValue(AGE) + Mth.nextInt(random, 1, 2))), Block.UPDATE_ALL);
+        int age = Math.min(MAX_AGE, state.getValue(AGE) + Mth.nextInt(random, 1, 2));
+        level.setBlock(pos, state.setValue(AGE, age), Block.UPDATE_ALL);
+        if (age == MAX_AGE) tryGrow(level, pos);
     }
     @Override public MapCodec<BushBlock> codec() { return null; }
 }

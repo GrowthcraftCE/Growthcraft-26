@@ -52,6 +52,10 @@ public class GrapeVineLeavesBlock extends RopeBlock2Base implements Bonemealable
         if (!level.isAreaLoaded(pos, 1) || level.getRawBrightness(pos.above(), 0) < 9 || random.nextInt(4) != 0) return;
         int age = state.getValue(AGE);
         if (age < MAX_AGE) { level.setBlock(pos, state.setValue(AGE, age + 1), Block.UPDATE_ALL); return; }
+        growFruitAndExpand(level, pos);
+    }
+
+    private void growFruitAndExpand(ServerLevel level, BlockPos pos) {
         BlockPos fruitPos = pos.below();
         if (level.getBlockState(fruitPos).isAir()) level.setBlock(fruitPos, fruit.get().defaultBlockState(), Block.UPDATE_ALL);
         Direction expansion = VineGrowthHelper.tryGrapeLeavesExpand(level, pos);
@@ -71,6 +75,8 @@ public class GrapeVineLeavesBlock extends RopeBlock2Base implements Bonemealable
     }
     @Override public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) { return true; }
     @Override public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
-        level.setBlock(pos, state.setValue(AGE, Math.min(MAX_AGE, state.getValue(AGE) + Mth.nextInt(random, 1, 2))), Block.UPDATE_ALL);
+        int age = Math.min(MAX_AGE, state.getValue(AGE) + Mth.nextInt(random, 1, 2));
+        level.setBlock(pos, state.setValue(AGE, age), Block.UPDATE_ALL);
+        if (age == MAX_AGE) growFruitAndExpand(level, pos);
     }
 }
