@@ -8,7 +8,7 @@ import growthcraft.cellar.recipe.CultureJarRecipe;
 import growthcraft.cellar.recipe.FermentationBarrelRecipe;
 import growthcraft.cellar.recipe.FruitPressRecipe;
 import growthcraft.cellar.recipe.RoasterRecipe;
-import growthcraft.lib.recipe.RecipeLookup;
+import growthcraft.lib.client.recipe.ClientRecipeLookup;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
@@ -79,22 +79,22 @@ public class GrowthcraftCellarJeiPlugin implements IModPlugin {
     }
 
     private static java.util.List<RecipeHolder<BrewKettleRecipe>> brewKettleRecipes(Minecraft minecraft) {
-        return RecipeLookup.getAll(minecraft.level, GrowthcraftCellarRecipes.BREW_KETTLE_TYPE.get());
+        return ClientRecipeLookup.getAll(GrowthcraftCellarRecipes.BREW_KETTLE_TYPE.get());
     }
 
     private static java.util.List<RecipeHolder<CultureJarRecipe>> cultureJarRecipes(Minecraft minecraft) {
-        return RecipeLookup.getAll(minecraft.level, GrowthcraftCellarRecipes.CULTURE_JAR_TYPE.get());
+        return ClientRecipeLookup.getAll(GrowthcraftCellarRecipes.CULTURE_JAR_TYPE.get());
     }
 
     private static java.util.List<RecipeHolder<FermentationBarrelRecipe>> fermentationBarrelRecipes(Minecraft minecraft) {
-        return RecipeLookup.getAll(minecraft.level, GrowthcraftCellarRecipes.FERMENTATION_BARREL_TYPE.get());
+        return ClientRecipeLookup.getAll(GrowthcraftCellarRecipes.FERMENTATION_BARREL_TYPE.get());
     }
 
     private static java.util.List<RecipeHolder<FruitPressRecipe>> fruitPressRecipes(Minecraft minecraft) {
-        return RecipeLookup.getAll(minecraft.level, GrowthcraftCellarRecipes.FRUIT_PRESS_TYPE.get());
+        return ClientRecipeLookup.getAll(GrowthcraftCellarRecipes.FRUIT_PRESS_TYPE.get());
     }
 
     private static java.util.List<RecipeHolder<RoasterRecipe>> roasterRecipes(Minecraft minecraft) {
-        return RecipeLookup.getAll(minecraft.level, GrowthcraftCellarRecipes.ROASTER_TYPE.get());
+        return ClientRecipeLookup.getAll(GrowthcraftCellarRecipes.ROASTER_TYPE.get());
     }
 }

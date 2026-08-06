@@ -67,6 +67,7 @@ public class FruitPressBlockEntity extends BlockEntity implements WorldlyContain
 
     private int processTime;
     private int processTimeTotal;
+    private int activeOutputFluidId = -1;
 
     public FruitPressBlockEntity(BlockPos pos, BlockState state) {
         super(GrowthcraftCellarBlockEntities.FRUIT_PRESS.get(), pos, state);
@@ -117,6 +118,7 @@ public class FruitPressBlockEntity extends BlockEntity implements WorldlyContain
             press.resetProgress(level, pos, state);
             return;
         }
+        press.activeOutputFluidId = BuiltInRegistries.FLUID.getId(output.getFluid());
 
         if (recipe.getByProductChance() >= 100 && !press.canOutputByProduct(recipe.getByProduct())) {
             press.resetProgress(level, pos, state);
@@ -167,9 +169,8 @@ public class FruitPressBlockEntity extends BlockEntity implements WorldlyContain
         if (!isProcessing()) {
             return FluidStack.EMPTY;
         }
-        return findMatch(level, getItem(SLOT_INPUT))
-                .map(holder -> outputFluidStack(holder.value()))
-                .orElse(FluidStack.EMPTY);
+        var fluid = BuiltInRegistries.FLUID.byId(this.activeOutputFluidId);
+        return fluid == null || fluid == Fluids.EMPTY ? FluidStack.EMPTY : new FluidStack(fluid, 1);
     }
 
     private boolean canOutputByProduct(ItemStack stack) {
@@ -204,9 +205,10 @@ public class FruitPressBlockEntity extends BlockEntity implements WorldlyContain
     }
 
     private boolean resetProgress() {
-        if (this.processTime != 0 || this.processTimeTotal != 0) {
+        if (this.processTime != 0 || this.processTimeTotal != 0 || this.activeOutputFluidId != -1) {
             this.processTime = 0;
             this.processTimeTotal = 0;
+            this.activeOutputFluidId = -1;
             setChanged();
             return true;
         }
@@ -308,6 +310,7 @@ public class FruitPressBlockEntity extends BlockEntity implements WorldlyContain
         FluidTankPersistence.load(input, "Tank", this.tank);
         this.processTime = input.getIntOr("ProcessTime", 0);
         this.processTimeTotal = input.getIntOr("ProcessTimeTotal", 0);
+        this.activeOutputFluidId = input.getIntOr("ActiveOutputFluidId", -1);
     }
 
     @Override
@@ -317,6 +320,7 @@ public class FruitPressBlockEntity extends BlockEntity implements WorldlyContain
         FluidTankPersistence.save(output, "Tank", this.tank);
         output.putInt("ProcessTime", this.processTime);
         output.putInt("ProcessTimeTotal", this.processTimeTotal);
+        output.putInt("ActiveOutputFluidId", this.activeOutputFluidId);
     }
 
     @Override

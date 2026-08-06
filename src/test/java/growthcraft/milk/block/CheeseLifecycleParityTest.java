@@ -30,6 +30,15 @@ class CheeseLifecycleParityTest {
         assertTrue(press.contains("press.canProcessInput(level)"));
     }
 
+    @Test
+    void cheesePressHandlesItemsWithoutCraftingRemainders() throws IOException {
+        String press = source("CheesePressBlock.java");
+
+        assertTrue(press.contains("ItemStack remainder = getCraftingRemainder(toInsert);"));
+        assertTrue(press.contains("ItemStack requiredContainer = getCraftingRemainder(stack);"));
+        assertTrue(press.contains("remainder == null ? ItemStack.EMPTY : remainder.create()"));
+    }
+
     private static String source(String name) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/milk/block", name));
     }

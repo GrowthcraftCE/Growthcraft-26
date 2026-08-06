@@ -38,6 +38,19 @@ class CultureJarRecipeDataTest {
         }
     }
 
+    @Test
+    void starterCultureIsOwnedOnlyByTheMilkModule() throws IOException {
+        String cellarItems = Files.readString(Path.of(
+                "src/main/java/growthcraft/cellar/init/GrowthcraftCellarItems.java"));
+        String milkItems = Files.readString(Path.of(
+                "src/main/java/growthcraft/milk/init/GrowthcraftMilkItems.java"));
+
+        assertFalse(cellarItems.contains("STARTER_CULTURE"));
+        assertTrue(milkItems.contains("STARTER_CULTURE"));
+        assertFalse(Files.exists(Path.of(
+                "src/main/resources/assets/growthcraft_cellar/items/starter_culture.json")));
+    }
+
     private static boolean isCultureJarRecipe(Path path) {
         try {
             return Files.readString(path).contains("\"growthcraft_cellar:culture_jar\"");

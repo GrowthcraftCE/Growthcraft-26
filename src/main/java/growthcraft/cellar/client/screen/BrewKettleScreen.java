@@ -23,6 +23,12 @@ public class BrewKettleScreen extends TexturedMachineScreen<BrewKettleMenu> {
     private static final int PROGRESS_V = 0;
     private static final int PROGRESS_W = 9;
     private static final int PROGRESS_H = 28;
+    private static final int HEAT_X = 68;
+    private static final int HEAT_Y = 53;
+    private static final int HEAT_U = 176;
+    private static final int HEAT_V = 28;
+    private static final int HEAT_W = 13;
+    private static final int HEAT_H = 13;
     private static final int TEXTURE_SIZE = 256;
 
     private final FluidTankRenderer tankRenderer;
@@ -51,6 +57,11 @@ public class BrewKettleScreen extends TexturedMachineScreen<BrewKettleMenu> {
                     TEXTURE_SIZE,
                     TEXTURE_SIZE
             );
+        }
+        if (this.menu.isHeated()) {
+            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+                    this.leftPos + HEAT_X, this.topPos + HEAT_Y,
+                    HEAT_U, HEAT_V, HEAT_W, HEAT_H, TEXTURE_SIZE, TEXTURE_SIZE);
         }
     }
 

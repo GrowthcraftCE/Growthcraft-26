@@ -37,6 +37,14 @@ class MixingVatResultParityTest {
         assertTrue(item.contains("slot.set(ItemStack.EMPTY)"));
     }
 
+    @Test
+    void fluidBucketsWithoutCraftingRemaindersCanFillTheVat() throws IOException {
+        String block = source("block/MixingVatBlock.java");
+
+        assertTrue(block.contains("remainderTemplate == null ? ItemStack.EMPTY : remainderTemplate.create()"));
+        assertTrue(block.contains("remainder.isEmpty() ? new ItemStack(Items.BUCKET) : remainder"));
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/milk", relativePath));
     }

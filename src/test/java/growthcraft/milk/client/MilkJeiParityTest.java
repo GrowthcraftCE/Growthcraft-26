@@ -32,6 +32,22 @@ class MilkJeiParityTest {
         assertTrue(category.contains("twoToOne"));
     }
 
+    @Test
+    void machineRecipesUseTheNeoForgeSynchronizedClientRecipeMap() throws IOException {
+        String plugin = source("compat/jei/GrowthcraftMilkJeiPlugin.java");
+        String sync = Files.readString(Path.of(
+                "src/main/java/growthcraft/core/event/GrowthcraftRecipeSync.java"));
+        String lookup = Files.readString(Path.of(
+                "src/main/java/growthcraft/lib/client/recipe/ClientRecipeLookup.java"));
+
+        assertTrue(sync.contains("OnDatapackSyncEvent"));
+        assertTrue(sync.contains("GrowthcraftMilkRecipes.MIXING_VAT_TYPE.get()"));
+        assertTrue(plugin.contains("ClientRecipeLookup.getAll(GrowthcraftMilkRecipes.MIXING_VAT_TYPE.get())"));
+        assertTrue(lookup.contains("RecipesReceivedEvent"));
+        assertTrue(lookup.contains("recipes.byType(type)"));
+        assertTrue(lookup.contains("ClientPlayerNetworkEvent.LoggingOut"));
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/milk", relativePath));
     }

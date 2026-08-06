@@ -47,7 +47,66 @@ class ClientRenderingParityTest {
         assertTrue(particle.contains("this.remove()"));
     }
 
+    @Test
+    void cultureJarUsesTheStableInventoryAndShelfTransforms() throws IOException {
+        String model = resource("assets/growthcraft_cellar/models/item/culture_jar.json");
+
+        assertTrue(model.contains("\"gui\""));
+        assertTrue(model.contains("1.5"));
+        assertTrue(model.contains("\"on_shelf\""));
+        assertTrue(model.contains("1.7"));
+    }
+
+    @Test
+    void pancheonShowsSynchronizedProgressBubblesAndTooltip() throws IOException {
+        String screen = source("milk/client/screen/PancheonScreen.java");
+
+        assertTrue(screen.contains("this.menu.getProgressionScaled(PROGRESS_H)"));
+        assertTrue(screen.contains("PROGRESS_V + PROGRESS_H - progress"));
+        assertTrue(screen.contains("this.menu.getPercentProgress() + \"%\""));
+    }
+
+    @Test
+    void mixingVatShowsSynchronizedProgressBubblesAndTooltip() throws IOException {
+        String screen = source("milk/client/screen/MixingVatScreen.java");
+
+        assertTrue(screen.contains("this.menu.getProgressionScaled(PROGRESS_H)"));
+        assertTrue(screen.contains("BUBBLE_PIXELS"));
+        assertTrue(screen.contains("graphics.fill"));
+        assertTrue(screen.contains("this.menu.getPercentProgress() + \"%\""));
+    }
+
+    @Test
+    void heatedMachinesShowTheirFlameIndicators() throws IOException {
+        String kettle = source("cellar/client/screen/BrewKettleScreen.java");
+        String vat = source("milk/client/screen/MixingVatScreen.java");
+
+        assertTrue(kettle.contains("this.menu.isHeated()"));
+        assertTrue(kettle.contains("HEAT_U, HEAT_V, HEAT_W, HEAT_H"));
+        assertTrue(vat.contains("this.menu.isHeated()"));
+        assertTrue(vat.contains("HEAT_U, HEAT_V, HEAT_W, HEAT_H"));
+    }
+
+    @Test
+    void fruitPressParticlesUseTheOutputFluidTint() throws IOException {
+        String press = source("cellar/block/FruitPressBlock.java");
+        String machine = source("cellar/block/entity/FruitPressBlockEntity.java");
+
+        assertTrue(press.contains("IClientFluidTypeExtensions.of(fluidStack.getFluid())"));
+        assertTrue(press.contains("growthcraftExtensions.getTintColor()"));
+        assertTrue(press.contains("ColoredDripParticleOption.fromTintColor(getDripColor(output)"));
+        assertTrue(press.contains("DRIP_LANDING_SCALE = 0.55F"));
+        assertTrue(press.contains("DRIP_LANDING_LINGER_TICKS = 4"));
+        assertTrue(machine.contains("activeOutputFluidId = BuiltInRegistries.FLUID.getId(output.getFluid())"));
+        assertTrue(machine.contains("ActiveOutputFluidId"));
+        assertTrue(machine.contains("BuiltInRegistries.FLUID.byId(this.activeOutputFluidId)"));
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft", relativePath));
+    }
+
+    private static String resource(String relativePath) throws IOException {
+        return Files.readString(Path.of("src/main/resources", relativePath));
     }
 }

@@ -45,4 +45,14 @@ class CheeseAssetParityTest {
         assertFalse(client.contains("GrowthcraftMilkBlocks.ASIAGO_CHEESE.get()"));
         assertTrue(client.contains("GrowthcraftMilkBlocks.ASIAGO_CHEESE_CURDS.get()"));
     }
+
+    @Test
+    void everyFreshCurdBlockItemHasAnItemTranslation() throws IOException {
+        String language = Files.readString(ASSETS.resolve("lang/en_us.json"));
+        for (String cheese : new String[]{"appenzeller", "asiago", "casu_marzu", "cheddar", "emmentaler",
+                "gorgonzola", "gouda", "monterey", "parmesan", "provolone", "ricotta"}) {
+            assertTrue(language.contains("\"item.growthcraft_milk." + cheese + "_cheese_curds\""),
+                    () -> "Missing fresh curd item translation for " + cheese);
+        }
+    }
 }

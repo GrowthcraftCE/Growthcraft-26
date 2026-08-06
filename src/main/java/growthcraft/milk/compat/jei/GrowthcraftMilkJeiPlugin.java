@@ -8,7 +8,7 @@ import growthcraft.milk.recipe.CheesePressRecipe;
 import growthcraft.milk.recipe.ChurnRecipe;
 import growthcraft.milk.recipe.MixingVatRecipe;
 import growthcraft.milk.recipe.PancheonRecipe;
-import growthcraft.lib.recipe.RecipeLookup;
+import growthcraft.lib.client.recipe.ClientRecipeLookup;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
@@ -86,10 +86,10 @@ public class GrowthcraftMilkJeiPlugin implements IModPlugin {
             return;
         }
 
-        registration.addRecipes(CHEESE_PRESS, RecipeLookup.getAll(minecraft.level, GrowthcraftMilkRecipes.CHEESE_PRESS_TYPE.get()));
-        registration.addRecipes(CHURN, RecipeLookup.getAll(minecraft.level, GrowthcraftMilkRecipes.CHURN_TYPE.get()));
-        registration.addRecipes(MIXING_VAT, RecipeLookup.getAll(minecraft.level, GrowthcraftMilkRecipes.MIXING_VAT_TYPE.get()));
-        registration.addRecipes(PANCHEON, RecipeLookup.getAll(minecraft.level, GrowthcraftMilkRecipes.PANCHEON_TYPE.get()));
+        registration.addRecipes(CHEESE_PRESS, ClientRecipeLookup.getAll(GrowthcraftMilkRecipes.CHEESE_PRESS_TYPE.get()));
+        registration.addRecipes(CHURN, ClientRecipeLookup.getAll(GrowthcraftMilkRecipes.CHURN_TYPE.get()));
+        registration.addRecipes(MIXING_VAT, ClientRecipeLookup.getAll(GrowthcraftMilkRecipes.MIXING_VAT_TYPE.get()));
+        registration.addRecipes(PANCHEON, ClientRecipeLookup.getAll(GrowthcraftMilkRecipes.PANCHEON_TYPE.get()));
 
         var drying = new ArrayList<CheeseProcessRecipeCategory.Recipe>();
         var aging = new ArrayList<CheeseProcessRecipeCategory.Recipe>();

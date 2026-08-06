@@ -5,6 +5,7 @@ import growthcraft.lib.client.screen.TexturedMachineScreen;
 import growthcraft.lib.client.screen.renderer.FluidTankRenderer;
 import growthcraft.milk.config.Reference;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,6 +21,12 @@ public class PancheonScreen extends TexturedMachineScreen<PancheonMenu> {
     private static final int OUTPUT_1_TANK_Y = 47;
     private static final int OUTPUT_TANK_W = 16;
     private static final int OUTPUT_TANK_H = 23;
+    private static final int PROGRESS_X = 82;
+    private static final int PROGRESS_Y = 29;
+    private static final int PROGRESS_U = 176;
+    private static final int PROGRESS_V = 42;
+    private static final int PROGRESS_W = 13;
+    private static final int PROGRESS_H = 29;
 
     private final FluidTankRenderer inputTankRenderer;
     private final FluidTankRenderer outputTankRenderer;
@@ -33,6 +40,12 @@ public class PancheonScreen extends TexturedMachineScreen<PancheonMenu> {
     @Override
     public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
+        int progress = this.menu.getProgressionScaled(PROGRESS_H);
+        if (progress > 0) {
+            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+                    this.leftPos + PROGRESS_X, this.topPos + PROGRESS_Y + PROGRESS_H - progress,
+                    PROGRESS_U, PROGRESS_V + PROGRESS_H - progress, PROGRESS_W, progress, 256, 256);
+        }
         this.inputTankRenderer.render(graphics, this.leftPos + INPUT_TANK_X, this.topPos + INPUT_TANK_Y, this.menu.getInputFluidStack());
         this.outputTankRenderer.render(graphics, this.leftPos + OUTPUT_TANK_X, this.topPos + OUTPUT_0_TANK_Y, this.menu.getOutput0FluidStack());
         this.outputTankRenderer.render(graphics, this.leftPos + OUTPUT_TANK_X, this.topPos + OUTPUT_1_TANK_Y, this.menu.getOutput1FluidStack());
@@ -50,6 +63,11 @@ public class PancheonScreen extends TexturedMachineScreen<PancheonMenu> {
         }
         if (extractTankTooltip(graphics, mouseX, mouseY, OUTPUT_TANK_X, OUTPUT_1_TANK_Y, OUTPUT_TANK_W, OUTPUT_TANK_H,
                 this.menu.getOutput1FluidStack(), this.menu.getOutputTankCapacity())) {
+            return;
+        }
+        if (isMouseAbove(mouseX, mouseY, this.leftPos + PROGRESS_X, this.topPos + PROGRESS_Y, PROGRESS_W, PROGRESS_H)) {
+            graphics.setTooltipForNextFrame(this.font,
+                    Component.literal(this.menu.getPercentProgress() + "%"), mouseX, mouseY);
             return;
         }
         super.extractTooltip(graphics, mouseX, mouseY);

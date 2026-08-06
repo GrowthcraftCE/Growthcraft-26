@@ -182,7 +182,8 @@ public class MixingVatBlock extends Block implements EntityBlock {
     }
 
     private static ItemStack getEmptyBucketRemainder(ItemStack stack) {
-        ItemStack remainder = stack.getItem().getCraftingRemainder().create();
+        var remainderTemplate = stack.getItem().getCraftingRemainder();
+        ItemStack remainder = remainderTemplate == null ? ItemStack.EMPTY : remainderTemplate.create();
         return remainder.isEmpty() ? new ItemStack(Items.BUCKET) : remainder;
     }
 

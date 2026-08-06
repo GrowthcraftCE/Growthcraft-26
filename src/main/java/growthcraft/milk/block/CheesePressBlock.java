@@ -140,7 +140,7 @@ public class CheesePressBlock extends Block implements EntityBlock {
         if (!heldStack.isEmpty() && !heldStack.is(GrowthcraftMilkItems.CHEESE_CLOTH.get())) {
             if (!level.isClientSide()) {
                 ItemStack toInsert = heldStack.copyWithCount(1);
-                ItemStack remainder = toInsert.getItem().getCraftingRemainder().create();
+                ItemStack remainder = getCraftingRemainder(toInsert);
                 press.setItem(CheesePressBlockEntity.SLOT_INPUT, toInsert);
                 heldStack.shrink(1);
                 giveOrDrop(player, remainder, pos);
@@ -188,7 +188,7 @@ public class CheesePressBlock extends Block implements EntityBlock {
             return;
         }
 
-        ItemStack requiredContainer = stack.getItem().getCraftingRemainder().create();
+        ItemStack requiredContainer = getCraftingRemainder(stack);
         if (!requiredContainer.isEmpty() && !ItemStack.isSameItem(heldStack, requiredContainer)) {
             Component containerText = requiredContainer.getHoverName().copy().withStyle(Style.EMPTY.withColor(0xffffff88));
             Component message = Component.translatable("message.growthcraft_milk.get_using_item", containerText).withStyle(Style.EMPTY.withColor(0xffbb9944));
@@ -220,6 +220,11 @@ public class CheesePressBlock extends Block implements EntityBlock {
             ItemEntity itemEntity = new ItemEntity(player.level(), pos.getX() + 0.5D, pos.getY() + 1.5D, pos.getZ() + 0.5D, stack);
             player.level().addFreshEntity(itemEntity);
         }
+    }
+
+    private static ItemStack getCraftingRemainder(ItemStack stack) {
+        var remainder = stack.getItem().getCraftingRemainder();
+        return remainder == null ? ItemStack.EMPTY : remainder.create();
     }
 
     @Nullable

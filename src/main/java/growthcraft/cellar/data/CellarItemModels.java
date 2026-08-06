@@ -36,8 +36,6 @@ public class CellarItemModels implements DataProvider {
         generatedWithTexture(futures, output, Reference.UnlocalizedName.Item.GRAIN_GOLDEN, rlTex("item/grain_base"));
         generatedWithTexture(futures, output, Reference.UnlocalizedName.Item.GRAIN_PALE_GOLDEN, rlTex("item/grain_base"));
 
-        generatedWithTexture(futures, output, "starter_culture", Identifier.fromNamespaceAndPath("growthcraft_milk", "item/starter_culture"));
-
         bucket(futures, output, Reference.UnlocalizedName.Item.AMBER_ALE_FLUID_BUCKET);
         bucket(futures, output, Reference.UnlocalizedName.Item.AMBER_LAGER_FLUID_BUCKET);
         bucket(futures, output, Reference.UnlocalizedName.Item.AMBER_WORT_FLUID_BUCKET);

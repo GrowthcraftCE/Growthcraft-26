@@ -72,9 +72,6 @@ public class GrowthcraftCellarItems {
     public static final DeferredItem<Item> YEAST_LAGER = ITEMS.registerSimpleItem(Reference.UnlocalizedName.Item.YEAST_LAGER);
     public static final DeferredItem<Item> YEAST_LAGER_ETHEREAL = ITEMS.registerItem(Reference.UnlocalizedName.Item.YEAST_LAGER_ETHEREAL, EtherealYeastItem::new);
 
-    // Cultures
-    public static final DeferredItem<Item> STARTER_CULTURE = ITEMS.registerSimpleItem(Reference.UnlocalizedName.Item.STARTER_CULTURE);
-
     // Serving containers used by Fermentation Barrel recipes.
     public static final DeferredItem<Item> POTION_ALE = ITEMS.registerItem(Reference.UnlocalizedName.Item.POTION_ALE, CellarPotionItem::new);
     public static final DeferredItem<Item> POTION_LAGER = ITEMS.registerItem(Reference.UnlocalizedName.Item.POTION_LAGER, CellarPotionItem::new);
