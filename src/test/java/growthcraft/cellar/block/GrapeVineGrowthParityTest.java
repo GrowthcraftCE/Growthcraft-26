@@ -16,6 +16,7 @@ class GrapeVineGrowthParityTest {
 
         assertTrue(stem.contains("if (age == MAX_AGE) tryGrow(level, pos)"));
         assertTrue(leaves.contains("if (age == MAX_AGE) growFruitAndExpand(level, pos)"));
+        assertTrue(leaves.contains("VineGrowthHelper.canGrapeLeavesExpand(level, pos)"));
     }
 
     private static String source(String name) throws IOException {

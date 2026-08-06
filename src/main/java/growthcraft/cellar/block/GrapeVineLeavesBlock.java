@@ -69,7 +69,11 @@ public class GrapeVineLeavesBlock extends RopeBlock2Base implements Bonemealable
         if (!canSurvive(state, level, pos)) level.destroyBlock(pos, true);
         else super.neighborChanged(state, level, pos, block, orientation, piston);
     }
-    @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) { return state.getValue(AGE) < MAX_AGE; }
+    @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+        return state.getValue(AGE) < MAX_AGE
+                || level.getBlockState(pos.below()).isAir()
+                || VineGrowthHelper.canGrapeLeavesExpand(level, pos);
+    }
     @Override public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         return new ItemStack(seeds.get());
     }

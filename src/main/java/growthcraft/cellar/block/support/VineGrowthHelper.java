@@ -35,6 +35,14 @@ public final class VineGrowthHelper {
         return isConnectedToGrapeStem(level, pos, GRAPE_SURVIVAL_DISTANCE, null);
     }
 
+    public static boolean canGrapeLeavesExpand(LevelReader level, BlockPos pos) {
+        if (!isConnectedToGrapeStem(level, pos, GRAPE_EXPANSION_DISTANCE, null)) return false;
+        for (Direction direction : Direction.values()) {
+            if (level.getBlockState(pos.relative(direction)).is(GrowthcraftBlocks.ROPE_LINEN.get())) return true;
+        }
+        return false;
+    }
+
     @Nullable
     public static Direction tryHopsExpand(Level level, BlockPos pos) {
         if (isConnectedToGround(level, pos, HOPS_MAX_DISTANCE_FROM_GROUND - 1, null)
