@@ -86,6 +86,12 @@ public class GrowthcraftBlockTags extends BlockTagsProvider {
         this.tag(BlockTags.LEAVES)
                 .add(GrowthcraftApplesBlocks.APPLE_TREE_LEAVES.get());
 
+        this.tag(BlockTags.WOODEN_FENCES)
+                .add(GrowthcraftApplesBlocks.APPLE_PLANK_FENCE.get());
+
+        this.tag(BlockTags.FENCE_GATES)
+                .add(GrowthcraftApplesBlocks.APPLE_PLANK_FENCE_GATE.get());
+
         this.tag(BlockTags.LOGS)
                 .add(
                         GrowthcraftApplesBlocks.APPLE_WOOD.get(),

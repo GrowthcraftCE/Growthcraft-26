@@ -31,6 +31,17 @@ class ApplesGameplayParityTest {
         assertTrue(leaves.contains("MAX_APPLES_IN_AREA = 2"));
     }
 
+    @Test
+    void appleFenceAndGateRetainTheirVanillaConnectivityTags() throws IOException {
+        String tags = Files.readString(Path.of(
+                "src/main/java/growthcraft/core/data/tags/GrowthcraftBlockTags.java"));
+
+        assertTrue(tags.contains("this.tag(BlockTags.WOODEN_FENCES)"));
+        assertTrue(tags.contains("GrowthcraftApplesBlocks.APPLE_PLANK_FENCE.get()"));
+        assertTrue(tags.contains("this.tag(BlockTags.FENCE_GATES)"));
+        assertTrue(tags.contains("GrowthcraftApplesBlocks.APPLE_PLANK_FENCE_GATE.get()"));
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/apples", relativePath));
     }
