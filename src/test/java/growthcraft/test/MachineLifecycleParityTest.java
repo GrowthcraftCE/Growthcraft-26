@@ -65,6 +65,19 @@ class MachineLifecycleParityTest {
         assertTrue(pancheon.contains("getBlockEntity(pancheon.getBlockPos()) == pancheon"));
     }
 
+    @Test
+    void fruitPressPistonIsAxeMineableWithoutDuplicatingDrops() throws IOException {
+        String tags = Files.readString(Path.of(
+                "src/main/java/growthcraft/core/data/tags/GrowthcraftBlockTags.java"));
+        String piston = Files.readString(Path.of(
+                "src/main/java/growthcraft/cellar/block/FruitPressPistonBlock.java"));
+
+        assertTrue(tags.contains("GrowthcraftCellarBlocks.FRUIT_PRESS_PISTON.get()"));
+        assertTrue(piston.contains("level.destroyBlock(pos.below(), false)"));
+        assertTrue(piston.contains("popResource(level, pos, new ItemStack(GrowthcraftCellarBlocks.FRUIT_PRESS.get().asItem()))"));
+        assertTrue(piston.contains("return Collections.emptyList()"));
+    }
+
     private static void assertPersistence(
             String module,
             String className,
