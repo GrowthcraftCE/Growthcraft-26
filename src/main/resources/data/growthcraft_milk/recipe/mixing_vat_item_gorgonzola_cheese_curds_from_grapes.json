@@ -9,15 +9,11 @@
                     },
     "ingredients":  [
                         {
-                            "ingredient":  {
-                                               "tag":  "c:dusts/salt"
-                                           },
+                            "ingredient":  "#c:dusts/salt",
                             "count":  1
                         },
                         {
-                            "ingredient":  {
-                                               "tag":  "c:fruits/grapes"
-                                           },
+                            "ingredient":  "#c:fruits/grapes",
                             "count":  1
                         }
                     ],

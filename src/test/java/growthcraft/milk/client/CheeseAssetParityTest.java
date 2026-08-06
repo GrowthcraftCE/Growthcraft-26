@@ -55,4 +55,20 @@ class CheeseAssetParityTest {
                     () -> "Missing fresh curd item translation for " + cheese);
         }
     }
+
+    @Test
+    void everyCheeseWheelBlockItemHasAnItemTranslation() throws IOException {
+        String language = Files.readString(ASSETS.resolve("lang/en_us.json"));
+        for (String cheese : new String[]{"appenzeller", "asiago", "casu_marzu", "cheddar", "emmentaler",
+                "gorgonzola", "gouda", "monterey", "parmesan", "provolone"}) {
+            assertTrue(language.contains("\"item.growthcraft_milk." + cheese + "_cheese\""),
+                    () -> "Missing fresh cheese item translation for " + cheese);
+            assertTrue(language.contains("\"item.growthcraft_milk." + cheese + "_cheese_aged\""),
+                    () -> "Missing aged cheese item translation for " + cheese);
+        }
+        for (String cheese : new String[]{"cheddar", "gouda", "monterey", "provolone"}) {
+            assertTrue(language.contains("\"item.growthcraft_milk." + cheese + "_cheese_waxed\""),
+                    () -> "Missing waxed cheese item translation for " + cheese);
+        }
+    }
 }
