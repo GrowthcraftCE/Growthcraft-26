@@ -34,9 +34,10 @@ public class GrowthcraftItemTags extends IntrinsicHolderTagsProvider<Item> {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        // Add all crowbar variants to the common wrench tag so other mods recognize them
+        // Add the wrench and all crowbar variants to the common wrench tag so other mods recognize them
         this.tag(C_WRENCHES)
                 .add(
+                        GrowthcraftItems.WRENCH.get(),
                         GrowthcraftItems.CROWBAR_WHITE.get(),
                         GrowthcraftItems.CROWBAR_LIGHT_GRAY.get(),
                         GrowthcraftItems.CROWBAR_GRAY.get(),

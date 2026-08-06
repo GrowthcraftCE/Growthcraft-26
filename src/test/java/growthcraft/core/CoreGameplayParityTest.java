@@ -19,6 +19,17 @@ class CoreGameplayParityTest {
     }
 
     @Test
+    void growthcraftToolsRemainInTheCommonWrenchTag() throws IOException {
+        String itemTags = source("data/tags/GrowthcraftItemTags.java");
+        String generatedTag = generatedResource("data/c/tags/item/tools/wrench.json");
+
+        assertTrue(itemTags.contains("GrowthcraftItems.WRENCH.get()"));
+        assertTrue(generatedTag.contains("growthcraft:wrench"));
+        assertTrue(generatedTag.contains("growthcraft:crowbar_white"));
+        assertTrue(generatedTag.contains("growthcraft:crowbar_pink"));
+    }
+
+    @Test
     void stableLootModifiersUseTheAutomaticallyLoaded26xLayout() {
         for (String modifier : new String[]{
                 "seeds_from_short_grass",
@@ -69,5 +80,9 @@ class CoreGameplayParityTest {
 
     private static String resource(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/resources", relativePath));
+    }
+
+    private static String generatedResource(String relativePath) throws IOException {
+        return Files.readString(Path.of("src/generated/resources", relativePath));
     }
 }
