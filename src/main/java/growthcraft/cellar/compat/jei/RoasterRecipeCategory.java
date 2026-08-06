@@ -22,11 +22,15 @@ public class RoasterRecipeCategory implements IRecipeCategory<RecipeHolder<Roast
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Reference.MODID, "textures/gui/roaster_screen.png");
     private static final int WIDTH = 116;
     private static final int HEIGHT = 60;
+    private final IDrawableStatic background;
     private final IDrawable icon;
     private final IDrawableAnimated progress;
     private final IDrawableStatic heat;
 
     public RoasterRecipeCategory(IGuiHelper guiHelper) {
+        this.background = guiHelper.drawableBuilder(TEXTURE, 30, 20, WIDTH, HEIGHT)
+                .setTextureSize(256, 256)
+                .build();
         this.icon = guiHelper.createDrawableItemStack(new ItemStack(GrowthcraftCellarItems.ROASTER.get()));
         this.progress = guiHelper.drawableBuilder(TEXTURE, 176, 0, 28, 9)
                 .setTextureSize(256, 256)
@@ -70,10 +74,12 @@ public class RoasterRecipeCategory implements IRecipeCategory<RecipeHolder<Roast
 
     @Override
     public void draw(RecipeHolder<RoasterRecipe> holder, mezz.jei.api.gui.ingredient.IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+        background.draw(graphics, 0, 0);
         progress.draw(graphics, 46, 24);
         heat.draw(graphics, 50, 36);
 
         Component level = Component.translatable("label.growthcraft_cellar.roaster_level", holder.value().getRoastingLevel());
         var font = net.minecraft.client.Minecraft.getInstance().font;
+        graphics.text(font, level, (WIDTH - font.width(level)) / 2, 0, 0xFF404040, false);
     }
 }

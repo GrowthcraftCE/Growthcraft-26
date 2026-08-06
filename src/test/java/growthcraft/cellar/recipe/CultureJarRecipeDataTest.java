@@ -29,7 +29,7 @@ class CultureJarRecipeDataTest {
                     .toList();
         }
 
-        assertEquals(11, recipes.size());
+        assertEquals(10, recipes.size());
         for (Path recipe : recipes) {
             String json = Files.readString(recipe);
             assertTrue(json.contains("\"id\""), () -> recipe + " must use ItemStackTemplate's id field");

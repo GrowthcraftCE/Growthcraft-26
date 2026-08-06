@@ -33,11 +33,15 @@ public class CultureJarRecipeCategory implements IRecipeCategory<RecipeHolder<Cu
     private static final int INPUT_Y = 25;
     private static final int OUTPUT_X = 73;
     private static final int OUTPUT_Y = 10;
+    private final IDrawableStatic background;
     private final IDrawable icon;
     private final IDrawableStatic heat;
     private final IDrawableStatic timeIcon;
 
     public CultureJarRecipeCategory(IGuiHelper guiHelper) {
+        this.background = guiHelper.drawableBuilder(TEXTURE, 30, 10, WIDTH, HEIGHT)
+                .setTextureSize(256, 256)
+                .build();
         this.icon = guiHelper.createDrawableItemStack(new ItemStack(GrowthcraftCellarItems.CULTURE_JAR.get()));
         this.heat = guiHelper.drawableBuilder(TEXTURE, 176, 28, 13, 13)
                 .setTextureSize(256, 256)
@@ -92,12 +96,14 @@ public class CultureJarRecipeCategory implements IRecipeCategory<RecipeHolder<Cu
 
     @Override
     public void draw(RecipeHolder<CultureJarRecipe> holder, mezz.jei.api.gui.ingredient.IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+        background.draw(graphics, 0, 0);
         if (holder.value().requiresHeatSource()) {
             heat.draw(graphics, 29, 47);
         }
 
         Font font = Minecraft.getInstance().font;
         timeIcon.draw(graphics, 2, 57);
+        graphics.text(font, formatTicks(holder.value().getTime()), 15, 62, 0xFF404040, false);
     }
 private static String formatTicks(int ticks) {
         int seconds = Math.max(1, ticks / 20);

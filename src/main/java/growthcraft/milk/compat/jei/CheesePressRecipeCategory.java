@@ -5,6 +5,7 @@ import growthcraft.milk.init.GrowthcraftMilkItems;
 import growthcraft.milk.recipe.CheesePressRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
@@ -30,9 +31,13 @@ public class CheesePressRecipeCategory implements IRecipeCategory<RecipeHolder<C
     private static final int PROGRESS_Y = 31;
     private static final int PROGRESS_WIDTH = 22;
     private static final int PROGRESS_HEIGHT = 6;
+    private final IDrawableStatic background;
     private final IDrawable icon;
 
     public CheesePressRecipeCategory(IGuiHelper guiHelper) {
+        this.background = guiHelper.drawableBuilder(TEXTURE, 10, 10, WIDTH, HEIGHT)
+                .setTextureSize(256, 256)
+                .build();
         this.icon = guiHelper.createDrawableItemStack(new ItemStack(GrowthcraftMilkItems.CHEESE_PRESS.get()));
     }
 
@@ -73,9 +78,10 @@ public class CheesePressRecipeCategory implements IRecipeCategory<RecipeHolder<C
 
     @Override
     public void draw(RecipeHolder<CheesePressRecipe> holder, mezz.jei.api.gui.ingredient.IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
-
+        background.draw(graphics, 0, 0);
         Font font = Minecraft.getInstance().font;
         Component time = Component.literal(formatTicks(holder.value().getProcessingTime()));
+        graphics.text(font, time, (WIDTH - font.width(time)) / 2, 58, 0xFF404040, false);
     }
 private static String formatTicks(int ticks) {
         int seconds = Math.max(1, ticks / 20);

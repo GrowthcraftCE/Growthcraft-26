@@ -99,18 +99,29 @@ public class PancheonRecipeCategory implements IRecipeCategory<RecipeHolder<Panc
 
         Font font = Minecraft.getInstance().font;
         Component time = Component.literal(formatTicks(holder.value().getProcessingTime()));
+        graphics.text(font, time, (WIDTH - font.width(time)) / 2, 58, 0xFF404040, false);
     }
-private static void drawTankFrame(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
+    private static void drawTankFrame(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
+        graphics.fill(x - 1, y - 1, x + width + 1, y + height + 1, 0xFF6B6B6B);
+        graphics.fill(x, y, x + width, y + height, 0xFFE5E0CF);
     }
 
     private static void drawSplitArrow(GuiGraphicsExtractor graphics) {
         int topCenterY = OUTPUT_TANK_0_Y + 10;
         int bottomCenterY = OUTPUT_TANK_1_Y + 10;
+        graphics.fill(INPUT_TANK_X + INPUT_TANK_WIDTH + 12, SPLIT_Y - 1, SPLIT_X, SPLIT_Y + 1, 0xFF6B6B6B);
+        graphics.fill(SPLIT_X, topCenterY, SPLIT_X + 2, bottomCenterY + 1, 0xFF6B6B6B);
+        graphics.fill(SPLIT_X, topCenterY - 1, OUTPUT_LINE_X - 6, topCenterY + 1, 0xFF6B6B6B);
+        graphics.fill(SPLIT_X, bottomCenterY - 1, OUTPUT_LINE_X - 6, bottomCenterY + 1, 0xFF6B6B6B);
         drawArrowHead(graphics, OUTPUT_LINE_X, topCenterY);
         drawArrowHead(graphics, OUTPUT_LINE_X, bottomCenterY);
     }
 
     private static void drawArrowHead(GuiGraphicsExtractor graphics, int x, int centerY) {
+        graphics.fill(x - 7, centerY - 4, x - 5, centerY + 4, 0xFF6B6B6B);
+        graphics.fill(x - 5, centerY - 3, x - 3, centerY + 3, 0xFF6B6B6B);
+        graphics.fill(x - 3, centerY - 2, x - 1, centerY + 2, 0xFF6B6B6B);
+        graphics.fill(x - 1, centerY - 1, x + 1, centerY + 1, 0xFF6B6B6B);
     }
 
     private static String formatTicks(int ticks) {

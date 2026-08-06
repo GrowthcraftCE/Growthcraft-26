@@ -6,9 +6,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RiceGameplayParityTest {
+    @Test
+    void seishuYeastUsesOnlyTheStableQuarterBucketCultureRecipe() throws IOException {
+        Path recipes = Path.of("src/main/resources/data/growthcraft_rice/recipe");
+        String recipe = Files.readString(recipes.resolve("culture_jar_yeast_seishu_from_rice_water.json"));
+
+        assertTrue(recipe.contains("\"amount\": 250"));
+        assertTrue(recipe.contains("\"time\": 1200"));
+        assertFalse(Files.exists(recipes.resolve("culture_jar_starter_yeast_seishu_from_rice_water.json")));
+    }
+
     @Test
     void cultivatedFarmlandIsMaintainedByTaggedCrops() throws IOException {
         String farmland = source("block/CultivatedFarmlandBlock.java");

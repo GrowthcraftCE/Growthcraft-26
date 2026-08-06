@@ -29,6 +29,7 @@ public class BrewKettleRecipeCategory implements IRecipeCategory<RecipeHolder<Br
 
     private static final Component INFO_NO_LID = Component.translatable("message.growthcraft_cellar.kettle.jei_info_no_lid");
     private static final Component INFO_NEED_LID = Component.translatable("message.growthcraft_cellar.kettle.jei_info_need_lid");
+    private final IDrawableStatic background;
     private final IDrawable icon;
     private final IDrawableAnimated progress;
     private final IDrawableStatic heat;
@@ -36,6 +37,9 @@ public class BrewKettleRecipeCategory implements IRecipeCategory<RecipeHolder<Br
     private final IDrawableStatic timeIcon;
 
     public BrewKettleRecipeCategory(IGuiHelper guiHelper) {
+        this.background = guiHelper.drawableBuilder(TEXTURE, 10, 10, WIDTH, HEIGHT)
+                .setTextureSize(256, 256)
+                .build();
         this.icon = guiHelper.createDrawableItemStack(new ItemStack(GrowthcraftCellarItems.BREW_KETTLE.get()));
         this.progress = guiHelper.drawableBuilder(TEXTURE, 176, 0, 9, 28)
                 .setTextureSize(256, 256)
@@ -107,6 +111,7 @@ public class BrewKettleRecipeCategory implements IRecipeCategory<RecipeHolder<Br
     @Override
     public void draw(RecipeHolder<BrewKettleRecipe> holder, mezz.jei.api.gui.ingredient.IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
         BrewKettleRecipe recipe = holder.value();
+        background.draw(graphics, 0, 0);
         progress.draw(graphics, 88, 20);
         if (recipe.requiresHeat()) {
             heat.draw(graphics, 58, 43);
@@ -114,12 +119,15 @@ public class BrewKettleRecipeCategory implements IRecipeCategory<RecipeHolder<Br
 
         Font font = Minecraft.getInstance().font;
         if (!recipe.getByProduct().isEmpty()) {
+            graphics.text(font, recipe.getByProductChance() + "%", 132, 27, 0xFF404040, false);
         }
 
         timeIcon.draw(graphics, 2, 27);
+        graphics.text(font, formatTicks(recipe.getProcessingTime()), 15, 29, 0xFF404040, false);
 
         infoIcon.draw(graphics, 2, 60);
         Component lidInfo = recipe.requiresLid() ? INFO_NEED_LID : INFO_NO_LID;
+        graphics.text(font, lidInfo, 15, 62, 0xFF404040, false);
     }
 private static String formatTicks(int ticks) {
         int seconds = Math.max(1, ticks / 20);

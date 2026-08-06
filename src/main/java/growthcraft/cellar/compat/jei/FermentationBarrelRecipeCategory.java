@@ -36,11 +36,15 @@ public class FermentationBarrelRecipeCategory implements IRecipeCategory<RecipeH
     private static final int INPUT_TANK_HEIGHT = 52;
     private static final int OUTPUT_X = 98;
     private static final int OUTPUT_Y = 43;
+    private final IDrawableStatic background;
     private final IDrawable icon;
     private final IDrawableAnimated progress;
     private final IDrawableStatic timeIcon;
 
     public FermentationBarrelRecipeCategory(IGuiHelper guiHelper) {
+        this.background = guiHelper.drawableBuilder(TEXTURE, BACKGROUND_U, BACKGROUND_V, WIDTH, HEIGHT)
+                .setTextureSize(256, 256)
+                .build();
         this.icon = guiHelper.createDrawableItemStack(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get()));
         this.progress = guiHelper.drawableBuilder(TEXTURE, 188, 0, 8, 28)
                 .setTextureSize(256, 256)
@@ -105,10 +109,12 @@ public class FermentationBarrelRecipeCategory implements IRecipeCategory<RecipeH
 
     @Override
     public void draw(RecipeHolder<FermentationBarrelRecipe> holder, mezz.jei.api.gui.ingredient.IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+        background.draw(graphics, 0, 0);
         progress.draw(graphics, PROGRESS_X, PROGRESS_Y);
 
         Font font = Minecraft.getInstance().font;
         timeIcon.draw(graphics, 2, 57);
+        graphics.text(font, formatTicks(holder.value().getProcessingTime()), 15, 62, 0xFF404040, false);
     }
 private static String formatTicks(int ticks) {
         int seconds = Math.max(1, ticks / 20);

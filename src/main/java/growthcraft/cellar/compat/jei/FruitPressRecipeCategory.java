@@ -38,12 +38,16 @@ public class FruitPressRecipeCategory implements IRecipeCategory<RecipeHolder<Fr
     private static final int INPUT_Y = 43;
     private static final int BYPRODUCT_X = 99;
     private static final int BYPRODUCT_Y = 43;
+    private final IDrawableStatic background;
     private final IDrawable icon;
     private final IDrawableAnimated progress;
     private final IDrawableStatic timeIcon;
     private final IDrawableStatic slotBackground;
 
     public FruitPressRecipeCategory(IGuiHelper guiHelper) {
+        this.background = guiHelper.drawableBuilder(TEXTURE, BACKGROUND_U, BACKGROUND_V, WIDTH, HEIGHT)
+                .setTextureSize(256, 256)
+                .build();
         this.icon = guiHelper.createDrawableItemStack(new ItemStack(GrowthcraftCellarItems.FRUIT_PRESS.get()));
         this.progress = guiHelper.drawableBuilder(TEXTURE, 188, 0, 8, 28)
                 .setTextureSize(256, 256)
@@ -104,13 +108,18 @@ public class FruitPressRecipeCategory implements IRecipeCategory<RecipeHolder<Fr
 
     @Override
     public void draw(RecipeHolder<FruitPressRecipe> holder, mezz.jei.api.gui.ingredient.IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+        background.draw(graphics, 0, 0);
         progress.draw(graphics, PROGRESS_X, PROGRESS_Y);
         if (!holder.value().getByProduct().isEmpty()) {
             slotBackground.draw(graphics, BYPRODUCT_X - 1, BYPRODUCT_Y - 1);
         }
 
         Font font = Minecraft.getInstance().font;
+        if (!holder.value().getByProduct().isEmpty() && holder.value().getByProductChance() < 100) {
+            graphics.text(font, holder.value().getByProductChance() + "%", BYPRODUCT_X, BYPRODUCT_Y - 10, 0xFF404040, false);
+        }
         timeIcon.draw(graphics, 2, 57);
+        graphics.text(font, formatTicks(holder.value().getProcessingTime()), 15, 62, 0xFF404040, false);
     }
 private static String formatTicks(int ticks) {
         int seconds = Math.max(1, ticks / 20);

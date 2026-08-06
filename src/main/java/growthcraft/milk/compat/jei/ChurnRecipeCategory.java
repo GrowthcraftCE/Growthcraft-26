@@ -99,14 +99,26 @@ public class ChurnRecipeCategory implements IRecipeCategory<RecipeHolder<ChurnRe
 
         Font font = Minecraft.getInstance().font;
         Component plunges = Component.translatable("message.growthcraft_milk.churn.jei_plunges", holder.value().getPlungesNeeded());
+        graphics.text(font, plunges, ARROW_X + (ARROW_WIDTH - font.width(plunges)) / 2, 40, 0xFF404040, false);
     }
-private static void drawTankFrame(GuiGraphicsExtractor graphics, int x, int y) {
+    private static void drawTankFrame(GuiGraphicsExtractor graphics, int x, int y) {
+        graphics.fill(x - 1, y - 1, x + TANK_WIDTH + 1, y + TANK_HEIGHT + 1, 0xFF6B6B6B);
+        graphics.fill(x, y, x + TANK_WIDTH, y + TANK_HEIGHT, 0xFFE5E0CF);
     }
 
     private static void drawArrow(GuiGraphicsExtractor graphics) {
         int centerY = ARROW_Y + 4;
+        graphics.fill(ARROW_X, centerY - 1, ARROW_X + ARROW_WIDTH - 7, centerY + 1, 0xFF6B6B6B);
+        graphics.fill(ARROW_X + ARROW_WIDTH - 7, centerY - 4, ARROW_X + ARROW_WIDTH - 5, centerY + 4, 0xFF6B6B6B);
+        graphics.fill(ARROW_X + ARROW_WIDTH - 5, centerY - 3, ARROW_X + ARROW_WIDTH - 3, centerY + 3, 0xFF6B6B6B);
+        graphics.fill(ARROW_X + ARROW_WIDTH - 3, centerY - 2, ARROW_X + ARROW_WIDTH - 1, centerY + 2, 0xFF6B6B6B);
+        graphics.fill(ARROW_X + ARROW_WIDTH - 1, centerY - 1, ARROW_X + ARROW_WIDTH + 1, centerY + 1, 0xFF6B6B6B);
     }
 
     private static void drawSlotFrame(GuiGraphicsExtractor graphics, int x, int y) {
+        graphics.fill(x - 1, y - 1, x + 17, y + 17, 0xFF6B6B6B);
+        graphics.fill(x, y, x + 16, y + 16, 0xFFE5E0CF);
+        graphics.fill(x + 1, y + 1, x + 15, y + 15, 0xFFB8B8B8);
+        graphics.fill(x + 2, y + 2, x + 14, y + 14, 0xFFEDEDED);
     }
 }
