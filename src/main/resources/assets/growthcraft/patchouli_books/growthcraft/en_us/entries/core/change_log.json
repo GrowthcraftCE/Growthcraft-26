@@ -6,11 +6,11 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "26.1.2.0-s1$(br)Initial UAT candidate for the Growthcraft Minecraft 26.1.2 port."
+      "text": "26.1.2.0$(br)Initial UAT candidate for the Growthcraft Minecraft 26.1.2 port."
     },
     {
       "type": "patchouli:text",
-      "title": "26.1.2.0-s1",
+      "title": "26.1.2.0",
       "text": "$(li)Ported stable 1.21.1.7 gameplay to Minecraft 26.1.2 and NeoForge.$(li)Restored machines, crops, cheese, screens, JEI, Patchouli, and supported compatibility.$(li)Added clean client/server regression coverage."
     },
     {
