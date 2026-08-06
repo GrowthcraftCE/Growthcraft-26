@@ -26,6 +26,19 @@ class MilkRecipeDataParityTest {
     }
 
     @Test
+    void stomachHasOneCanonicalRennetRecipe() throws IOException {
+        List<Path> recipes;
+        try (var paths = Files.list(RECIPE_ROOT)) {
+            recipes = paths
+                    .filter(path -> path.getFileName().toString().startsWith("brew_kettle_rennet_from_"))
+                    .filter(path -> path.getFileName().toString().contains("stomach"))
+                    .toList();
+        }
+
+        assertEquals(List.of(RECIPE_ROOT.resolve("brew_kettle_rennet_from_stomach.json")), recipes);
+    }
+
+    @Test
     void cheesePressStacksUseDelayedItemStackTemplateFields() throws IOException {
         List<Path> recipes;
         try (var paths = Files.list(RECIPE_ROOT)) {
