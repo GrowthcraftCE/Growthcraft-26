@@ -42,6 +42,27 @@ class ApplesGameplayParityTest {
         assertTrue(tags.contains("GrowthcraftApplesBlocks.APPLE_PLANK_FENCE_GATE.get()"));
     }
 
+    @Test
+    void appleWoodRetainsStableBlockAndItemTagFamilies() throws IOException {
+        String blockTags = Files.readString(Path.of(
+                "src/main/java/growthcraft/core/data/tags/GrowthcraftBlockTags.java"));
+        String itemTags = Files.readString(Path.of(
+                "src/main/java/growthcraft/core/data/tags/GrowthcraftItemTags.java"));
+
+        for (String family : new String[]{
+                "PLANKS", "WOODEN_BUTTONS", "WOODEN_DOORS", "WOODEN_FENCES", "FENCE_GATES",
+                "WOODEN_PRESSURE_PLATES", "WOODEN_SLABS", "WOODEN_STAIRS", "WOODEN_TRAPDOORS",
+                "LOGS_THAT_BURN"
+        }) {
+            assertTrue(blockTags.contains("BlockTags." + family), () -> "Missing apple block tag family " + family);
+            assertTrue(itemTags.contains("ItemTags." + family), () -> "Missing apple item tag family " + family);
+        }
+        assertTrue(blockTags.contains("Tags.Blocks.FENCES_WOODEN"));
+        assertTrue(blockTags.contains("Tags.Blocks.FENCE_GATES_WOODEN"));
+        assertTrue(itemTags.contains("Tags.Items.FENCES_WOODEN"));
+        assertTrue(itemTags.contains("Tags.Items.FENCE_GATES_WOODEN"));
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/apples", relativePath));
     }
