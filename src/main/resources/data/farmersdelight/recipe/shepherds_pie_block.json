@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:baked_potato",
+    "#growthcraft_milk:cheese_slices",
+    "minecraft:baked_potato",
+    "minecraft:cooked_mutton",
+    "minecraft:cooked_mutton",
+    "minecraft:cooked_mutton",
+    "farmersdelight:onion",
+    "minecraft:bowl",
+    "farmersdelight:onion"
+  ],
+  "result": {
+    "id": "farmersdelight:shepherds_pie_block"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "farmersdelight"
+    },
+    {
+      "type": "growthcraft:config_value",
+      "feature": "milk"
+    }
+  ]
+}

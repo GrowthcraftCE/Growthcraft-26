@@ -4,6 +4,12 @@
 # Note that there are a couple of TOML lists in this file.
 # Find more information on toml format here:  https://github.com/toml-lang/toml
 
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+modLoader="javafml" #mandatory
+
+# A version range to match for said mod loader - for regular FML @Mod it will be the FML version. This is currently 2.
+loaderVersion="${loader_version_range}" #mandatory
+
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
 license="${mod_license}"
@@ -30,22 +36,20 @@ displayName="${mod_name}" #mandatory
 displayURL="https://github.com/GrowthcraftCE/Growthcraft-26"
 
 # A file name (in the root of the mod JAR) containing a logo for display
-#logoFile="growthcraft.png" #optional
+#logoFile="examplemod.png" #optional
 
 # A text field displayed in the mod UI
 #credits="" #optional
 
-# The authors of the mod, displayed in the mod UI (optional)
-authors="Growthcraft Community Edition Team"
+# A text field displayed in the mod UI
+authors="${mod_authors}" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
-description='''
-Growthcraft adds farming, brewing, dairy, rice, apiary, and cellar gameplay to Minecraft.
-'''
+description='''${mod_description}'''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
-#[[mixins]]
-#config="${mod_id}.mixins.json"
+[[mixins]]
+config="${mod_id}.mixins.json"
 
 # The [[accessTransformers]] block allows you to declare where your AT file is.
 # If this block is omitted, a fallback attempt will be made to load an AT from META-INF/accesstransformer.cfg
@@ -82,8 +86,177 @@ Growthcraft adds farming, brewing, dairy, rice, apiary, and cellar gameplay to M
     ordering="NONE"
     side="BOTH"
 
-# Features are specific properties of the game environment, that you may want to declare you require. This example declares
-# that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
-# stop your mod loading on the server for example.
-#[features.${mod_id}]
-#openGLVersion="[3.2,)"
+
+
+[[mods]]
+modId="growthcraft_cellar"
+version="${mod_version}"
+displayName="Growthcraft Cellar"
+authors="${mod_authors}"
+description='''Growthcraft Cellar adds processing and fermentation for various items and drinks.'''
+
+[[dependencies.growthcraft_cellar]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_cellar]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_cellar]]
+    modId="growthcraft"
+    type="required"
+    versionRange="[${mod_version},)"
+    ordering="AFTER"
+    side="BOTH"
+
+
+[[mods]]
+modId="growthcraft_milk"
+version="${mod_version}"
+displayName="Growthcraft Milk"
+authors="${mod_authors}"
+description='''Growthcraft Milk centralizes dairy-related machines and processing as part of Cellar integration roadmap.'''
+
+[[dependencies.growthcraft_milk]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_milk]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_milk]]
+    modId="growthcraft"
+    type="required"
+    versionRange="[${mod_version},)"
+    ordering="AFTER"
+    side="BOTH"
+
+
+[[mods]]
+modId="growthcraft_rice"
+version="${mod_version}"
+displayName="Growthcraft Rice"
+authors="${mod_authors}"
+description='''Growthcraft Rice adds rice ingredients, drinks, and Seishu yeast for sake production.'''
+
+[[dependencies.growthcraft_rice]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_rice]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_rice]]
+    modId="growthcraft"
+    type="required"
+    versionRange="[${mod_version},)"
+    ordering="AFTER"
+    side="BOTH"
+
+
+[[mods]]
+modId="growthcraft_bamboo"
+version="${mod_version}"
+displayName="Growthcraft Bamboo"
+authors="${mod_authors}"
+description='''Growthcraft Bamboo adds bamboo building components and related processing.'''
+
+[[dependencies.growthcraft_bamboo]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_bamboo]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_bamboo]]
+    modId="growthcraft"
+    type="required"
+    versionRange="[${mod_version},)"
+    ordering="AFTER"
+    side="BOTH"
+
+
+[[mods]]
+modId="growthcraft_apples"
+version="${mod_version}"
+displayName="Growthcraft Apples"
+authors="${mod_authors}"
+description='''Growthcraft Apples adds apple wood building blocks and apple processing.'''
+
+[[dependencies.growthcraft_apples]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_apples]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_apples]]
+    modId="growthcraft"
+    type="required"
+    versionRange="[${mod_version},)"
+    ordering="AFTER"
+    side="BOTH"
+
+
+[[mods]]
+modId="growthcraft_apiary"
+version="${mod_version}"
+displayName="Growthcraft Apiary"
+authors="${mod_authors}"
+description='''Growthcraft Apiary adds bees, wax, honey, and beekeeping progression.'''
+
+[[dependencies.growthcraft_apiary]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_apiary]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.growthcraft_apiary]]
+    modId="growthcraft"
+    type="required"
+    versionRange="[${mod_version},)"
+    ordering="AFTER"
+    side="BOTH"

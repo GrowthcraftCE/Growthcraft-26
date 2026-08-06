@@ -1,0 +1,26 @@
+{
+  "name": "Guide to Mead",
+  "icon": "growthcraft_cellar:fermentation_barrel_oak",
+  "category": "growthcraft:apiary",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Honey can be fermented into mead, a sweet drink with a useful health boost.$(br2)Start by making Mead Must in the Brew Kettle."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Add water and honeycomb to a heated Brew Kettle. Growthcraft honey comb creates a small batch of Mead Must. Vanilla honeycomb creates a larger batch."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Move Mead Must into a Fermentation Barrel and add Bayanus Yeast.$(br2)Each bucket of Mead Must needs one yeast. After fermentation, bottle the mead with a glass bottle or wine bottle."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "growthcraft_cellar:potion_wine",
+      "title": "Mead",
+      "text": "$(bold)Honey Mead$()$(li)Bayanus Yeast$(li)Health Boost II (3:00)"
+    }
+  ]
+}

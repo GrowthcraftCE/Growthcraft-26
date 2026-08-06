@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_milk",
+  "key": {
+    "B": "#c:butter",
+    "C": "growthcraft_milk:condensed_milk_fluid_bucket",
+    "E": "minecraft:egg",
+    "W": "minecraft:wheat"
+  },
+  "pattern": [
+    "CBC",
+    " E ",
+    "WWW"
+  ],
+  "result": {
+    "id": "minecraft:cake"
+  }
+}

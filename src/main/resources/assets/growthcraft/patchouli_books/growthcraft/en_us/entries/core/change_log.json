@@ -1,0 +1,26 @@
+{
+  "name": "Change Log",
+  "icon": "growthcraft:textures/patchouli/logos/github.png",
+  "category": "growthcraft:developer",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "26.1.2.0$(br)Initial UAT candidate for the Growthcraft Minecraft 26.1.2 port."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "26.1.2.0",
+      "text": "$(li)Ported stable 1.21.1.7 gameplay to Minecraft 26.1.2 and NeoForge.$(li)Restored machines, crops, cheese, screens, JEI, Patchouli, and supported compatibility.$(li)Added clean client/server regression coverage."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "1.21.1.7$(br)Current stable release for the Growthcraft 1.21.1 line."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "1.21.1.7",
+      "text": "$(li)Completed the stable 1.21.1 gameplay and compatibility fixes used as the 26.1 port baseline.$(li)Retained the in-game manual as the primary gameplay reference."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "growthcraft_milk",
+  "ingredients": [
+    "#growthcraft_milk:milk_buckets",
+    "minecraft:honeycomb",
+    "minecraft:sugar",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "id": "growthcraft_milk:ice_cream_honey"
+  }
+}

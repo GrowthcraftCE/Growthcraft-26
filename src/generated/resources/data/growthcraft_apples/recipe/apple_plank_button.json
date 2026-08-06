@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "wooden_button",
+  "ingredients": [
+    "growthcraft_apples:apple_plank"
+  ],
+  "result": {
+    "id": "growthcraft_apples:apple_plank_button"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Pancheon",
+  "icon": "growthcraft_milk:pancheon",
+  "category": "growthcraft:milk",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The Pancheon separates milk into skim milk and cream. Add milk with a bucket or iron milking bucket, then let the pancheon settle while it processes."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "growthcraft_milk:pancheon",
+      "title": "     ",
+      "text": "The pancheon has one input tank and two output tanks. Use the GUI to watch the input, skim milk, cream, and bubbly progress."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Output buckets drain from the finished tanks first. If the pancheon is not processing, an empty bucket can also remove milk from the input tank."
+    }
+  ]
+}

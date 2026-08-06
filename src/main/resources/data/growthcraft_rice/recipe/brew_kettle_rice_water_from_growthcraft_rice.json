@@ -1,0 +1,36 @@
+﻿{
+    "type":  "growthcraft_cellar:brew_kettle_recipe",
+    "requires_heat":  true,
+    "requires_lid":  "true",
+    "processing_time":  300,
+    "by_product_chance":  100,
+    "input_fluid":  {
+                        "fluid":  "minecraft:water",
+                        "amount":  125
+                    },
+    "input_item":  {
+                       "item":  "growthcraft_rice:rice",
+                       "count":  1
+                   },
+    "output_fluid":  {
+                         "fluid":  "growthcraft_rice:rice_water_fluid_source",
+                         "amount":  125
+                     },
+    "by_product":  {
+                       "count":  1,
+                       "id":  "growthcraft_rice:rice_cooked"
+                   },
+    "neoforge:conditions":  [
+                                {
+                                    "type":  "neoforge:not",
+                                    "value":  {
+                                                  "type":  "neoforge:tag_empty",
+                                                  "tag":  "c:crops/rice"
+                                              }
+                                },
+                                {
+                                    "type":  "growthcraft:config_value",
+                                    "feature":  "rice/beverages"
+                                }
+                            ]
+}

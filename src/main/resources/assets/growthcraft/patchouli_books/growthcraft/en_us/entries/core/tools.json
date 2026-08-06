@@ -1,0 +1,17 @@
+{
+  "name": "Tools",
+  "icon": "growthcraft:crowbar_white",
+  "category": "growthcraft:core",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "growthcraft:crowbar_green",
+      "text": "The crowbar can be crafted into 16 different colors. It used to be used to break blocks and retain their contents. Currently it is only cosmetic."
+    },
+    {
+      "type": "crafting",
+      "recipe": "growthcraft:crowbar_white"
+    }
+  ]
+}

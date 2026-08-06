@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_cellar",
+  "key": {
+    "A": "#c:fences",
+    "B": "minecraft:piston",
+    "C": "#c:ingots/iron",
+    "D": "#minecraft:planks"
+  },
+  "pattern": [
+    "ABA",
+    "CCC",
+    "DDD"
+  ],
+  "result": {
+    "id": "growthcraft_cellar:fruit_press"
+  }
+}

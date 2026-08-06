@@ -1,0 +1,12 @@
+{
+    "model":  {
+                  "type":  "minecraft:model",
+                  "model":  "growthcraft_cellar:item/pale_ale_potion",
+                  "tints":  [
+                                {
+                                    "type":  "minecraft:constant",
+                                    "value":  -264107
+                                }
+                            ]
+              }
+}

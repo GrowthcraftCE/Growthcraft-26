@@ -31,3 +31,6 @@ repo
 
 # Local internal porting documentation.
 docs/
+
+# Local coding-agent instructions.
+AGENTS.md

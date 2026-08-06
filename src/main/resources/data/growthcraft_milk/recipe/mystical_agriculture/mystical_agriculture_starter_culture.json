@@ -1,0 +1,34 @@
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
+    "pattern":  [
+                    "   ",
+                    "ACA",
+                    "FAI"
+                ],
+    "key":  {
+                "A":  "mysticalagriculture:iron_essence",
+                "C":  "mysticalagriculture:cow_essence",
+                "F":  "mysticalagriculture:fire_essence",
+                "I":  "mysticalagriculture:ice_essence"
+            },
+    "result":  {
+                   "count":  8,
+                   "id":  "growthcraft_milk:starter_culture"
+               },
+    "neoforge:conditions":  [
+                                {
+                                    "type":  "neoforge:mod_loaded",
+                                    "modid":  "mysticalagriculture"
+                                },
+                                {
+                                    "type":  "growthcraft:config_value",
+                                    "feature":  "milk"
+                                },
+                                {
+                                    "type":  "growthcraft:third_party_condition",
+                                    "target_type":  "mysticalagriculture:crop_enabled",
+                                    "target_content":  "{ \"crop\": \"mysticalagriculture:nature\" }",
+                                    "value_if_not_present":  false
+                                }
+                            ]
+}

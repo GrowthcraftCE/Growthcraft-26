@@ -1,0 +1,29 @@
+﻿{
+    "type":  "growthcraft_cellar:brew_kettle_recipe",
+    "requires_heat":  true,
+    "requires_lid":  "false",
+    "processing_time":  600,
+    "by_product_chance":  100,
+    "input_fluid":  {
+                        "fluid":  "minecraft:water",
+                        "amount":  500
+                    },
+    "input_item":  {
+                       "item":  "minecraft:honeycomb",
+                       "count":  1
+                   },
+    "output_fluid":  {
+                         "fluid":  "growthcraft_apiary:honey_mead_must_fluid_source",
+                         "amount":  500
+                     },
+    "by_product":  {
+                       "count":  1,
+                       "id":  "growthcraft_apiary:honey_comb_empty"
+                   },
+    "neoforge:conditions":  [
+                                {
+                                    "type":  "growthcraft:config_value",
+                                    "feature":  "apiary/beverages"
+                                }
+                            ]
+}

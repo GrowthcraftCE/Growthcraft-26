@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_milk",
+  "key": {
+    "P": "#minecraft:planks",
+    "S": "#c:rods/wooden"
+  },
+  "pattern": [
+    " S ",
+    "P P",
+    "PPP"
+  ],
+  "result": {
+    "id": "growthcraft_milk:churn"
+  }
+}

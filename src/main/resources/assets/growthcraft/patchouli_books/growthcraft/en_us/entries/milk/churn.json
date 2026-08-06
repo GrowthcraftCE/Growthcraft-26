@@ -1,0 +1,18 @@
+{
+  "name": "Churn",
+  "icon": "growthcraft_milk:churn",
+  "category": "growthcraft:milk",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The churn is used to make butter and butter milk.$(br2)Butter can be salted or used in baking recipes for cake and cookies."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "growthcraft_milk:churn",
+      "title": "    ",
+      "text": "Add cream to the churn and activate the plunger by right-clicking on the churn. You will see the plunger go up and down. Once it is finished, you can get butter milk and butter from the block."
+    }
+  ]
+}

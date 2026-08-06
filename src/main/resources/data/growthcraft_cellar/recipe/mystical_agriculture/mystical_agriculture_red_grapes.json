@@ -1,0 +1,28 @@
+﻿{
+    "type":  "growthcraft:shaped_no_mirror",
+    "pattern":  [
+                    "B A",
+                    "BA ",
+                    " A "
+                ],
+    "key":  {
+                "A":  "mysticalagriculture:dye_essence",
+                "B":  "mysticalagriculture:nature_essence"
+            },
+    "result":  {
+                   "count":  4,
+                   "id":  "growthcraft_cellar:grape_red"
+               },
+    "neoforge:conditions":  [
+                                {
+                                    "type":  "neoforge:mod_loaded",
+                                    "modid":  "mysticalagriculture"
+                                },
+                                {
+                                    "type":  "growthcraft:third_party_condition",
+                                    "target_type":  "mysticalagriculture:crop_enabled",
+                                    "target_content":  "{ \"crop\": \"mysticalagriculture:dye\" }",
+                                    "value_if_not_present":  false
+                                }
+                            ]
+}

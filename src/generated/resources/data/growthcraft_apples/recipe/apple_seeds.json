@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "growthcraft_apples",
+  "ingredients": [
+    "minecraft:apple"
+  ],
+  "result": {
+    "id": "growthcraft_apples:apple_seeds"
+  }
+}
