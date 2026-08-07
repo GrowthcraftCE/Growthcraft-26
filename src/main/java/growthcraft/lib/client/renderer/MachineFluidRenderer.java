@@ -12,11 +12,16 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public final class MachineFluidRenderer {
     private static final float DEFAULT_ALPHA = 0.85F;
+    private static final Identifier WATER_STILL = Identifier.withDefaultNamespace("block/water_still");
+    private static final Identifier LAVA_STILL = Identifier.withDefaultNamespace("block/lava_still");
+    private static final int WATER_TINT = 0xFF3F76E4;
+    private static final int LAVA_TINT = 0xFFFFFFFF;
 
     private MachineFluidRenderer() {
     }
@@ -73,13 +78,22 @@ public final class MachineFluidRenderer {
 
     private static RenderContext context(FluidStack fluidStack) {
         IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(fluidStack.getFluid());
-        if (!(extensions instanceof ClientFluidTypeExtensions growthcraftExtensions)) {
+        Identifier texture;
+        int tint;
+        if (extensions instanceof ClientFluidTypeExtensions growthcraftExtensions) {
+            texture = growthcraftExtensions.getStillTexture();
+            if (texture == null) {
+                texture = growthcraftExtensions.getFlowingTexture();
+            }
+            tint = growthcraftExtensions.getTintColor();
+        } else if (fluidStack.getFluid().getFluidType() == Fluids.WATER.getFluidType()) {
+            texture = WATER_STILL;
+            tint = WATER_TINT;
+        } else if (fluidStack.getFluid().getFluidType() == Fluids.LAVA.getFluidType()) {
+            texture = LAVA_STILL;
+            tint = LAVA_TINT;
+        } else {
             return null;
-        }
-
-        Identifier texture = growthcraftExtensions.getStillTexture();
-        if (texture == null) {
-            texture = growthcraftExtensions.getFlowingTexture();
         }
         if (texture == null) return null;
 
@@ -87,7 +101,6 @@ public final class MachineFluidRenderer {
                 .getAtlasManager()
                 .getAtlasOrThrow(AtlasIds.BLOCKS)
                 .getSprite(texture);
-        int tint = growthcraftExtensions.getTintColor();
         float alpha = alpha(tint);
         float red = ((tint >> 16) & 0xFF) / 255.0F;
         float green = ((tint >> 8) & 0xFF) / 255.0F;

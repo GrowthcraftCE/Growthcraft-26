@@ -35,6 +35,19 @@ class CellarJeiParityTest {
         }
     }
 
+    @Test
+    void brewKettleTanksExposeClickableFluidIngredients() throws IOException {
+        String plugin = Files.readString(Path.of(
+                "src/main/java/growthcraft/cellar/compat/jei/GrowthcraftCellarJeiPlugin.java"));
+        String handler = Files.readString(Path.of(
+                "src/main/java/growthcraft/cellar/compat/jei/BrewKettleGuiHandler.java"));
+
+        assertTrue(plugin.contains("addGuiContainerHandler(BrewKettleScreen.class"));
+        assertTrue(handler.contains("getInputFluidStack()"));
+        assertTrue(handler.contains("getOutputFluidStack()"));
+        assertTrue(handler.contains("createBuilder(fluidIngredientType, fluid)"));
+    }
+
     private static void assertCategoryDrawsBackground(String fileName, String textureRegion) throws IOException {
         String source = categorySource(fileName);
 
