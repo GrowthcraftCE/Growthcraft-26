@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ApplesGameplayParityTest {
     @Test
@@ -28,6 +29,7 @@ class ApplesGameplayParityTest {
         assertTrue(fruit.contains("pos.above()).is(GrowthcraftApplesBlocks.APPLE_TREE_LEAVES"));
         assertTrue(fruit.contains("popResource(level, pos, new ItemStack(Items.APPLE))"));
         assertTrue(fruit.contains("this.getStateForAge(0)"));
+        assertTrue(fruit.contains("level.setBlock(pos, this.getStateForAge(0), 2)"));
         assertTrue(leaves.contains("MAX_APPLES_IN_AREA = 2"));
     }
 
@@ -61,6 +63,10 @@ class ApplesGameplayParityTest {
         assertTrue(blockTags.contains("Tags.Blocks.FENCE_GATES_WOODEN"));
         assertTrue(itemTags.contains("Tags.Items.FENCES_WOODEN"));
         assertTrue(itemTags.contains("Tags.Items.FENCE_GATES_WOODEN"));
+        assertTrue(blockTags.contains("GrowthcraftCellarBlocks.CORK_WOOD_LOG.get()"));
+        assertTrue(itemTags.contains("GrowthcraftCellarItems.CORK_WOOD_LOG.get()"));
+        assertFalse(Files.exists(Path.of("src/main/resources/data/minecraft/tags/block/logs_that_burn.json")));
+        assertFalse(Files.exists(Path.of("src/main/resources/data/minecraft/tags/item/logs_that_burn.json")));
     }
 
     private static String source(String relativePath) throws IOException {

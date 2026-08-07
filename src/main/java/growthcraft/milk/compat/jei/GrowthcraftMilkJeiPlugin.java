@@ -1,6 +1,10 @@
 package growthcraft.milk.compat.jei;
 
 import growthcraft.core.init.GrowthcraftTags;
+import growthcraft.lib.compat.jei.FluidIngredientGuiHandler;
+import growthcraft.milk.client.screen.ChurnScreen;
+import growthcraft.milk.client.screen.MixingVatScreen;
+import growthcraft.milk.client.screen.PancheonScreen;
 import growthcraft.milk.config.Reference;
 import growthcraft.milk.init.GrowthcraftMilkItems;
 import growthcraft.milk.init.GrowthcraftMilkRecipes;
@@ -15,6 +19,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -124,5 +129,13 @@ public class GrowthcraftMilkJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(GrowthcraftMilkItems.CHURN.get()), CHURN);
         registration.addRecipeCatalyst(new ItemStack(GrowthcraftMilkItems.MIXING_VAT.get()), MIXING_VAT);
         registration.addRecipeCatalyst(new ItemStack(GrowthcraftMilkItems.PANCHEON.get()), PANCHEON);
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        var fluidHelper = registration.getJeiHelpers().getPlatformFluidHelper();
+        registration.addGuiContainerHandler(ChurnScreen.class, new FluidIngredientGuiHandler<>(fluidHelper));
+        registration.addGuiContainerHandler(MixingVatScreen.class, new FluidIngredientGuiHandler<>(fluidHelper));
+        registration.addGuiContainerHandler(PancheonScreen.class, new FluidIngredientGuiHandler<>(fluidHelper));
     }
 }
