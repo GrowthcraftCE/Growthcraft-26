@@ -164,9 +164,10 @@ public class CheesePressBlock extends Block implements EntityBlock {
             return Component.translatable("message.growthcraft_milk.cheese_press.empty");
         }
         if (press.isProcessing()) {
-            int remainingTicks = Math.max(0, press.getProcessTimeTotal() - press.getProcessTime());
-            int remainingSeconds = Math.max(1, (remainingTicks + 19) / 20);
-            return Component.translatable("message.growthcraft_milk.cheese_press.processing", remainingSeconds);
+            int total = Math.max(1, press.getProcessTimeTotal());
+            int percent = Math.min(100, press.getProcessTime() * 100 / total);
+            String progress = percent < 40 ? "far" : percent < 80 ? "halfway" : "almost";
+            return Component.translatable("message.growthcraft_milk.cheese_press.processing." + progress);
         }
         if (press.canProcessInput(level)) {
             return Component.translatable("message.growthcraft_milk.cheese_press.starting");

@@ -37,6 +37,14 @@ class MilkMachineScreenParityTest {
     }
 
     @Test
+    void mixingVatExplainsItsResultActivationTool() throws IOException {
+        String screen = source("client/screen/MixingVatScreen.java");
+
+        assertTrue(screen.contains("getResultActivationTool()"));
+        assertTrue(screen.contains("gui.growthcraft_milk.mixing_vat.result_tool"));
+    }
+
+    @Test
     void crouchUseOpensMenusWithoutReplacingStableDirectControls() throws IOException {
         String press = source("block/CheesePressBlock.java");
         String churn = source("block/ChurnBlock.java");

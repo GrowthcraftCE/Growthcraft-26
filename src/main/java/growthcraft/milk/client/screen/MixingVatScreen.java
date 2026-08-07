@@ -24,6 +24,8 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> {
     private static final int PROGRESS_Y = 21;
     private static final int PROGRESS_W = 11;
     private static final int PROGRESS_H = 27;
+    private static final int RESULT_SLOT_X = 124;
+    private static final int RESULT_SLOT_Y = 18;
     private static final int HEAT_X = 99;
     private static final int HEAT_Y = 57;
     private static final int HEAT_U = 176;
@@ -78,6 +80,13 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> {
         if (isMouseAbove(mouseX, mouseY, this.leftPos + PROGRESS_X, this.topPos + PROGRESS_Y, PROGRESS_W, PROGRESS_H)) {
             graphics.setTooltipForNextFrame(this.font,
                     Component.literal(this.menu.getPercentProgress() + "%"), mouseX, mouseY);
+            return;
+        }
+        if (!this.menu.getResultActivationTool().isEmpty()
+                && isMouseAbove(mouseX, mouseY, this.leftPos + RESULT_SLOT_X, this.topPos + RESULT_SLOT_Y, 16, 16)) {
+            graphics.setTooltipForNextFrame(this.font,
+                    Component.translatable("gui.growthcraft_milk.mixing_vat.result_tool",
+                            this.menu.getResultActivationTool().getHoverName()), mouseX, mouseY);
             return;
         }
         super.extractTooltip(graphics, mouseX, mouseY);
