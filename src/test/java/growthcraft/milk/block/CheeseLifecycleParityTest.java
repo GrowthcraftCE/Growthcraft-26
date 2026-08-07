@@ -26,7 +26,9 @@ class CheeseLifecycleParityTest {
 
         assertTrue(wheel.contains("message.growthcraft_milk.cheese_wheel.blocked_open_sky"));
         assertTrue(wheel.contains("sendOverlayMessage"));
-        assertTrue(press.contains("message.growthcraft_milk.cheese_press.processing"));
+        assertTrue(press.contains("percent < 40"));
+        assertTrue(press.contains("percent < 80"));
+        assertTrue(press.contains("message.growthcraft_milk.cheese_press.processing."));
         assertTrue(press.contains("press.canProcessInput(level)"));
     }
 

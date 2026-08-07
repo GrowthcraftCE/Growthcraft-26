@@ -225,7 +225,8 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
     }
 
     public boolean insertIngredient(ItemStack heldStack) {
-        if (heldStack.isEmpty() || !getItem(SLOT_RESULT).isEmpty()) {
+        if (heldStack.isEmpty() || activated || isProcessing() || !getItem(SLOT_RESULT).isEmpty()
+                || !isMixingVatIngredient(heldStack)) {
             return false;
         }
         for (int slot = SLOT_INPUT_0; slot <= SLOT_INPUT_2; slot++) {
@@ -244,6 +245,15 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
             }
         }
         return false;
+    }
+
+    private boolean isMixingVatIngredient(ItemStack stack) {
+        if (level == null) {
+            return false;
+        }
+        return RecipeLookup.getAll(level, GrowthcraftMilkRecipes.MIXING_VAT_TYPE.get()).stream()
+                .flatMap(holder -> holder.value().getIngredientStacks().stream())
+                .anyMatch(ingredient -> ingredient.ingredient().test(stack));
     }
 
     private void resetProgress() {

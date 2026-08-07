@@ -2,15 +2,19 @@ package growthcraft.milk.client.screen;
 
 import growthcraft.milk.menu.MixingVatMenu;
 import growthcraft.lib.client.screen.TexturedMachineScreen;
+import growthcraft.lib.client.screen.FluidIngredientScreen;
 import growthcraft.lib.client.screen.renderer.FluidTankRenderer;
 import growthcraft.milk.config.Reference;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> {
+import java.util.List;
+
+public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> implements FluidIngredientScreen {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Reference.MODID, "textures/gui/mixing_vat_screen.png");
     private static final int MAIN_TANK_X = 49;
     private static final int MAIN_TANK_Y = 32;
@@ -24,6 +28,8 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> {
     private static final int PROGRESS_Y = 21;
     private static final int PROGRESS_W = 11;
     private static final int PROGRESS_H = 27;
+    private static final int RESULT_SLOT_X = 124;
+    private static final int RESULT_SLOT_Y = 18;
     private static final int HEAT_X = 99;
     private static final int HEAT_Y = 57;
     private static final int HEAT_U = 176;
@@ -53,6 +59,15 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> {
     }
 
     @Override
+    public List<FluidIngredientArea> getFluidIngredientAreas() {
+        return List.of(
+                new FluidIngredientArea(this.menu.getMainFluidStack(),
+                        new Rect2i(this.leftPos + MAIN_TANK_X, this.topPos + MAIN_TANK_Y, MAIN_TANK_W, MAIN_TANK_H)),
+                new FluidIngredientArea(this.menu.getSideFluidStack(),
+                        new Rect2i(this.leftPos + SIDE_TANK_X, this.topPos + SIDE_TANK_Y, SIDE_TANK_W, SIDE_TANK_H)));
+    }
+
+    @Override
     public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
         this.mainTankRenderer.render(graphics, this.leftPos + MAIN_TANK_X, this.topPos + MAIN_TANK_Y, this.menu.getMainFluidStack());
@@ -78,6 +93,13 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> {
         if (isMouseAbove(mouseX, mouseY, this.leftPos + PROGRESS_X, this.topPos + PROGRESS_Y, PROGRESS_W, PROGRESS_H)) {
             graphics.setTooltipForNextFrame(this.font,
                     Component.literal(this.menu.getPercentProgress() + "%"), mouseX, mouseY);
+            return;
+        }
+        if (!this.menu.getResultActivationTool().isEmpty()
+                && isMouseAbove(mouseX, mouseY, this.leftPos + RESULT_SLOT_X, this.topPos + RESULT_SLOT_Y, 16, 16)) {
+            graphics.setTooltipForNextFrame(this.font,
+                    Component.translatable("gui.growthcraft_milk.mixing_vat.result_tool",
+                            this.menu.getResultActivationTool().getHoverName()), mouseX, mouseY);
             return;
         }
         super.extractTooltip(graphics, mouseX, mouseY);

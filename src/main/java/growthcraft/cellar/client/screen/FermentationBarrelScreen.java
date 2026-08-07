@@ -3,8 +3,10 @@ package growthcraft.cellar.client.screen;
 import growthcraft.cellar.menu.FermentationBarrelMenu;
 import growthcraft.cellar.config.Reference;
 import growthcraft.lib.client.screen.TexturedMachineScreen;
+import growthcraft.lib.client.screen.FluidIngredientScreen;
 import growthcraft.lib.client.screen.renderer.FluidTankRenderer;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -15,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FermentationBarrelScreen extends TexturedMachineScreen<FermentationBarrelMenu> {
+public class FermentationBarrelScreen extends TexturedMachineScreen<FermentationBarrelMenu> implements FluidIngredientScreen {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Reference.MODID, "textures/gui/fermentation_barrel_screen.png");
     private static final int TANK_X = 72;
     private static final int TANK_Y = 17;
@@ -37,6 +39,12 @@ public class FermentationBarrelScreen extends TexturedMachineScreen<Fermentation
     public FermentationBarrelScreen(FermentationBarrelMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title, TEXTURE);
         this.tankRenderer = new FluidTankRenderer(TANK_W, TANK_H, menu.getTankCapacity(), 0.85F);
+    }
+
+    @Override
+    public List<FluidIngredientArea> getFluidIngredientAreas() {
+        return List.of(new FluidIngredientArea(this.menu.getFluidStack(),
+                new Rect2i(this.leftPos + TANK_X, this.topPos + TANK_Y, TANK_W, TANK_H)));
     }
 
     @Override

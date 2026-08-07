@@ -45,6 +45,15 @@ class MixingVatResultParityTest {
         assertTrue(block.contains("remainder.isEmpty() ? new ItemStack(Items.BUCKET) : remainder"));
     }
 
+    @Test
+    void invalidItemsCannotInterruptAnActivatedBatch() throws IOException {
+        String entity = source("block/entity/MixingVatBlockEntity.java");
+
+        assertTrue(entity.contains("heldStack.isEmpty() || activated || isProcessing()"));
+        assertTrue(entity.contains("!isMixingVatIngredient(heldStack)"));
+        assertTrue(entity.contains("ingredient.ingredient().test(stack)"));
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/milk", relativePath));
     }

@@ -117,6 +117,10 @@ public class GrowthcraftBlockTags extends BlockTagsProvider {
 
         this.tag(BlockTags.LOGS)
                 .add(
+                        GrowthcraftCellarBlocks.CORK_WOOD.get(),
+                        GrowthcraftCellarBlocks.CORK_WOOD_LOG.get(),
+                        GrowthcraftCellarBlocks.CORK_WOOD_LOG_STRIPPED.get(),
+                        GrowthcraftCellarBlocks.CORK_WOOD_STRIPPED.get(),
                         GrowthcraftApplesBlocks.APPLE_WOOD.get(),
                         GrowthcraftApplesBlocks.APPLE_WOOD_LOG.get(),
                         GrowthcraftApplesBlocks.APPLE_WOOD_LOG_STRIPPED.get(),
@@ -125,6 +129,10 @@ public class GrowthcraftBlockTags extends BlockTagsProvider {
 
         this.tag(BlockTags.LOGS_THAT_BURN)
                 .add(
+                        GrowthcraftCellarBlocks.CORK_WOOD.get(),
+                        GrowthcraftCellarBlocks.CORK_WOOD_LOG.get(),
+                        GrowthcraftCellarBlocks.CORK_WOOD_LOG_STRIPPED.get(),
+                        GrowthcraftCellarBlocks.CORK_WOOD_STRIPPED.get(),
                         GrowthcraftApplesBlocks.APPLE_WOOD.get(),
                         GrowthcraftApplesBlocks.APPLE_WOOD_LOG.get(),
                         GrowthcraftApplesBlocks.APPLE_WOOD_LOG_STRIPPED.get(),

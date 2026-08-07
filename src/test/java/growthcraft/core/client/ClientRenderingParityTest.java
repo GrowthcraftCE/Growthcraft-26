@@ -22,6 +22,9 @@ class ClientRenderingParityTest {
         assertTrue(renderer.contains("putSouthQuad"));
         assertTrue(renderer.contains("putWestQuad"));
         assertTrue(renderer.contains("putEastQuad"));
+        assertTrue(renderer.contains("Fluids.WATER.getFluidType()"));
+        assertTrue(renderer.contains("WATER_STILL"));
+        assertTrue(renderer.contains("WATER_TINT"));
     }
 
     @Test
@@ -85,6 +88,18 @@ class ClientRenderingParityTest {
         assertTrue(kettle.contains("HEAT_U, HEAT_V, HEAT_W, HEAT_H"));
         assertTrue(vat.contains("this.menu.isHeated()"));
         assertTrue(vat.contains("HEAT_U, HEAT_V, HEAT_W, HEAT_H"));
+    }
+
+    @Test
+    void brewKettleExposesItsSynchronizedLidControl() throws IOException {
+        String screen = source("cellar/client/screen/BrewKettleScreen.java");
+        String menu = source("cellar/menu/BrewKettleMenu.java");
+
+        assertTrue(screen.contains("handleInventoryButtonClick(this.menu.containerId, 0)"));
+        assertTrue(screen.contains("this.menu.hasLid()"));
+        assertTrue(screen.contains("LID_BUTTON_W = 13"));
+        assertTrue(screen.contains("lidU, lidV, 34, 54"));
+        assertTrue(menu.contains("state.setValue(BrewKettleBlock.HAS_LID"));
     }
 
     @Test

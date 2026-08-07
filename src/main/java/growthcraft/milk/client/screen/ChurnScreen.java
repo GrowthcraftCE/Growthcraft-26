@@ -1,15 +1,19 @@
 package growthcraft.milk.client.screen;
 
 import growthcraft.lib.client.screen.TexturedMachineScreen;
+import growthcraft.lib.client.screen.FluidIngredientScreen;
 import growthcraft.lib.client.screen.renderer.FluidTankRenderer;
 import growthcraft.milk.config.Reference;
 import growthcraft.milk.menu.ChurnMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
-public class ChurnScreen extends TexturedMachineScreen<ChurnMenu> {
+import java.util.List;
+
+public class ChurnScreen extends TexturedMachineScreen<ChurnMenu> implements FluidIngredientScreen {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Reference.MODID, "textures/gui/churn_screen.png");
     private static final int TANK_X = 64;
     private static final int TANK_Y = 18;
@@ -20,6 +24,12 @@ public class ChurnScreen extends TexturedMachineScreen<ChurnMenu> {
     public ChurnScreen(ChurnMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, TEXTURE);
         this.tankRenderer = new FluidTankRenderer(TANK_WIDTH, TANK_HEIGHT, menu.getTankCapacity(), 0.85F);
+    }
+
+    @Override
+    public List<FluidIngredientArea> getFluidIngredientAreas() {
+        return List.of(new FluidIngredientArea(this.menu.getFluidStack(),
+                new Rect2i(this.leftPos + TANK_X, this.topPos + TANK_Y, TANK_WIDTH, TANK_HEIGHT)));
     }
 
     @Override

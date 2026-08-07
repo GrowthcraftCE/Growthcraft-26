@@ -4,6 +4,7 @@ import growthcraft.core.config.Reference;
 import growthcraft.apiary.init.GrowthcraftApiaryItems;
 import growthcraft.apiary.init.GrowthcraftApiaryTags;
 import growthcraft.apples.init.GrowthcraftApplesItems;
+import growthcraft.cellar.init.GrowthcraftCellarItems;
 import growthcraft.core.init.GrowthcraftItems;
 import growthcraft.core.init.GrowthcraftTags;
 import growthcraft.milk.init.GrowthcraftMilkItems;
@@ -109,6 +110,10 @@ public class GrowthcraftItemTags extends IntrinsicHolderTagsProvider<Item> {
 
         this.tag(ItemTags.LOGS)
                 .add(
+                        GrowthcraftCellarItems.CORK_WOOD.get(),
+                        GrowthcraftCellarItems.CORK_WOOD_LOG.get(),
+                        GrowthcraftCellarItems.CORK_WOOD_LOG_STRIPPED.get(),
+                        GrowthcraftCellarItems.CORK_WOOD_STRIPPED.get(),
                         GrowthcraftApplesItems.APPLE_WOOD.get(),
                         GrowthcraftApplesItems.APPLE_WOOD_LOG.get(),
                         GrowthcraftApplesItems.APPLE_WOOD_LOG_STRIPPED.get(),
@@ -117,6 +122,10 @@ public class GrowthcraftItemTags extends IntrinsicHolderTagsProvider<Item> {
 
         this.tag(ItemTags.LOGS_THAT_BURN)
                 .add(
+                        GrowthcraftCellarItems.CORK_WOOD.get(),
+                        GrowthcraftCellarItems.CORK_WOOD_LOG.get(),
+                        GrowthcraftCellarItems.CORK_WOOD_LOG_STRIPPED.get(),
+                        GrowthcraftCellarItems.CORK_WOOD_STRIPPED.get(),
                         GrowthcraftApplesItems.APPLE_WOOD.get(),
                         GrowthcraftApplesItems.APPLE_WOOD_LOG.get(),
                         GrowthcraftApplesItems.APPLE_WOOD_LOG_STRIPPED.get(),

@@ -71,6 +71,15 @@ class MilkJeiParityTest {
         assertTrue(lookup.contains("ClientPlayerNetworkEvent.LoggingOut"));
     }
 
+    @Test
+    void milkFluidTanksExposeClickableFluidIngredients() throws IOException {
+        String plugin = source("compat/jei/GrowthcraftMilkJeiPlugin.java");
+
+        for (String screen : new String[]{"ChurnScreen", "MixingVatScreen", "PancheonScreen"}) {
+            assertTrue(plugin.contains("addGuiContainerHandler(" + screen + ".class"));
+        }
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/milk", relativePath));
     }
