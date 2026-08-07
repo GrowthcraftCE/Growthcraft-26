@@ -36,16 +36,18 @@ class CellarJeiParityTest {
     }
 
     @Test
-    void brewKettleTanksExposeClickableFluidIngredients() throws IOException {
+    void cellarFluidTanksExposeClickableFluidIngredients() throws IOException {
         String plugin = Files.readString(Path.of(
                 "src/main/java/growthcraft/cellar/compat/jei/GrowthcraftCellarJeiPlugin.java"));
         String handler = Files.readString(Path.of(
-                "src/main/java/growthcraft/cellar/compat/jei/BrewKettleGuiHandler.java"));
+                "src/main/java/growthcraft/lib/compat/jei/FluidIngredientGuiHandler.java"));
 
-        assertTrue(plugin.contains("addGuiContainerHandler(BrewKettleScreen.class"));
-        assertTrue(handler.contains("getInputFluidStack()"));
-        assertTrue(handler.contains("getOutputFluidStack()"));
-        assertTrue(handler.contains("createBuilder(fluidIngredientType, fluid)"));
+        for (String screen : new String[]{"BrewKettleScreen", "CultureJarScreen",
+                "FermentationBarrelScreen", "FruitPressScreen"}) {
+            assertTrue(plugin.contains("addGuiContainerHandler(" + screen + ".class"));
+        }
+        assertTrue(handler.contains("getFluidIngredientAreas()"));
+        assertTrue(handler.contains("createBuilder(fluidIngredientType, ingredientArea.fluid())"));
     }
 
     private static void assertCategoryDrawsBackground(String fileName, String textureRegion) throws IOException {

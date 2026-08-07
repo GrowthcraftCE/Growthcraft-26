@@ -2,15 +2,19 @@ package growthcraft.milk.client.screen;
 
 import growthcraft.milk.menu.PancheonMenu;
 import growthcraft.lib.client.screen.TexturedMachineScreen;
+import growthcraft.lib.client.screen.FluidIngredientScreen;
 import growthcraft.lib.client.screen.renderer.FluidTankRenderer;
 import growthcraft.milk.config.Reference;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
-public class PancheonScreen extends TexturedMachineScreen<PancheonMenu> {
+import java.util.List;
+
+public class PancheonScreen extends TexturedMachineScreen<PancheonMenu> implements FluidIngredientScreen {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Reference.MODID, "textures/gui/pancheon_screen.png");
     private static final int INPUT_TANK_X = 62;
     private static final int INPUT_TANK_Y = 18;
@@ -35,6 +39,17 @@ public class PancheonScreen extends TexturedMachineScreen<PancheonMenu> {
         super(menu, playerInventory, title, TEXTURE);
         this.inputTankRenderer = new FluidTankRenderer(INPUT_TANK_W, INPUT_TANK_H, menu.getInputTankCapacity(), 0.85F);
         this.outputTankRenderer = new FluidTankRenderer(OUTPUT_TANK_W, OUTPUT_TANK_H, menu.getOutputTankCapacity(), 0.85F);
+    }
+
+    @Override
+    public List<FluidIngredientArea> getFluidIngredientAreas() {
+        return List.of(
+                new FluidIngredientArea(this.menu.getInputFluidStack(),
+                        new Rect2i(this.leftPos + INPUT_TANK_X, this.topPos + INPUT_TANK_Y, INPUT_TANK_W, INPUT_TANK_H)),
+                new FluidIngredientArea(this.menu.getOutput0FluidStack(),
+                        new Rect2i(this.leftPos + OUTPUT_TANK_X, this.topPos + OUTPUT_0_TANK_Y, OUTPUT_TANK_W, OUTPUT_TANK_H)),
+                new FluidIngredientArea(this.menu.getOutput1FluidStack(),
+                        new Rect2i(this.leftPos + OUTPUT_TANK_X, this.topPos + OUTPUT_1_TANK_Y, OUTPUT_TANK_W, OUTPUT_TANK_H)));
     }
 
     @Override

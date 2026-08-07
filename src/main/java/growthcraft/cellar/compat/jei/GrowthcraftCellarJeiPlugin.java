@@ -2,6 +2,9 @@ package growthcraft.cellar.compat.jei;
 
 import growthcraft.cellar.config.Reference;
 import growthcraft.cellar.client.screen.BrewKettleScreen;
+import growthcraft.cellar.client.screen.CultureJarScreen;
+import growthcraft.cellar.client.screen.FermentationBarrelScreen;
+import growthcraft.cellar.client.screen.FruitPressScreen;
 import growthcraft.cellar.init.GrowthcraftCellarItems;
 import growthcraft.cellar.init.GrowthcraftCellarRecipes;
 import growthcraft.cellar.recipe.BrewKettleRecipe;
@@ -10,6 +13,7 @@ import growthcraft.cellar.recipe.FermentationBarrelRecipe;
 import growthcraft.cellar.recipe.FruitPressRecipe;
 import growthcraft.cellar.recipe.RoasterRecipe;
 import growthcraft.lib.client.recipe.ClientRecipeLookup;
+import growthcraft.lib.compat.jei.FluidIngredientGuiHandler;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
@@ -82,8 +86,11 @@ public class GrowthcraftCellarJeiPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addGuiContainerHandler(BrewKettleScreen.class,
-                new BrewKettleGuiHandler(registration.getJeiHelpers().getPlatformFluidHelper()));
+        var fluidHelper = registration.getJeiHelpers().getPlatformFluidHelper();
+        registration.addGuiContainerHandler(BrewKettleScreen.class, new FluidIngredientGuiHandler<>(fluidHelper));
+        registration.addGuiContainerHandler(CultureJarScreen.class, new FluidIngredientGuiHandler<>(fluidHelper));
+        registration.addGuiContainerHandler(FermentationBarrelScreen.class, new FluidIngredientGuiHandler<>(fluidHelper));
+        registration.addGuiContainerHandler(FruitPressScreen.class, new FluidIngredientGuiHandler<>(fluidHelper));
     }
 
     private static java.util.List<RecipeHolder<BrewKettleRecipe>> brewKettleRecipes(Minecraft minecraft) {

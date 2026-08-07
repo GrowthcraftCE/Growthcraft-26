@@ -3,6 +3,7 @@ package growthcraft.cellar.client.screen;
 import growthcraft.cellar.menu.BrewKettleMenu;
 import growthcraft.cellar.config.Reference;
 import growthcraft.lib.client.screen.TexturedMachineScreen;
+import growthcraft.lib.client.screen.FluidIngredientScreen;
 import growthcraft.lib.client.screen.renderer.FluidTankRenderer;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -12,7 +13,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
-public class BrewKettleScreen extends TexturedMachineScreen<BrewKettleMenu> {
+import java.util.List;
+
+public class BrewKettleScreen extends TexturedMachineScreen<BrewKettleMenu> implements FluidIngredientScreen {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Reference.MODID, "textures/gui/brew_kettle_screen.png");
     private static final int INPUT_TANK_X = 46;
     private static final int OUTPUT_TANK_X = 114;
@@ -44,12 +47,13 @@ public class BrewKettleScreen extends TexturedMachineScreen<BrewKettleMenu> {
         this.tankRenderer = new FluidTankRenderer(TANK_W, TANK_H, menu.getTankCapacity(), 0.85F);
     }
 
-    public Rect2i getInputTankArea() {
-        return new Rect2i(this.leftPos + INPUT_TANK_X, this.topPos + TANK_Y, TANK_W, TANK_H);
-    }
-
-    public Rect2i getOutputTankArea() {
-        return new Rect2i(this.leftPos + OUTPUT_TANK_X, this.topPos + TANK_Y, TANK_W, TANK_H);
+    @Override
+    public List<FluidIngredientArea> getFluidIngredientAreas() {
+        return List.of(
+                new FluidIngredientArea(this.menu.getInputFluidStack(),
+                        new Rect2i(this.leftPos + INPUT_TANK_X, this.topPos + TANK_Y, TANK_W, TANK_H)),
+                new FluidIngredientArea(this.menu.getOutputFluidStack(),
+                        new Rect2i(this.leftPos + OUTPUT_TANK_X, this.topPos + TANK_Y, TANK_W, TANK_H)));
     }
 
     @Override

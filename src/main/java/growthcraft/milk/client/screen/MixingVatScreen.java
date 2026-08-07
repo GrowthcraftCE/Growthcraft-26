@@ -2,15 +2,19 @@ package growthcraft.milk.client.screen;
 
 import growthcraft.milk.menu.MixingVatMenu;
 import growthcraft.lib.client.screen.TexturedMachineScreen;
+import growthcraft.lib.client.screen.FluidIngredientScreen;
 import growthcraft.lib.client.screen.renderer.FluidTankRenderer;
 import growthcraft.milk.config.Reference;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> {
+import java.util.List;
+
+public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> implements FluidIngredientScreen {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Reference.MODID, "textures/gui/mixing_vat_screen.png");
     private static final int MAIN_TANK_X = 49;
     private static final int MAIN_TANK_Y = 32;
@@ -52,6 +56,15 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> {
         super(menu, playerInventory, title, TEXTURE);
         this.mainTankRenderer = new FluidTankRenderer(MAIN_TANK_W, MAIN_TANK_H, menu.getMainTankCapacity(), 0.85F);
         this.sideTankRenderer = new FluidTankRenderer(SIDE_TANK_W, SIDE_TANK_H, menu.getSideTankCapacity(), 0.85F);
+    }
+
+    @Override
+    public List<FluidIngredientArea> getFluidIngredientAreas() {
+        return List.of(
+                new FluidIngredientArea(this.menu.getMainFluidStack(),
+                        new Rect2i(this.leftPos + MAIN_TANK_X, this.topPos + MAIN_TANK_Y, MAIN_TANK_W, MAIN_TANK_H)),
+                new FluidIngredientArea(this.menu.getSideFluidStack(),
+                        new Rect2i(this.leftPos + SIDE_TANK_X, this.topPos + SIDE_TANK_Y, SIDE_TANK_W, SIDE_TANK_H)));
     }
 
     @Override
