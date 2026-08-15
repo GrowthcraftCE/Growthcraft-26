@@ -23,6 +23,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
@@ -207,7 +208,7 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
             return false;
         }
 
-        ItemStack tool = getItem(SLOT_RESULT_TOOL);
+        ItemStack tool = getRequiredResultTool();
         if (!tool.isEmpty() && !ItemStack.isSameItem(tool, heldStack)) {
             return false;
         }
@@ -222,6 +223,25 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
             player.drop(toGive, false);
         }
         return true;
+    }
+
+    public ItemStack getRequiredResultTool() {
+        ItemStack storedTool = getItem(SLOT_RESULT_TOOL);
+        if (!storedTool.isEmpty()) {
+            return storedTool;
+        }
+
+        ItemStack result = getItem(SLOT_RESULT);
+        if (result.isEmpty() || level == null) {
+            return ItemStack.EMPTY;
+        }
+        return RecipeLookup.getAll(level, GrowthcraftMilkRecipes.MIXING_VAT_TYPE.get()).stream()
+                .map(RecipeHolder::value)
+                .filter(recipe -> ItemStack.isSameItemSameComponents(recipe.getResultItemStack(), result))
+                .map(MixingVatRecipe::getResultActivationTool)
+                .filter(tool -> !tool.isEmpty())
+                .findFirst()
+                .orElse(ItemStack.EMPTY);
     }
 
     public boolean insertIngredient(ItemStack heldStack) {
@@ -328,6 +348,7 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
     public ItemStack removeItem(int index, int count) {
         ItemStack result = ContainerHelper.removeItem(items, index, count);
         if (!result.isEmpty()) {
+            clearResultToolIfResultWasRemoved(index);
             setChanged();
         }
         return result;
@@ -340,16 +361,24 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
             return ItemStack.EMPTY;
         }
         items.set(index, ItemStack.EMPTY);
+        clearResultToolIfResultWasRemoved(index);
         return stack;
     }
 
     @Override
     public void setItem(int index, ItemStack stack) {
         items.set(index, stack);
+        clearResultToolIfResultWasRemoved(index);
         if (stack.getCount() > getMaxStackSize()) {
             stack.setCount(getMaxStackSize());
         }
         setChanged();
+    }
+
+    private void clearResultToolIfResultWasRemoved(int index) {
+        if (index == SLOT_RESULT && items.get(SLOT_RESULT).isEmpty()) {
+            items.set(SLOT_RESULT_TOOL, ItemStack.EMPTY);
+        }
     }
 
     @Override
@@ -422,6 +451,25 @@ public class MixingVatBlockEntity extends BlockEntity implements WorldlyContaine
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        if (level == null) {
+            return;
+        }
+        for (int slot = 0; slot < getContainerSize(); slot++) {
+            if (shouldDropWhenBroken(slot)) {
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), getItem(slot));
+            }
+        }
+    }
+
+    private boolean shouldDropWhenBroken(int slot) {
+        if (slot == SLOT_RESULT_TOOL) {
+            return false;
+        }
+        return slot != SLOT_RESULT || getRequiredResultTool().isEmpty();
     }
 
 
