@@ -88,6 +88,10 @@ public class CultureJarRecipeCategory implements IRecipeCategory<RecipeHolder<Cu
             builder.addSlot(RecipeIngredientRole.INPUT, TANK_X, TANK_Y)
                     .setFluidRenderer(1000, true, TANK_WIDTH, TANK_HEIGHT)
                     .addFluidStack(inputFluid, recipe.getFluid().amount());
+            ItemStack bucket = inputFluid.getBucket().getDefaultInstance();
+            if (!bucket.isEmpty()) {
+                builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addItemStack(bucket);
+            }
         }
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, OUTPUT_X, OUTPUT_Y)

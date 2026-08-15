@@ -80,6 +80,20 @@ class MilkJeiParityTest {
         }
     }
 
+    @Test
+    void milkFluidRecipesExposeBucketsAsHiddenNavigationIngredients() throws IOException {
+        for (String fileName : new String[]{"ChurnRecipeCategory.java", "MixingVatRecipeCategory.java",
+                "PancheonRecipeCategory.java"}) {
+            String category = source("compat/jei/" + fileName);
+            assertTrue(category.contains("getBucket().getDefaultInstance()"),
+                    () -> fileName + " does not derive a bucket from its recipe fluid");
+            assertTrue(category.contains("addInvisibleIngredients("),
+                    () -> fileName + " exposes the bucket in its visible JEI layout");
+            assertTrue(category.contains("!bucket.isEmpty()"),
+                    () -> fileName + " does not safely skip bucketless fluids");
+        }
+    }
+
     private static String source(String relativePath) throws IOException {
         return Files.readString(Path.of("src/main/java/growthcraft/milk", relativePath));
     }

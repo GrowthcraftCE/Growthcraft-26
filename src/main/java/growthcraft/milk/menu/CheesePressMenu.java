@@ -42,9 +42,13 @@ public class CheesePressMenu extends AbstractContainerMenu {
         checkContainerSize(container, CheesePressBlockEntity.SLOT_COUNT);
         checkContainerDataCount(data, 3);
 
-        addSlot(new Slot(container, CheesePressBlockEntity.SLOT_INPUT, 51, 34));
-        addSlot(new Slot(container, CheesePressBlockEntity.SLOT_OUTPUT, 104, 34) {
+        addSlot(new Slot(container, CheesePressBlockEntity.SLOT_INPUT, 53, 35) {
             @Override public boolean mayPlace(ItemStack stack) { return false; }
+            @Override public boolean mayPickup(Player player) { return false; }
+        });
+        addSlot(new Slot(container, CheesePressBlockEntity.SLOT_OUTPUT, 106, 35) {
+            @Override public boolean mayPlace(ItemStack stack) { return false; }
+            @Override public boolean mayPickup(Player player) { return false; }
         });
         addPlayerSlots(inventory);
         addDataSlots(data);
@@ -72,20 +76,6 @@ public class CheesePressMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        ItemStack original = ItemStack.EMPTY;
-        Slot slot = slots.get(index);
-        if (!slot.hasItem()) return original;
-        ItemStack stack = slot.getItem();
-        original = stack.copy();
-        int machineSlots = CheesePressBlockEntity.SLOT_COUNT;
-        if (index < machineSlots) {
-            if (!moveItemStackTo(stack, machineSlots, slots.size(), true)) return ItemStack.EMPTY;
-        } else if (!moveItemStackTo(stack, CheesePressBlockEntity.SLOT_INPUT, CheesePressBlockEntity.SLOT_INPUT + 1, false)) {
-            return ItemStack.EMPTY;
-        }
-        if (stack.isEmpty()) slot.set(ItemStack.EMPTY); else slot.setChanged();
-        if (stack.getCount() == original.getCount()) return ItemStack.EMPTY;
-        slot.onTake(player, stack);
-        return original;
+        return ItemStack.EMPTY;
     }
 }

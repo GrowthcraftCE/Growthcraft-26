@@ -74,6 +74,7 @@ public class ChurnRecipeCategory implements IRecipeCategory<RecipeHolder<ChurnRe
             builder.addSlot(RecipeIngredientRole.INPUT, INPUT_TANK_X, INPUT_TANK_Y)
                     .setFluidRenderer(1000, true, TANK_WIDTH, TANK_HEIGHT)
                     .addFluidStack(inputFluid, recipe.getInputFluid().amount());
+            addBucket(builder, RecipeIngredientRole.INPUT, inputFluid);
         }
 
         Fluid outputFluid = BuiltInRegistries.FLUID.getValue(recipe.getOutputFluid().fluidId());
@@ -81,12 +82,20 @@ public class ChurnRecipeCategory implements IRecipeCategory<RecipeHolder<ChurnRe
             builder.addSlot(RecipeIngredientRole.OUTPUT, OUTPUT_TANK_X, OUTPUT_TANK_Y)
                     .setFluidRenderer(1000, true, TANK_WIDTH, TANK_HEIGHT)
                     .addFluidStack(outputFluid, recipe.getOutputFluid().amount());
+            addBucket(builder, RecipeIngredientRole.OUTPUT, outputFluid);
         }
 
         ItemStack byProduct = recipe.getByProduct();
         if (!byProduct.isEmpty()) {
             builder.addSlot(RecipeIngredientRole.OUTPUT, BYPRODUCT_X, BYPRODUCT_Y)
                     .addItemStack(byProduct);
+        }
+    }
+
+    private static void addBucket(IRecipeLayoutBuilder builder, RecipeIngredientRole role, Fluid fluid) {
+        ItemStack bucket = fluid.getBucket().getDefaultInstance();
+        if (!bucket.isEmpty()) {
+            builder.addInvisibleIngredients(role).addItemStack(bucket);
         }
     }
 

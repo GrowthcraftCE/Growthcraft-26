@@ -92,6 +92,7 @@ public class BrewKettleRecipeCategory implements IRecipeCategory<RecipeHolder<Br
             builder.addSlot(RecipeIngredientRole.INPUT, 36, 7)
                     .setFluidRenderer(4000, true, 16, 52)
                     .addFluidStack(inputFluid, recipe.getInputFluid().amount());
+            addBucket(builder, RecipeIngredientRole.INPUT, inputFluid);
         }
 
         var outputFluid = BuiltInRegistries.FLUID.getValue(recipe.getOutputFluid().fluidId());
@@ -99,12 +100,21 @@ public class BrewKettleRecipeCategory implements IRecipeCategory<RecipeHolder<Br
             builder.addSlot(RecipeIngredientRole.OUTPUT, 104, 7)
                     .setFluidRenderer(4000, true, 16, 52)
                     .addFluidStack(outputFluid, recipe.getOutputFluid().amount());
+            addBucket(builder, RecipeIngredientRole.OUTPUT, outputFluid);
         }
 
         ItemStack byProduct = recipe.getByProduct();
         if (!byProduct.isEmpty()) {
             builder.addSlot(RecipeIngredientRole.OUTPUT, 131, 7)
                     .addItemStack(byProduct);
+        }
+    }
+
+    private static void addBucket(IRecipeLayoutBuilder builder, RecipeIngredientRole role,
+                                  net.minecraft.world.level.material.Fluid fluid) {
+        ItemStack bucket = fluid.getBucket().getDefaultInstance();
+        if (!bucket.isEmpty()) {
+            builder.addInvisibleIngredients(role).addItemStack(bucket);
         }
     }
 

@@ -7,8 +7,6 @@ import growthcraft.milk.init.GrowthcraftMilkBlockEntities;
 import growthcraft.milk.init.GrowthcraftMilkFluids;
 import growthcraft.milk.init.GrowthcraftMilkItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -224,23 +222,6 @@ public class MixingVatBlock extends Block implements EntityBlock {
                     }
                 }
                 : null;
-    }
-
-    @Override
-    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
-        if (level.getBlockEntity(pos) instanceof MixingVatBlockEntity vat) {
-            for (int slot = 0; slot < vat.getContainerSize(); slot++) {
-                if (slot == MixingVatBlockEntity.SLOT_RESULT_TOOL) {
-                    continue;
-                }
-                if (slot == MixingVatBlockEntity.SLOT_RESULT
-                        && !vat.getItem(MixingVatBlockEntity.SLOT_RESULT_TOOL).isEmpty()) {
-                    continue;
-                }
-                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), vat.getItem(slot));
-            }
-        }
-        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }
 
     @Override

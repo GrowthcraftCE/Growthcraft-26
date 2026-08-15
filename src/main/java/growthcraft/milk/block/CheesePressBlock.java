@@ -108,11 +108,6 @@ public class CheesePressBlock extends Block implements EntityBlock {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
-        if (player.isShiftKeyDown()) {
-            if (!level.isClientSide()) player.openMenu(press);
-            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
-        }
-
         if (heldStack.is(GrowthcraftItems.WRENCH.get())) {
             if (!level.isClientSide()) {
                 boolean close = press.isOpen();
@@ -121,6 +116,11 @@ public class CheesePressBlock extends Block implements EntityBlock {
                 level.setBlock(pos, state.setValue(ROTATION, rotation), Block.UPDATE_ALL_IMMEDIATE);
             }
             return (level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER);
+        }
+
+        if (player.isShiftKeyDown()) {
+            if (!level.isClientSide()) player.openMenu(press);
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         if (!press.isOpen()) {
@@ -193,13 +193,13 @@ public class CheesePressBlock extends Block implements EntityBlock {
         if (!requiredContainer.isEmpty() && !ItemStack.isSameItem(heldStack, requiredContainer)) {
             Component containerText = requiredContainer.getHoverName().copy().withStyle(Style.EMPTY.withColor(0xffffff88));
             Component message = Component.translatable("message.growthcraft_milk.get_using_item", containerText).withStyle(Style.EMPTY.withColor(0xffbb9944));
-            player.sendSystemMessage(message);
+            player.sendOverlayMessage(message);
             return;
         }
         if (requiredContainer.isEmpty() && !heldStack.isEmpty()) {
             Component emptyHand = Component.translatable("message.growthcraft_milk.get_using_item_empty_hand").withStyle(Style.EMPTY.withColor(0xffdddd88));
             Component message = Component.translatable("message.growthcraft_milk.get_using_item", emptyHand).withStyle(Style.EMPTY.withColor(0xffbb9944));
-            player.sendSystemMessage(message);
+            player.sendOverlayMessage(message);
             return;
         }
 

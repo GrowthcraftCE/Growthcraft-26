@@ -25,12 +25,21 @@ class MilkMachineScreenParityTest {
     void authoredScreensAreRegisteredAndExposeMachineState() throws IOException {
         String client = source("client/GrowthcraftMilkClient.java");
         String press = source("client/screen/CheesePressScreen.java");
+        String pressMenu = source("menu/CheesePressMenu.java");
         String churn = source("client/screen/ChurnScreen.java");
 
         assertTrue(client.contains("CheesePressScreen::new"));
         assertTrue(client.contains("ChurnScreen::new"));
         assertTrue(press.contains("cheese_press_screen.png"));
         assertTrue(press.contains("getPercentProgress()"));
+        assertTrue(press.contains("this.menu.getProgressionScaled(PROGRESS_H)"));
+        assertTrue(press.contains("PROGRESS_U, PROGRESS_V, PROGRESS_W, progress"));
+        assertTrue(press.contains("PROGRESS_W, PROGRESS_H"));
+        assertTrue(press.contains("super.extractTooltip(graphics, mouseX, mouseY)"));
+        assertTrue(pressMenu.contains("SLOT_INPUT, 53, 35"));
+        assertTrue(pressMenu.contains("SLOT_OUTPUT, 106, 35"));
+        assertTrue(pressMenu.contains("8 + col * 18, 84 + row * 18"));
+        assertTrue(pressMenu.contains("8 + col * 18, 142"));
         assertTrue(churn.contains("churn_screen.png"));
         assertTrue(churn.contains("FluidTankRenderer"));
         assertTrue(churn.contains("getPlungeCount()"));
@@ -41,7 +50,13 @@ class MilkMachineScreenParityTest {
         String screen = source("client/screen/MixingVatScreen.java");
 
         assertTrue(screen.contains("getResultActivationTool()"));
-        assertTrue(screen.contains("gui.growthcraft_milk.mixing_vat.result_tool"));
+        assertTrue(screen.contains("new ArrayList<>(this.getTooltipFromContainerItem(result))"));
+        assertTrue(screen.contains("message.growthcraft_milk.get_using_item_empty_hand"));
+        assertTrue(screen.contains("message.growthcraft_milk.get_using_item"));
+        assertTrue(screen.contains("Style.EMPTY.withColor(0xDDBB44)"));
+        assertTrue(screen.contains("ItemStack.matches(result, this.cachedTooltipResult)"));
+        assertTrue(screen.contains("ItemStack.matches(tool, this.cachedTooltipTool)"));
+        assertTrue(screen.contains("result.getTooltipImage(), result"));
     }
 
     @Test

@@ -74,6 +74,7 @@ public class PancheonRecipeCategory implements IRecipeCategory<RecipeHolder<Panc
             builder.addSlot(RecipeIngredientRole.INPUT, INPUT_TANK_X, INPUT_TANK_Y)
                     .setFluidRenderer(2000, true, INPUT_TANK_WIDTH, INPUT_TANK_HEIGHT)
                     .addFluidStack(inputFluid, recipe.getInputFluid().amount());
+            addBucket(builder, RecipeIngredientRole.INPUT, inputFluid);
         }
 
         addOutputFluid(builder, recipe, 0, OUTPUT_TANK_0_Y);
@@ -87,6 +88,14 @@ public class PancheonRecipeCategory implements IRecipeCategory<RecipeHolder<Panc
             builder.addSlot(RecipeIngredientRole.OUTPUT, OUTPUT_TANK_X, y)
                     .setFluidRenderer(1000, true, OUTPUT_TANK_WIDTH, OUTPUT_TANK_HEIGHT)
                     .addFluidStack(fluid, output.amount());
+            addBucket(builder, RecipeIngredientRole.OUTPUT, fluid);
+        }
+    }
+
+    private static void addBucket(IRecipeLayoutBuilder builder, RecipeIngredientRole role, Fluid fluid) {
+        ItemStack bucket = fluid.getBucket().getDefaultInstance();
+        if (!bucket.isEmpty()) {
+            builder.addInvisibleIngredients(role).addItemStack(bucket);
         }
     }
 

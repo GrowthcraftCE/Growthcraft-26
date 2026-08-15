@@ -6,6 +6,15 @@
   "pages": [
     {
       "type": "patchouli:text",
+      "text": "26.1.2.0.rc3$(br)Third UAT candidate for the Growthcraft Minecraft 26.1.2 port."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "26.1.2.0.rc3",
+      "text": "$(li)Addressed Day 2 UAT findings across machine lifecycles, interfaces, JEI integration, and release metadata."
+    },
+    {
+      "type": "patchouli:text",
       "text": "26.1.2.0.rc2$(br)Second UAT candidate for the Growthcraft Minecraft 26.1.2 port."
     },
     {

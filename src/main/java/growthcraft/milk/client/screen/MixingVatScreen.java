@@ -1,17 +1,21 @@
 package growthcraft.milk.client.screen;
 
-import growthcraft.milk.menu.MixingVatMenu;
-import growthcraft.lib.client.screen.TexturedMachineScreen;
 import growthcraft.lib.client.screen.FluidIngredientScreen;
+import growthcraft.lib.client.screen.TexturedMachineScreen;
 import growthcraft.lib.client.screen.renderer.FluidTankRenderer;
+import growthcraft.milk.block.entity.MixingVatBlockEntity;
 import growthcraft.milk.config.Reference;
+import growthcraft.milk.menu.MixingVatMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> implements FluidIngredientScreen {
@@ -28,8 +32,6 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> implem
     private static final int PROGRESS_Y = 21;
     private static final int PROGRESS_W = 11;
     private static final int PROGRESS_H = 27;
-    private static final int RESULT_SLOT_X = 124;
-    private static final int RESULT_SLOT_Y = 18;
     private static final int HEAT_X = 99;
     private static final int HEAT_Y = 57;
     private static final int HEAT_U = 176;
@@ -37,6 +39,10 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> implem
     private static final int HEAT_W = 13;
     private static final int HEAT_H = 13;
     private static final int TEXTURE_SIZE = 256;
+    private static final Style ACTIVATION_STYLE = Style.EMPTY.withColor(0xDDBB44);
+    private static final Style ACTIVATION_ITEM_STYLE = Style.EMPTY.withColor(0xFFFF88);
+    private static final Component EMPTY_HAND = Component.translatable("message.growthcraft_milk.get_using_item_empty_hand")
+            .withStyle(ACTIVATION_ITEM_STYLE);
     private static final int[][] BUBBLE_PIXELS = new int[][] {
             { 102, 21 }, { 101, 22 }, { 102, 22 }, { 107, 25 }, { 106, 26 }, { 107, 26 },
             { 103, 29 }, { 102, 30 }, { 103, 30 }, { 107, 33 }, { 108, 33 }, { 102, 34 },
@@ -51,6 +57,9 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> implem
 
     private final FluidTankRenderer mainTankRenderer;
     private final FluidTankRenderer sideTankRenderer;
+    private ItemStack cachedTooltipResult = ItemStack.EMPTY;
+    private ItemStack cachedTooltipTool = ItemStack.EMPTY;
+    private List<Component> cachedResultTooltip = List.of();
 
     public MixingVatScreen(MixingVatMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title, TEXTURE);
@@ -95,11 +104,23 @@ public class MixingVatScreen extends TexturedMachineScreen<MixingVatMenu> implem
                     Component.literal(this.menu.getPercentProgress() + "%"), mouseX, mouseY);
             return;
         }
-        if (!this.menu.getResultActivationTool().isEmpty()
-                && isMouseAbove(mouseX, mouseY, this.leftPos + RESULT_SLOT_X, this.topPos + RESULT_SLOT_Y, 16, 16)) {
-            graphics.setTooltipForNextFrame(this.font,
-                    Component.translatable("gui.growthcraft_milk.mixing_vat.result_tool",
-                            this.menu.getResultActivationTool().getHoverName()), mouseX, mouseY);
+        if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.hasItem()
+                && this.hoveredSlot.index == MixingVatBlockEntity.SLOT_RESULT) {
+            ItemStack result = this.hoveredSlot.getItem();
+            ItemStack tool = this.menu.getResultActivationTool();
+            if (!ItemStack.matches(result, this.cachedTooltipResult) || !ItemStack.matches(tool, this.cachedTooltipTool)) {
+                List<Component> tooltip = new ArrayList<>(this.getTooltipFromContainerItem(result));
+                Component toolName = tool.isEmpty()
+                        ? EMPTY_HAND
+                        : tool.getHoverName().copy().withStyle(ACTIVATION_ITEM_STYLE);
+                tooltip.add(Component.translatable("message.growthcraft_milk.get_using_item", toolName)
+                        .withStyle(ACTIVATION_STYLE));
+                this.cachedResultTooltip = List.copyOf(tooltip);
+                this.cachedTooltipResult = result.copy();
+                this.cachedTooltipTool = tool.copy();
+            }
+            graphics.setTooltipForNextFrame(this.font, this.cachedResultTooltip,
+                    result.getTooltipImage(), result, mouseX, mouseY);
             return;
         }
         super.extractTooltip(graphics, mouseX, mouseY);
