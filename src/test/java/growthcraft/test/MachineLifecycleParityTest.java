@@ -35,12 +35,16 @@ class MachineLifecycleParityTest {
                 "cellar/block/FruitPressBlock.java",
                 "cellar/block/RoasterBlock.java",
                 "milk/block/CheesePressBlock.java",
-                "milk/block/ChurnBlock.java",
-                "milk/block/MixingVatBlock.java"
+                "milk/block/ChurnBlock.java"
         }) {
             String source = Files.readString(Path.of("src/main/java/growthcraft", machine));
             assertTrue(source.contains("affectNeighborsAfterRemoval"), machine);
         }
+
+        String mixingVat = Files.readString(Path.of(
+                "src/main/java/growthcraft/milk/block/entity/MixingVatBlockEntity.java"));
+        assertTrue(mixingVat.contains("preRemoveSideEffects"), "MixingVatBlockEntity");
+        assertTrue(mixingVat.contains("shouldDropWhenBroken"), "MixingVatBlockEntity");
     }
 
     @Test

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MixingVatResultParityTest {
@@ -17,15 +18,25 @@ class MixingVatResultParityTest {
         assertTrue(entity.contains("SLOT_RESULT_TOOL = 4"));
         assertTrue(entity.contains("setItem(SLOT_RESULT_TOOL, recipe.getResultActivationTool())"));
         assertTrue(entity.contains("setItem(SLOT_RESULT_TOOL, ItemStack.EMPTY)"));
+        assertTrue(entity.contains("clearResultToolIfResultWasRemoved(index)"));
+        assertTrue(entity.contains("index == SLOT_RESULT && items.get(SLOT_RESULT).isEmpty()"));
+        assertTrue(entity.contains("items.set(SLOT_RESULT_TOOL, ItemStack.EMPTY)"));
+        assertTrue(entity.contains("public ItemStack getRequiredResultTool()"));
+        assertTrue(entity.contains("ItemStack.isSameItemSameComponents(recipe.getResultItemStack(), result)"));
         assertTrue(menu.contains("public boolean isFake() { return true; }"));
     }
 
     @Test
     void removalDoesNotDuplicateToolGatedResults() throws IOException {
+        String entity = source("block/entity/MixingVatBlockEntity.java");
         String block = source("block/MixingVatBlock.java");
 
-        assertTrue(block.contains("slot == MixingVatBlockEntity.SLOT_RESULT_TOOL"));
-        assertTrue(block.contains("slot == MixingVatBlockEntity.SLOT_RESULT"));
+        assertTrue(entity.contains("public void preRemoveSideEffects(BlockPos pos, BlockState state)"));
+        assertTrue(entity.contains("shouldDropWhenBroken(slot)"));
+        assertTrue(entity.contains("slot == SLOT_RESULT_TOOL"));
+        assertTrue(entity.contains("slot != SLOT_RESULT || getRequiredResultTool().isEmpty()"));
+        assertTrue(entity.contains("Containers.dropItemStack"));
+        assertFalse(block.contains("affectNeighborsAfterRemoval"));
     }
 
     @Test
