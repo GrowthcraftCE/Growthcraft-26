@@ -239,7 +239,8 @@ public final class GrowthcraftMilkItems {
     }
 
     private static DeferredHolder<Item, CheeseCurdsDrainedItem> registerDrainedCheeseCurds(String cheeseName) {
-        return ITEMS.registerItem(cheeseName + "_cheese_curds_drained", CheeseCurdsDrainedItem::new);
+        return ITEMS.registerItem(cheeseName + "_cheese_curds_drained",
+                properties -> new CheeseCurdsDrainedItem(properties.craftRemainder(CHEESE_CLOTH.get())));
     }
 
     private static DeferredHolder<Item, BlockItem> registerBlockItem(String name, DeferredBlock<?> block) {

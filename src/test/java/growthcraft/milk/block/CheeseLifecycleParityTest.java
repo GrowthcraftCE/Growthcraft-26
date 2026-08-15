@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CheeseLifecycleParityTest {
@@ -39,6 +40,22 @@ class CheeseLifecycleParityTest {
         assertTrue(press.contains("ItemStack remainder = getCraftingRemainder(toInsert);"));
         assertTrue(press.contains("ItemStack requiredContainer = getCraftingRemainder(stack);"));
         assertTrue(press.contains("remainder == null ? ItemStack.EMPTY : remainder.create()"));
+    }
+
+    @Test
+    void drainedCurdsReturnClothAndPressGuiCannotBypassLifecycle() throws IOException {
+        String items = Files.readString(Path.of("src/main/java/growthcraft/milk/init/GrowthcraftMilkItems.java"));
+        String press = source("CheesePressBlock.java");
+        String menu = Files.readString(Path.of("src/main/java/growthcraft/milk/menu/CheesePressMenu.java"));
+
+        assertTrue(items.contains("properties.craftRemainder(CHEESE_CLOTH.get())"));
+        assertTrue(press.indexOf("!press.isOpen()") < press.indexOf("player.openMenu(press)"));
+        assertFalse(press.contains("sendSystemMessage(message)"));
+        assertTrue(press.contains("sendOverlayMessage(message)"));
+        assertTrue(menu.contains("@Override public boolean mayPlace(ItemStack stack) { return false; }"));
+        assertTrue(menu.contains("@Override public boolean mayPickup(Player player) { return false; }"));
+        assertTrue(menu.contains("public ItemStack quickMoveStack(Player player, int index)"));
+        assertFalse(menu.contains("moveItemStackTo("));
     }
 
     private static String source(String name) throws IOException {
