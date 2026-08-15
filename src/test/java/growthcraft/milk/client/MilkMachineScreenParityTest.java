@@ -41,7 +41,13 @@ class MilkMachineScreenParityTest {
         String screen = source("client/screen/MixingVatScreen.java");
 
         assertTrue(screen.contains("getResultActivationTool()"));
-        assertTrue(screen.contains("gui.growthcraft_milk.mixing_vat.result_tool"));
+        assertTrue(screen.contains("new ArrayList<>(this.getTooltipFromContainerItem(result))"));
+        assertTrue(screen.contains("message.growthcraft_milk.get_using_item_empty_hand"));
+        assertTrue(screen.contains("message.growthcraft_milk.get_using_item"));
+        assertTrue(screen.contains("Style.EMPTY.withColor(0xDDBB44)"));
+        assertTrue(screen.contains("ItemStack.matches(result, this.cachedTooltipResult)"));
+        assertTrue(screen.contains("ItemStack.matches(tool, this.cachedTooltipTool)"));
+        assertTrue(screen.contains("result.getTooltipImage(), result"));
     }
 
     @Test
