@@ -42,11 +42,11 @@ public class CheesePressMenu extends AbstractContainerMenu {
         checkContainerSize(container, CheesePressBlockEntity.SLOT_COUNT);
         checkContainerDataCount(data, 3);
 
-        addSlot(new Slot(container, CheesePressBlockEntity.SLOT_INPUT, 51, 34) {
+        addSlot(new Slot(container, CheesePressBlockEntity.SLOT_INPUT, 53, 35) {
             @Override public boolean mayPlace(ItemStack stack) { return false; }
             @Override public boolean mayPickup(Player player) { return false; }
         });
-        addSlot(new Slot(container, CheesePressBlockEntity.SLOT_OUTPUT, 104, 34) {
+        addSlot(new Slot(container, CheesePressBlockEntity.SLOT_OUTPUT, 106, 35) {
             @Override public boolean mayPlace(ItemStack stack) { return false; }
             @Override public boolean mayPickup(Player player) { return false; }
         });
