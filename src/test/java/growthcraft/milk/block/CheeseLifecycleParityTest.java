@@ -49,7 +49,8 @@ class CheeseLifecycleParityTest {
         String menu = Files.readString(Path.of("src/main/java/growthcraft/milk/menu/CheesePressMenu.java"));
 
         assertTrue(items.contains("properties.craftRemainder(CHEESE_CLOTH.get())"));
-        assertTrue(press.indexOf("!press.isOpen()") < press.indexOf("player.openMenu(press)"));
+        assertTrue(press.contains("player.isShiftKeyDown()"));
+        assertTrue(press.contains("player.openMenu(press)"));
         assertFalse(press.contains("sendSystemMessage(message)"));
         assertTrue(press.contains("sendOverlayMessage(message)"));
         assertTrue(menu.contains("@Override public boolean mayPlace(ItemStack stack) { return false; }"));

@@ -80,17 +80,16 @@ public class CheesePressBlock extends Block implements EntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof CheesePressBlockEntity press) {
+            if (!level.isClientSide()) player.openMenu(press);
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+        }
         if (!(level.getBlockEntity(pos) instanceof CheesePressBlockEntity press) || !press.isOpen()) {
             if (!level.isClientSide() && level.getBlockEntity(pos) instanceof CheesePressBlockEntity closedPress) {
                 displayClosedPressStatus(closedPress, player, level);
                 return InteractionResult.CONSUME;
             }
             return InteractionResult.PASS;
-        }
-
-        if (player.isShiftKeyDown()) {
-            if (!level.isClientSide()) player.openMenu(press);
-            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         if (press.hasContent()) {
@@ -119,16 +118,16 @@ public class CheesePressBlock extends Block implements EntityBlock {
             return (level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER);
         }
 
+        if (player.isShiftKeyDown()) {
+            if (!level.isClientSide()) player.openMenu(press);
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+        }
+
         if (!press.isOpen()) {
             if (!level.isClientSide()) {
                 displayClosedPressStatus(press, player, level);
             }
             return (level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER);
-        }
-
-        if (player.isShiftKeyDown()) {
-            if (!level.isClientSide()) player.openMenu(press);
-            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         if (press.hasContent()) {

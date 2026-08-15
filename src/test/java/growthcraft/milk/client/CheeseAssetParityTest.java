@@ -2,12 +2,15 @@ package growthcraft.milk.client;
 
 import org.junit.jupiter.api.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,6 +21,37 @@ class CheeseAssetParityTest {
 
         assertTrue(client.contains("GrowthcraftMilkMenus.CHEESE_PRESS.get(), CheesePressScreen::new"));
         assertTrue(client.contains("GrowthcraftMilkMenus.CHURN.get(), ChurnScreen::new"));
+    }
+
+    @Test
+    void cheesePressTextureContainsItsVerticalProgressSprite() throws IOException {
+        BufferedImage texture = ImageIO.read(ASSETS.resolve("textures/gui/cheese_press_screen.png").toFile());
+
+        assertEquals(256, texture.getWidth());
+        assertEquals(256, texture.getHeight());
+        for (int y = 0; y < 28; y++) {
+            for (int x = 176; x < 185; x++) {
+                assertTrue((texture.getRGB(x, y) >>> 24) != 0,
+                        "Transparent progress pixel at " + x + "," + y);
+            }
+        }
+    }
+
+    @Test
+    void cheesePressBackgroundUsesTheFruitPressDownArrow() throws IOException {
+        BufferedImage cheesePress = ImageIO.read(ASSETS.resolve("textures/gui/cheese_press_screen.png").toFile());
+        BufferedImage fruitPress = ImageIO.read(Path.of(
+                "src/main/resources/assets/growthcraft_cellar/textures/gui/fruit_press_screen.png").toFile());
+
+        for (int y = 22; y < 44; y++) {
+            for (int x = 59; x < 62; x++) {
+                assertEquals(fruitPress.getRGB(x, y), cheesePress.getRGB(x + 27, y + 7));
+            }
+        }
+        for (int x = 57; x < 62; x++) assertEquals(fruitPress.getRGB(x, 44), cheesePress.getRGB(x + 27, 51));
+        for (int x = 58; x < 62; x++) assertEquals(fruitPress.getRGB(x, 45), cheesePress.getRGB(x + 27, 52));
+        for (int x = 59; x < 62; x++) assertEquals(fruitPress.getRGB(x, 46), cheesePress.getRGB(x + 27, 53));
+        assertEquals(fruitPress.getRGB(60, 47), cheesePress.getRGB(87, 54));
     }
 
     private static final Path ASSETS = Path.of("src/main/resources/assets/growthcraft_milk");
