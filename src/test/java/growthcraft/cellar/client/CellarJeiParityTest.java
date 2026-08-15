@@ -50,6 +50,20 @@ class CellarJeiParityTest {
         assertTrue(handler.contains("createBuilder(fluidIngredientType, ingredientArea.fluid())"));
     }
 
+    @Test
+    void cellarFluidRecipesExposeBucketsAsHiddenNavigationIngredients() throws IOException {
+        for (String fileName : new String[]{"BrewKettleRecipeCategory.java", "CultureJarRecipeCategory.java",
+                "FermentationBarrelRecipeCategory.java", "FruitPressRecipeCategory.java"}) {
+            String category = categorySource(fileName);
+            assertTrue(category.contains("getBucket().getDefaultInstance()"),
+                    () -> fileName + " does not derive a bucket from its recipe fluid");
+            assertTrue(category.contains("addInvisibleIngredients("),
+                    () -> fileName + " exposes the bucket in its visible JEI layout");
+            assertTrue(category.contains("!bucket.isEmpty()"),
+                    () -> fileName + " does not safely skip bucketless fluids");
+        }
+    }
+
     private static void assertCategoryDrawsBackground(String fileName, String textureRegion) throws IOException {
         String source = categorySource(fileName);
 

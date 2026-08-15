@@ -88,6 +88,7 @@ public class FermentationBarrelRecipeCategory implements IRecipeCategory<RecipeH
             builder.addSlot(RecipeIngredientRole.INPUT, INPUT_TANK_X, INPUT_TANK_Y)
                     .setFluidRenderer(4000, true, INPUT_TANK_WIDTH, INPUT_TANK_HEIGHT)
                     .addFluidStack(inputFluid, recipe.getIngredientFluid().amount());
+            addBucket(builder, RecipeIngredientRole.INPUT, inputFluid);
         }
 
         builder.addSlot(RecipeIngredientRole.INPUT, 23, 43)
@@ -98,12 +99,21 @@ public class FermentationBarrelRecipeCategory implements IRecipeCategory<RecipeH
             builder.addSlot(RecipeIngredientRole.OUTPUT, OUTPUT_X, OUTPUT_Y)
                     .setFluidRenderer(recipe.getResult().amount(), false, 16, 16)
                     .addFluidStack(outputFluid, recipe.getResult().amount());
+            addBucket(builder, RecipeIngredientRole.OUTPUT, outputFluid);
         }
 
         ItemStack bottle = recipe.getBottle();
         if (!bottle.isEmpty()) {
             builder.addSlot(RecipeIngredientRole.OUTPUT, OUTPUT_X, OUTPUT_Y)
                     .addItemStack(bottle);
+        }
+    }
+
+    private static void addBucket(IRecipeLayoutBuilder builder, RecipeIngredientRole role,
+                                  net.minecraft.world.level.material.Fluid fluid) {
+        ItemStack bucket = fluid.getBucket().getDefaultInstance();
+        if (!bucket.isEmpty()) {
+            builder.addInvisibleIngredients(role).addItemStack(bucket);
         }
     }
 

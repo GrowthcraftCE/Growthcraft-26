@@ -117,6 +117,10 @@ public class MixingVatRecipeCategory implements IRecipeCategory<RecipeHolder<Mix
             builder.addSlot(role, x, y)
                     .setFluidRenderer(capacity, true, width, height)
                     .addFluidStack(fluid, amount.amount());
+            ItemStack bucket = fluid.getBucket().getDefaultInstance();
+            if (!bucket.isEmpty()) {
+                builder.addInvisibleIngredients(role).addItemStack(bucket);
+            }
         }
     }
 
