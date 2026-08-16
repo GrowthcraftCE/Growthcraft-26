@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_cellar",
+  "key": {
+    "A": "#c:ingots/iron",
+    "B": "growthcraft_apples:apple_plank"
+  },
+  "pattern": [
+    "AAA",
+    "BBB",
+    "AAA"
+  ],
+  "result": {
+    "id": "growthcraft_cellar:fermentation_barrel_apple"
+  }
+}

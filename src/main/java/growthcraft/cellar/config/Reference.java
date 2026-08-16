@@ -24,11 +24,16 @@ public final class Reference {
             public static final String CULTURE_JAR = "culture_jar";
             public static final String FERMENT_BARREL = "fermentation_barrel";
             public static final String FERMENT_BARREL_ACACIA = "fermentation_barrel_acacia";
+            public static final String FERMENT_BARREL_APPLE = "fermentation_barrel_apple";
             public static final String FERMENT_BARREL_BIRCH = "fermentation_barrel_birch";
+            public static final String FERMENT_BARREL_BAMBOO = "fermentation_barrel_bamboo";
+            public static final String FERMENT_BARREL_CHERRY = "fermentation_barrel_cherry";
             public static final String FERMENT_BARREL_CRIMSON = "fermentation_barrel_crimson";
             public static final String FERMENT_BARREL_DARK_OAK = "fermentation_barrel_dark_oak";
             public static final String FERMENT_BARREL_JUNGLE = "fermentation_barrel_jungle";
+            public static final String FERMENT_BARREL_MANGROVE = "fermentation_barrel_mangrove";
             public static final String FERMENT_BARREL_OAK = "fermentation_barrel_oak";
+            public static final String FERMENT_BARREL_PALE_OAK = "fermentation_barrel_pale_oak";
             public static final String FERMENT_BARREL_SPRUCE = "fermentation_barrel_spruce";
             public static final String FERMENT_BARREL_WARPED = "fermentation_barrel_warped";
             public static final String FRUIT_PRESS = "fruit_press";

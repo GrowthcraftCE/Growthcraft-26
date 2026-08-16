@@ -39,7 +39,19 @@ public class GrowthcraftBlockTags extends BlockTagsProvider {
 
         this.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_ACACIA.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_APPLE.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_BAMBOO.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_BIRCH.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_CHERRY.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_CRIMSON.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_DARK_OAK.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_JUNGLE.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_MANGROVE.get(),
                         GrowthcraftCellarBlocks.FERMENTATION_BARREL_OAK.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_PALE_OAK.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_SPRUCE.get(),
+                        GrowthcraftCellarBlocks.FERMENTATION_BARREL_WARPED.get(),
                         GrowthcraftCellarBlocks.FRUIT_PRESS.get(),
                         GrowthcraftCellarBlocks.FRUIT_PRESS_PISTON.get(),
                         GrowthcraftMilkBlocks.CHEESE_PRESS.get(),

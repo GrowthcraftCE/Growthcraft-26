@@ -28,7 +28,20 @@ public final class GrowthcraftCellarBlockEntities {
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FermentationBarrelBlockEntity>> FERMENTATION_BARREL = BLOCK_ENTITY_TYPES.register(
             Reference.UnlocalizedName.Block.FERMENT_BARREL_OAK,
-            () -> new BlockEntityType<>(FermentationBarrelBlockEntity::new, GrowthcraftCellarBlocks.FERMENTATION_BARREL_OAK.get())
+            () -> new BlockEntityType<>(FermentationBarrelBlockEntity::new,
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_ACACIA.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_APPLE.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_BAMBOO.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_BIRCH.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_CHERRY.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_CRIMSON.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_DARK_OAK.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_JUNGLE.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_MANGROVE.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_OAK.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_PALE_OAK.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_SPRUCE.get(),
+                    GrowthcraftCellarBlocks.FERMENTATION_BARREL_WARPED.get())
     );
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FruitPressBlockEntity>> FRUIT_PRESS = BLOCK_ENTITY_TYPES.register(

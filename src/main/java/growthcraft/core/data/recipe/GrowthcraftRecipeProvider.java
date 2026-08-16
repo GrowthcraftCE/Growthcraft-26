@@ -25,6 +25,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.conditions.ICondition;
@@ -199,17 +200,32 @@ public class GrowthcraftRecipeProvider extends RecipeProvider {
                         growthcraft.cellar.config.Reference.MODID,
                         growthcraft.cellar.config.Reference.UnlocalizedName.Block.BREW_KETTLE));
 
-        shaped(RecipeCategory.MISC, GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get())
-                .pattern("AAA")
-                .pattern("BBB")
-                .pattern("AAA")
-                .define('A', ironIngots)
-                .define('B', Blocks.OAK_PLANKS)
-                .group(growthcraft.cellar.config.Reference.MODID)
-                .unlockedBy(getHasName(Items.OAK_PLANKS), has(Items.OAK_PLANKS))
-                .save(output, recipeKey(
-                        growthcraft.cellar.config.Reference.MODID,
-                        growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_OAK));
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_ACACIA.get(),
+                Blocks.ACACIA_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_ACACIA);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_APPLE.get(),
+                GrowthcraftApplesItems.APPLE_PLANK.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_APPLE);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_BAMBOO.get(),
+                Blocks.BAMBOO_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_BAMBOO);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_BIRCH.get(),
+                Blocks.BIRCH_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_BIRCH);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_CHERRY.get(),
+                Blocks.CHERRY_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_CHERRY);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_CRIMSON.get(),
+                Blocks.CRIMSON_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_CRIMSON);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_DARK_OAK.get(),
+                Blocks.DARK_OAK_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_DARK_OAK);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_JUNGLE.get(),
+                Blocks.JUNGLE_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_JUNGLE);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_MANGROVE.get(),
+                Blocks.MANGROVE_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_MANGROVE);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get(),
+                Blocks.OAK_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_OAK);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_PALE_OAK.get(),
+                Blocks.PALE_OAK_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_PALE_OAK);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_SPRUCE.get(),
+                Blocks.SPRUCE_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_SPRUCE);
+        addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED.get(),
+                Blocks.WARPED_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_WARPED);
 
         shaped(RecipeCategory.MISC, GrowthcraftCellarItems.FRUIT_PRESS.get())
                 .pattern("ABA")
@@ -236,6 +252,21 @@ public class GrowthcraftRecipeProvider extends RecipeProvider {
                 .save(output, recipeKey(
                         growthcraft.cellar.config.Reference.MODID,
                         growthcraft.cellar.config.Reference.UnlocalizedName.Block.ROASTER));
+    }
+
+    private void addFermentationBarrelRecipe(RecipeOutput output, TagKey<Item> ironIngots,
+                                             ItemLike barrel, ItemLike planks, String recipeName) {
+        shaped(RecipeCategory.MISC, barrel)
+                .pattern("AAA")
+                .pattern("BBB")
+                .pattern("AAA")
+                .define('A', ironIngots)
+                .define('B', planks)
+                .group(growthcraft.cellar.config.Reference.MODID)
+                .unlockedBy(getHasName(planks), has(planks))
+                .save(output, recipeKey(
+                        growthcraft.cellar.config.Reference.MODID,
+                        recipeName));
     }
 
     private void addMilkMachineRecipes(RecipeOutput output, TagKey<Item> ironIngots) {

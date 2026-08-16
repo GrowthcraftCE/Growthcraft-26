@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": { "model": "growthcraft_cellar:block/fermentation_barrel_crimson" },
+    "facing=south": { "model": "growthcraft_cellar:block/fermentation_barrel_crimson", "y": 180 },
+    "facing=east": { "model": "growthcraft_cellar:block/fermentation_barrel_crimson", "y": 90 },
+    "facing=west": { "model": "growthcraft_cellar:block/fermentation_barrel_crimson", "y": 270 },
+    "facing=up": { "model": "growthcraft_cellar:block/fermentation_barrel_crimson", "x": 90 },
+    "facing=down": { "model": "growthcraft_cellar:block/fermentation_barrel_crimson", "x": 270 }
+  }
+}

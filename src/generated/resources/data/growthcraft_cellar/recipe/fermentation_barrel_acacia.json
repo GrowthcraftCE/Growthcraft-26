@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_cellar",
+  "key": {
+    "A": "#c:ingots/iron",
+    "B": "minecraft:acacia_planks"
+  },
+  "pattern": [
+    "AAA",
+    "BBB",
+    "AAA"
+  ],
+  "result": {
+    "id": "growthcraft_cellar:fermentation_barrel_acacia"
+  }
+}
