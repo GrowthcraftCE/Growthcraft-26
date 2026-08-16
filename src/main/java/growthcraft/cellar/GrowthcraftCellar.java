@@ -47,7 +47,19 @@ public class GrowthcraftCellar {
             // Blocks
             event.accept(GrowthcraftCellarItems.BREW_KETTLE);
             event.accept(GrowthcraftCellarItems.CULTURE_JAR);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_ACACIA);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_APPLE);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_BAMBOO);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_BIRCH);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_CHERRY);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_CRIMSON);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_DARK_OAK);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_JUNGLE);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_MANGROVE);
             event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_OAK);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_PALE_OAK);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_SPRUCE);
+            event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED);
             event.accept(GrowthcraftCellarItems.FRUIT_PRESS);
             event.accept(GrowthcraftCellarItems.ROASTER);
 

@@ -19,7 +19,19 @@ public class CellarBlockLoot extends BlockLootSubProvider {
     protected void generate() {
         dropSelf(GrowthcraftCellarBlocks.BREW_KETTLE.get());
         dropSelf(GrowthcraftCellarBlocks.CULTURE_JAR.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_ACACIA.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_APPLE.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_BAMBOO.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_BIRCH.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_CHERRY.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_CRIMSON.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_DARK_OAK.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_JUNGLE.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_MANGROVE.get());
         dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_OAK.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_PALE_OAK.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_SPRUCE.get());
+        dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_WARPED.get());
         dropSelf(GrowthcraftCellarBlocks.FRUIT_PRESS.get());
         add(GrowthcraftCellarBlocks.FRUIT_PRESS_PISTON.get(), noDrop());
         dropSelf(GrowthcraftCellarBlocks.ROASTER.get());

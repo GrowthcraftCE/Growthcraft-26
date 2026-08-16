@@ -47,8 +47,32 @@ public final class GrowthcraftCellarBlocks {
                     .noOcclusion()
                     .lightLevel(state -> state.getValue(BlockStateProperties.LIT) ? 13 : 0));
 
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_ACACIA = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_ACACIA, FermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.ACACIA_PLANKS).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_APPLE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_APPLE, FermentationBarrelBlock::new,
+            () -> Block.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_BIRCH = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_BIRCH, FermentationBarrelBlock::new,
+            () -> Block.Properties.of().mapColor(MapColor.SAND).strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_BAMBOO = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_BAMBOO, FermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_CHERRY = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_CHERRY, FermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.CHERRY_PLANKS).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_CRIMSON = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_CRIMSON, FermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.CRIMSON_PLANKS).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_DARK_OAK = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_DARK_OAK, FermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.DARK_OAK_PLANKS).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_JUNGLE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_JUNGLE, FermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.JUNGLE_PLANKS).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_MANGROVE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_MANGROVE, FermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.MANGROVE_PLANKS).noOcclusion());
     public static final DeferredBlock<Block> FERMENTATION_BARREL_OAK = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_OAK, FermentationBarrelBlock::new,
             () -> Block.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_PALE_OAK = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_PALE_OAK, FermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.PALE_OAK_PLANKS).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_SPRUCE = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_SPRUCE, FermentationBarrelBlock::new,
+            () -> Block.Properties.of().mapColor(MapColor.PODZOL).strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_WARPED = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_WARPED, FermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.WARPED_PLANKS).noOcclusion());
     public static final DeferredBlock<Block> FRUIT_PRESS = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FRUIT_PRESS, FruitPressBlock::new,
             () -> Block.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.CHAIN).noOcclusion());
     public static final DeferredBlock<Block> FRUIT_PRESS_PISTON = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FRUIT_PRESS_PISTON, FruitPressPistonBlock::new,
@@ -95,4 +119,3 @@ public final class GrowthcraftCellarBlocks {
 
     private GrowthcraftCellarBlocks() {}
 }
-

@@ -1,0 +1,10 @@
+{
+  "parent": "growthcraft_cellar:block/fermentation_barrel_oak",
+  "textures": {
+    "0": "growthcraft_cellar:block/barrel_ferment/acacia_bottom",
+    "1": "growthcraft_cellar:block/barrel_ferment/acacia_side",
+    "2": "growthcraft_cellar:block/barrel_ferment/acacia_side_alt",
+    "3": "growthcraft_cellar:block/barrel_ferment/acacia_top",
+    "particle": "growthcraft_cellar:block/barrel_ferment/acacia_bottom"
+  }
+}

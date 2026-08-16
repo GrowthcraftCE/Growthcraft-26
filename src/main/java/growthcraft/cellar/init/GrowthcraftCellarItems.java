@@ -22,7 +22,19 @@ public class GrowthcraftCellarItems {
     // Blocks (BlockItems)
     public static final DeferredItem<Item> BREW_KETTLE = blockItem(Reference.UnlocalizedName.Block.BREW_KETTLE, GrowthcraftCellarBlocks.BREW_KETTLE);
     public static final DeferredItem<Item> CULTURE_JAR = blockItem(Reference.UnlocalizedName.Block.CULTURE_JAR, GrowthcraftCellarBlocks.CULTURE_JAR);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_ACACIA = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_ACACIA, GrowthcraftCellarBlocks.FERMENTATION_BARREL_ACACIA);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_APPLE = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_APPLE, GrowthcraftCellarBlocks.FERMENTATION_BARREL_APPLE);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_BIRCH = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_BIRCH, GrowthcraftCellarBlocks.FERMENTATION_BARREL_BIRCH);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_BAMBOO = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_BAMBOO, GrowthcraftCellarBlocks.FERMENTATION_BARREL_BAMBOO);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_CHERRY = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_CHERRY, GrowthcraftCellarBlocks.FERMENTATION_BARREL_CHERRY);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_CRIMSON = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_CRIMSON, GrowthcraftCellarBlocks.FERMENTATION_BARREL_CRIMSON);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_DARK_OAK = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_DARK_OAK, GrowthcraftCellarBlocks.FERMENTATION_BARREL_DARK_OAK);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_JUNGLE = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_JUNGLE, GrowthcraftCellarBlocks.FERMENTATION_BARREL_JUNGLE);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_MANGROVE = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_MANGROVE, GrowthcraftCellarBlocks.FERMENTATION_BARREL_MANGROVE);
     public static final DeferredItem<Item> FERMENTATION_BARREL_OAK = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_OAK, GrowthcraftCellarBlocks.FERMENTATION_BARREL_OAK);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_PALE_OAK = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_PALE_OAK, GrowthcraftCellarBlocks.FERMENTATION_BARREL_PALE_OAK);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_SPRUCE = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_SPRUCE, GrowthcraftCellarBlocks.FERMENTATION_BARREL_SPRUCE);
+    public static final DeferredItem<Item> FERMENTATION_BARREL_WARPED = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_WARPED, GrowthcraftCellarBlocks.FERMENTATION_BARREL_WARPED);
     public static final DeferredItem<Item> FRUIT_PRESS = blockItem(Reference.UnlocalizedName.Block.FRUIT_PRESS, GrowthcraftCellarBlocks.FRUIT_PRESS);
     public static final DeferredItem<Item> ROASTER = blockItem(Reference.UnlocalizedName.Block.ROASTER, GrowthcraftCellarBlocks.ROASTER);
     public static final DeferredItem<Item> CORK_COASTER = blockItem(Reference.UnlocalizedName.Item.CORK_COASTER, GrowthcraftCellarBlocks.CORK_COASTER);
