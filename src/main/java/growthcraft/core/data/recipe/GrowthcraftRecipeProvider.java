@@ -227,6 +227,16 @@ public class GrowthcraftRecipeProvider extends RecipeProvider {
         addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED.get(),
                 Blocks.WARPED_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_WARPED);
 
+        shaped(RecipeCategory.MISC, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_OAK.get())
+                .pattern("BBB")
+                .pattern("B B")
+                .pattern("BBB")
+                .define('B', GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get())
+                .group(growthcraft.cellar.config.Reference.MODID)
+                .unlockedBy(getHasName(GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get()), has(GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get()))
+                .save(output, recipeKey(growthcraft.cellar.config.Reference.MODID,
+                        growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_OAK));
+
         shaped(RecipeCategory.MISC, GrowthcraftCellarItems.FRUIT_PRESS.get())
                 .pattern("ABA")
                 .pattern("CCC")

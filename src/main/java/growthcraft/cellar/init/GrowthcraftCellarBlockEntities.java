@@ -6,6 +6,7 @@ import growthcraft.cellar.block.entity.CorkCoasterBlockEntity;
 import growthcraft.cellar.block.entity.CultureJarBlockEntity;
 import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
 import growthcraft.cellar.block.entity.FruitPressBlockEntity;
+import growthcraft.cellar.block.entity.LargeFermentationBarrelBlockEntity;
 import growthcraft.cellar.block.entity.RoasterBlockEntity;
 import growthcraft.cellar.config.Reference;
 import net.minecraft.core.registries.Registries;
@@ -42,6 +43,12 @@ public final class GrowthcraftCellarBlockEntities {
                     GrowthcraftCellarBlocks.FERMENTATION_BARREL_PALE_OAK.get(),
                     GrowthcraftCellarBlocks.FERMENTATION_BARREL_SPRUCE.get(),
                     GrowthcraftCellarBlocks.FERMENTATION_BARREL_WARPED.get())
+    );
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LargeFermentationBarrelBlockEntity>> LARGE_FERMENTATION_BARREL = BLOCK_ENTITY_TYPES.register(
+            Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_OAK,
+            () -> new BlockEntityType<>(LargeFermentationBarrelBlockEntity::new,
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK.get())
     );
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FruitPressBlockEntity>> FRUIT_PRESS = BLOCK_ENTITY_TYPES.register(

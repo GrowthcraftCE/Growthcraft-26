@@ -52,6 +52,7 @@ public class GrowthcraftBlockTags extends BlockTagsProvider {
                         GrowthcraftCellarBlocks.FERMENTATION_BARREL_PALE_OAK.get(),
                         GrowthcraftCellarBlocks.FERMENTATION_BARREL_SPRUCE.get(),
                         GrowthcraftCellarBlocks.FERMENTATION_BARREL_WARPED.get(),
+                        GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK.get(),
                         GrowthcraftCellarBlocks.FRUIT_PRESS.get(),
                         GrowthcraftCellarBlocks.FRUIT_PRESS_PISTON.get(),
                         GrowthcraftMilkBlocks.CHEESE_PRESS.get(),

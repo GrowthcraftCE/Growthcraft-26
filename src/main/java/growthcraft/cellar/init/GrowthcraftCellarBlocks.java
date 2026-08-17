@@ -5,6 +5,7 @@ import growthcraft.cellar.block.CorkCoasterBlock;
 import growthcraft.cellar.block.CorkLogBlock;
 import growthcraft.cellar.block.BrewKettleBlock;
 import growthcraft.cellar.block.FermentationBarrelBlock;
+import growthcraft.cellar.block.LargeFermentationBarrelBlock;
 import growthcraft.cellar.block.FruitPressBlock;
 import growthcraft.cellar.block.FruitPressPistonBlock;
 import growthcraft.cellar.block.GrapeVineStemBlock;
@@ -73,6 +74,8 @@ public final class GrowthcraftCellarBlocks {
             () -> Block.Properties.of().mapColor(MapColor.PODZOL).strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion());
     public static final DeferredBlock<Block> FERMENTATION_BARREL_WARPED = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FERMENT_BARREL_WARPED, FermentationBarrelBlock::new,
             () -> Block.Properties.ofFullCopy(Blocks.WARPED_PLANKS).noOcclusion());
+    public static final DeferredBlock<Block> LARGE_FERMENTATION_BARREL_OAK = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_OAK, LargeFermentationBarrelBlock::new,
+            () -> Block.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion().forceSolidOff());
     public static final DeferredBlock<Block> FRUIT_PRESS = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FRUIT_PRESS, FruitPressBlock::new,
             () -> Block.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.CHAIN).noOcclusion());
     public static final DeferredBlock<Block> FRUIT_PRESS_PISTON = BLOCKS.registerBlock(Reference.UnlocalizedName.Block.FRUIT_PRESS_PISTON, FruitPressPistonBlock::new,

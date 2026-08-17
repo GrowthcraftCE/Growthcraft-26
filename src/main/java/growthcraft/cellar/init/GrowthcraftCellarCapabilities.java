@@ -5,6 +5,8 @@ import growthcraft.cellar.block.entity.BrewKettleBlockEntity;
 import growthcraft.cellar.block.entity.CultureJarBlockEntity;
 import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
 import growthcraft.cellar.block.entity.FruitPressBlockEntity;
+import growthcraft.cellar.block.LargeFermentationBarrelBlock;
+import growthcraft.cellar.block.entity.LargeFermentationBarrelBlockEntity;
 import growthcraft.cellar.config.GrowthcraftCellarConfig;
 import growthcraft.lib.fluid.LegacyFluidResourceHandler;
 import net.minecraft.core.Direction;
@@ -29,6 +31,14 @@ public final class GrowthcraftCellarCapabilities {
                         : LegacyFluidResourceHandler.of(be.getOutputTank(), false, true));
         event.registerBlockEntity(Capabilities.Fluid.BLOCK, GrowthcraftCellarBlockEntities.FERMENTATION_BARREL.get(),
                 (FermentationBarrelBlockEntity be, Direction side) -> LegacyFluidResourceHandler.of(be.getTank()));
+        event.registerBlock(Capabilities.Fluid.BLOCK,
+                (level, pos, state, blockEntity, side) -> {
+                    var controller = level.getBlockEntity(LargeFermentationBarrelBlock.getControllerPos(pos, state));
+                    return controller instanceof LargeFermentationBarrelBlockEntity barrel
+                            ? LegacyFluidResourceHandler.of(barrel.getTank())
+                            : null;
+                },
+                GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK.get());
         event.registerBlockEntity(Capabilities.Fluid.BLOCK, GrowthcraftCellarBlockEntities.FRUIT_PRESS.get(),
                 (FruitPressBlockEntity be, Direction side) -> LegacyFluidResourceHandler.of(be.getTank(), false, true));
     }

@@ -1,6 +1,8 @@
 package growthcraft.cellar.client;
 
 import growthcraft.cellar.GrowthcraftCellar;
+import growthcraft.cellar.block.LargeBarrelPart;
+import growthcraft.cellar.block.LargeFermentationBarrelBlock;
 import growthcraft.cellar.client.renderer.BrewKettleBlockEntityRenderer;
 import growthcraft.cellar.client.renderer.CorkCoasterBlockEntityRenderer;
 import growthcraft.cellar.client.renderer.CultureJarBlockEntityRenderer;
@@ -15,10 +17,20 @@ import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import growthcraft.cellar.init.GrowthcraftCellarFluids;
 import growthcraft.cellar.init.GrowthcraftCellarMenus;
 import growthcraft.lib.client.GrowthcraftFluidModels;
+import net.minecraft.client.renderer.ShapeRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.event.RegisterFluidModelsEvent;
@@ -65,5 +77,69 @@ public final class GrowthcraftCellarClient {
         event.register(GrowthcraftCellarMenus.FERMENTATION_BARREL.get(), FermentationBarrelScreen::new);
         event.register(GrowthcraftCellarMenus.FRUIT_PRESS.get(), FruitPressScreen::new);
         event.register(GrowthcraftCellarMenus.ROASTER.get(), RoasterScreen::new);
+    }
+
+    @SubscribeEvent
+    public static void onExtractBlockOutline(ExtractBlockOutlineRenderStateEvent event) {
+        BlockState targetedState = event.getBlockState();
+        if (!(targetedState.getBlock() instanceof LargeFermentationBarrelBlock)) {
+            return;
+        }
+
+        Direction facing = targetedState.getValue(LargeFermentationBarrelBlock.FACING);
+        LargeBarrelPart targetedPart = targetedState.getValue(LargeFermentationBarrelBlock.PART);
+        BlockPos controllerPos = targetedPart.controllerFrom(event.getBlockPos(), facing);
+        VoxelShape combinedShape = Shapes.empty();
+
+        for (LargeBarrelPart part : LargeBarrelPart.values()) {
+            BlockPos partPos = part.fromController(controllerPos, facing);
+            BlockState partState = event.getLevel().getBlockState(partPos);
+            if (!(partState.getBlock() instanceof LargeFermentationBarrelBlock)
+                    || partState.getValue(LargeFermentationBarrelBlock.FACING) != facing
+                    || partState.getValue(LargeFermentationBarrelBlock.PART) != part) {
+                continue;
+            }
+
+            VoxelShape partShape = partState.getShape(event.getLevel(), partPos, event.getCollisionContext())
+                    .move(
+                            partPos.getX() - controllerPos.getX(),
+                            partPos.getY() - controllerPos.getY(),
+                            partPos.getZ() - controllerPos.getZ());
+            combinedShape = Shapes.or(combinedShape, partShape);
+        }
+
+        VoxelShape outlineShape = combinedShape;
+        Vec3 cameraPos = event.getCamera().position();
+        boolean translucentPass = event.isInTranslucentPass();
+        boolean highContrast = event.isHighContrast();
+        event.addCustomRenderer((renderState, buffer, poseStack, currentTranslucentPass, levelRenderState) -> {
+            if (currentTranslucentPass == translucentPass) {
+                double offsetX = controllerPos.getX() - cameraPos.x;
+                double offsetY = controllerPos.getY() - cameraPos.y;
+                double offsetZ = controllerPos.getZ() - cameraPos.z;
+                if (highContrast) {
+                    ShapeRenderer.renderShape(
+                            poseStack,
+                            buffer.getBuffer(RenderTypes.secondaryBlockOutline()),
+                            outlineShape,
+                            offsetX,
+                            offsetY,
+                            offsetZ,
+                            0xFF000000,
+                            7.0F);
+                }
+                ShapeRenderer.renderShape(
+                        poseStack,
+                        buffer.getBuffer(RenderTypes.lines()),
+                        outlineShape,
+                        offsetX,
+                        offsetY,
+                        offsetZ,
+                        highContrast ? -11010079 : ARGB.black(102),
+                        1.0F);
+                buffer.endLastBatch();
+            }
+            return true;
+        });
     }
 }

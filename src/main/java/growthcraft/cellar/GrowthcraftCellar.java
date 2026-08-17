@@ -60,6 +60,7 @@ public class GrowthcraftCellar {
             event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_PALE_OAK);
             event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_SPRUCE);
             event.accept(GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED);
+            event.accept(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_OAK);
             event.accept(GrowthcraftCellarItems.FRUIT_PRESS);
             event.accept(GrowthcraftCellarItems.ROASTER);
 

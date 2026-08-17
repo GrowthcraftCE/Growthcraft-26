@@ -35,6 +35,7 @@ public class GrowthcraftCellarItems {
     public static final DeferredItem<Item> FERMENTATION_BARREL_PALE_OAK = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_PALE_OAK, GrowthcraftCellarBlocks.FERMENTATION_BARREL_PALE_OAK);
     public static final DeferredItem<Item> FERMENTATION_BARREL_SPRUCE = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_SPRUCE, GrowthcraftCellarBlocks.FERMENTATION_BARREL_SPRUCE);
     public static final DeferredItem<Item> FERMENTATION_BARREL_WARPED = blockItem(Reference.UnlocalizedName.Block.FERMENT_BARREL_WARPED, GrowthcraftCellarBlocks.FERMENTATION_BARREL_WARPED);
+    public static final DeferredItem<Item> LARGE_FERMENTATION_BARREL_OAK = blockItem(Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_OAK, GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK);
     public static final DeferredItem<Item> FRUIT_PRESS = blockItem(Reference.UnlocalizedName.Block.FRUIT_PRESS, GrowthcraftCellarBlocks.FRUIT_PRESS);
     public static final DeferredItem<Item> ROASTER = blockItem(Reference.UnlocalizedName.Block.ROASTER, GrowthcraftCellarBlocks.ROASTER);
     public static final DeferredItem<Item> CORK_COASTER = blockItem(Reference.UnlocalizedName.Item.CORK_COASTER, GrowthcraftCellarBlocks.CORK_COASTER);
