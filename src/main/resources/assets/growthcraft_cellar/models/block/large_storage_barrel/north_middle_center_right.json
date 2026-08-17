@@ -1,0 +1,147 @@
+{
+  "credit": "Generated from the Growthcraft rounded fermentation barrel model",
+  "ambientocclusion": false,
+  "render_type": "cutout",
+  "textures": {
+    "0": "growthcraft_cellar:block/barrel_ferment/oak_bottom",
+    "1": "growthcraft_cellar:block/barrel_ferment/oak_side",
+    "2": "growthcraft_cellar:block/barrel_ferment/oak_side_alt",
+    "3": "growthcraft_cellar:block/barrel_ferment/oak_top",
+    "missing": "#3",
+    "particle": "growthcraft_cellar:block/barrel_ferment/oak_bottom"
+  },
+  "elements": [
+    {
+      "name": "east_outer_1",
+      "from": [
+        13.0,
+        0.0,
+        0.0
+      ],
+      "to": [
+        16.0,
+        16.0,
+        16.0
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            5.333333333333334,
+            5.333333333333334,
+            10.666666666666668,
+            10.666666666666668
+          ],
+          "texture": "#1",
+          "rotation": 180
+        },
+        "west": {
+          "uv": [
+            1.333333333333333,
+            0.33333333333333304,
+            6.666666666666666,
+            5.666666666666666
+          ],
+          "texture": "#3"
+        }
+      },
+      "rotation": {
+        "origin": [
+          -8.0,
+          5.0,
+          23.0
+        ],
+        "axis": "x",
+        "angle": 0
+      },
+      "type": "cube"
+    },
+    {
+      "name": "east_outer_2",
+      "from": [
+        10.0,
+        0.0,
+        0.0
+      ],
+      "to": [
+        13.0,
+        16.0,
+        16.0
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            5.333333333333334,
+            5.333333333333334,
+            10.666666666666668,
+            10.666666666666668
+          ],
+          "texture": "#1",
+          "rotation": 180
+        },
+        "west": {
+          "uv": [
+            1.333333333333333,
+            2.333333333333333,
+            6.666666666666666,
+            7.666666666666666
+          ],
+          "texture": "#3"
+        }
+      },
+      "rotation": {
+        "origin": [
+          -11.0,
+          8.0,
+          23.0
+        ],
+        "axis": "x",
+        "angle": 0
+      },
+      "type": "cube"
+    },
+    {
+      "name": "east_outer_3",
+      "from": [
+        7.0,
+        0.0,
+        0.0
+      ],
+      "to": [
+        10.0,
+        16.0,
+        16.0
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            5.333333333333334,
+            5.333333333333334,
+            10.666666666666668,
+            10.666666666666668
+          ],
+          "texture": "#1",
+          "rotation": 180
+        },
+        "west": {
+          "uv": [
+            1.333333333333333,
+            3.333333333333333,
+            6.666666666666666,
+            8.666666666666666
+          ],
+          "texture": "#3"
+        }
+      },
+      "rotation": {
+        "origin": [
+          -14.0,
+          11.0,
+          23.0
+        ],
+        "axis": "x",
+        "angle": 0
+      },
+      "type": "cube"
+    }
+  ]
+}

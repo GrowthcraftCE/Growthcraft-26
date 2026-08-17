@@ -29,12 +29,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.Optional;
 
@@ -48,28 +50,55 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
 
     private final NonNullList<ItemStack> items = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY);
 
-    private final FluidTank tank = new FluidTank(TANK_CAPACITY) {
-        @Override
-        protected void onContentsChanged() {
-            setChanged();
-            if (level != null && !level.isClientSide()) {
-                BlockState state = getBlockState();
-                level.sendBlockUpdated(worldPosition, state, state, 3);
-            }
-        }
-    };
+    private final FluidTank tank;
 
     private int processTime;
     private int processTimeTotal;
     private boolean yeastWarning;
     private boolean yeastError;
+    private boolean redstonePaused;
+    private boolean manuallyStopped;
 
     public FermentationBarrelBlockEntity(BlockPos pos, BlockState state) {
-        super(GrowthcraftCellarBlockEntities.FERMENTATION_BARREL.get(), pos, state);
+        this(GrowthcraftCellarBlockEntities.FERMENTATION_BARREL.get(), pos, state, TANK_CAPACITY);
+    }
+
+    protected FermentationBarrelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int tankCapacity) {
+        super(type, pos, state);
+        this.tank = new FluidTank(tankCapacity) {
+            @Override
+            public int fill(FluidStack resource, IFluidHandler.FluidAction action) {
+                return isProcessing() ? 0 : super.fill(resource, action);
+            }
+
+            @Override
+            public FluidStack drain(FluidStack resource, IFluidHandler.FluidAction action) {
+                return isProcessing() ? FluidStack.EMPTY : super.drain(resource, action);
+            }
+
+            @Override
+            public FluidStack drain(int maxDrain, IFluidHandler.FluidAction action) {
+                return isProcessing() ? FluidStack.EMPTY : super.drain(maxDrain, action);
+            }
+
+            @Override
+            protected void onContentsChanged() {
+                clearManualStop();
+                setChanged();
+                if (level != null && !level.isClientSide()) {
+                    BlockState currentState = getBlockState();
+                    level.sendBlockUpdated(worldPosition, currentState, currentState, 3);
+                }
+            }
+        };
     }
 
     public FluidTank getTank() {
         return tank;
+    }
+
+    public int getTankCapacity() {
+        return tank.getCapacity();
     }
 
     public ItemStack getResultingPotionItemStack() {
@@ -116,8 +145,44 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
         return yeastError;
     }
 
+    public boolean isProcessing() {
+        return processTime > 0 && processTimeTotal > 0;
+    }
+
+    public boolean isRedstonePaused() {
+        return redstonePaused;
+    }
+
+    public boolean isManuallyStopped() {
+        return manuallyStopped;
+    }
+
+    public void cancelProcessing() {
+        resetProgress();
+        this.manuallyStopped = true;
+        setChanged();
+        setRedstonePaused(false, getBlockState());
+        if (this.level != null && !this.level.isClientSide()) {
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
+        }
+    }
+
+    public void resumeProcessing() {
+        if (!this.manuallyStopped) return;
+        this.manuallyStopped = false;
+        setChanged();
+        if (this.level != null && !this.level.isClientSide()) {
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
+        }
+    }
+
     public static void serverTick(Level level, BlockPos pos, BlockState state, FermentationBarrelBlockEntity barrel) {
         if (level.isClientSide()) return;
+
+        boolean powered = barrel.hasPauseSignal(level, pos, state);
+        barrel.setRedstonePaused(powered && barrel.isProcessing(), state);
+        if (powered) return;
+        if (barrel.manuallyStopped) return;
 
         ItemStack yeast = barrel.getItem(SLOT_YEAST);
         FluidStack fluid = barrel.tank.getFluid();
@@ -137,7 +202,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
         FermentationBarrelRecipe recipe = match.get().value();
         int multiplier = recipe.getOutputMultiplier(new FermentationBarrelInput(yeast, fluid));
         FluidStack output = barrel.outputFluidStack(recipe, multiplier);
-        if (output.isEmpty() || output.getAmount() > TANK_CAPACITY) {
+        if (output.isEmpty() || output.getAmount() > barrel.getTankCapacity()) {
             barrel.resetProgress();
             return;
         }
@@ -151,6 +216,10 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
             barrel.setChanged();
             level.sendBlockUpdated(pos, state, state, 3);
         }
+    }
+
+    protected boolean hasPauseSignal(Level level, BlockPos pos, BlockState state) {
+        return level.hasNeighborSignal(pos);
     }
 
     private Optional<RecipeHolder<FermentationBarrelRecipe>> findMatch(Level level, ItemStack yeast, FluidStack fluid) {
@@ -184,6 +253,15 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
         if (this.yeastWarning == warning && this.yeastError == error) return;
         this.yeastWarning = warning;
         this.yeastError = error;
+        setChanged();
+        if (this.level != null && !this.level.isClientSide()) {
+            this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
+        }
+    }
+
+    private void setRedstonePaused(boolean paused, BlockState state) {
+        if (this.redstonePaused == paused) return;
+        this.redstonePaused = paused;
         setChanged();
         if (this.level != null && !this.level.isClientSide()) {
             this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
@@ -230,6 +308,12 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
         }
     }
 
+    private void clearManualStop() {
+        if (!this.manuallyStopped) return;
+        this.manuallyStopped = false;
+        setChanged();
+    }
+
     @Override
     public int getContainerSize() {
         return SLOT_COUNT;
@@ -247,23 +331,31 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
 
     @Override
     public ItemStack removeItem(int index, int count) {
+        if (isProcessing()) return ItemStack.EMPTY;
         ItemStack result = ContainerHelper.removeItem(items, index, count);
-        if (!result.isEmpty()) setChanged();
+        if (!result.isEmpty()) {
+            clearManualStop();
+            setChanged();
+        }
         return result;
     }
 
     @Override
     public ItemStack removeItemNoUpdate(int index) {
+        if (isProcessing()) return ItemStack.EMPTY;
         ItemStack stack = items.get(index);
         if (stack.isEmpty()) return ItemStack.EMPTY;
         items.set(index, ItemStack.EMPTY);
+        clearManualStop();
         return stack;
     }
 
     @Override
     public void setItem(int index, ItemStack stack) {
+        if (isProcessing()) return;
         items.set(index, stack);
         if (stack.getCount() > getMaxStackSize()) stack.setCount(getMaxStackSize());
+        clearManualStop();
         setChanged();
     }
 
@@ -276,6 +368,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
     @Override
     public void clearContent() {
         items.clear();
+        clearManualStop();
     }
 
     @Override
@@ -285,12 +378,12 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
 
     @Override
     public boolean canPlaceItemThroughFace(int index, ItemStack stack, Direction side) {
-        return index == SLOT_YEAST;
+        return !isProcessing() && index == SLOT_YEAST;
     }
 
     @Override
     public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction side) {
-        return index == SLOT_YEAST;
+        return !isProcessing() && index == SLOT_YEAST;
     }
 
     @Override
@@ -314,6 +407,8 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
         this.processTimeTotal = input.getIntOr("ProcessTimeTotal", 0);
         this.yeastWarning = input.getBooleanOr("YeastWarning", false);
         this.yeastError = input.getBooleanOr("YeastError", false);
+        this.manuallyStopped = input.getBooleanOr("ManuallyStopped", false);
+        this.redstonePaused = false;
     }
 
     @Override
@@ -325,6 +420,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
         output.putInt("ProcessTimeTotal", this.processTimeTotal);
         output.putBoolean("YeastWarning", this.yeastWarning);
         output.putBoolean("YeastError", this.yeastError);
+        output.putBoolean("ManuallyStopped", this.manuallyStopped);
     }
 
     @Override

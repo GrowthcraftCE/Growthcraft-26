@@ -1,0 +1,283 @@
+{
+  "credit": "Generated from the Growthcraft rounded fermentation barrel model",
+  "ambientocclusion": false,
+  "render_type": "cutout",
+  "textures": {
+    "0": "growthcraft_cellar:block/barrel_ferment/oak_bottom",
+    "1": "growthcraft_cellar:block/barrel_ferment/oak_side",
+    "2": "growthcraft_cellar:block/barrel_ferment/oak_side_alt",
+    "3": "growthcraft_cellar:block/barrel_ferment/oak_top",
+    "missing": "#3",
+    "particle": "growthcraft_cellar:block/barrel_ferment/oak_bottom"
+  },
+  "elements": [
+    {
+      "name": "east_outer_1",
+      "from": [
+        0.0,
+        15.0,
+        0.0
+      ],
+      "to": [
+        16.0,
+        16.0,
+        3.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            5.333333333333334,
+            10.666666666666668,
+            10.666666666666668,
+            11.0
+          ],
+          "texture": "#1",
+          "rotation": 180
+        },
+        "south": {
+          "uv": [
+            1.333333333333333,
+            0.0,
+            6.666666666666666,
+            0.33333333333333304
+          ],
+          "texture": "#3"
+        },
+        "down": {
+          "uv": [
+            5.333333333333334,
+            11.0,
+            10.666666666666668,
+            12.0
+          ],
+          "texture": "#1",
+          "rotation": 180
+        }
+      },
+      "rotation": {
+        "origin": [
+          23.0,
+          21.0,
+          24.0
+        ],
+        "axis": "x",
+        "angle": 0
+      },
+      "type": "cube"
+    },
+    {
+      "name": "east_outer_2",
+      "from": [
+        0.0,
+        9.0,
+        3.0
+      ],
+      "to": [
+        16.0,
+        16.0,
+        6.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            5.333333333333334,
+            10.666666666666668,
+            10.666666666666668,
+            13.0
+          ],
+          "texture": "#1",
+          "rotation": 180
+        },
+        "south": {
+          "uv": [
+            1.333333333333333,
+            0.0,
+            6.666666666666666,
+            2.333333333333333
+          ],
+          "texture": "#3"
+        },
+        "down": {
+          "uv": [
+            5.333333333333334,
+            12.0,
+            10.666666666666668,
+            13.0
+          ],
+          "texture": "#1",
+          "rotation": 180
+        }
+      },
+      "rotation": {
+        "origin": [
+          23.0,
+          24.0,
+          27.0
+        ],
+        "axis": "x",
+        "angle": 0
+      },
+      "type": "cube"
+    },
+    {
+      "name": "east_outer_3",
+      "from": [
+        0.0,
+        6.0,
+        6.0
+      ],
+      "to": [
+        16.0,
+        16.0,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            5.333333333333334,
+            10.666666666666668,
+            10.666666666666668,
+            14.0
+          ],
+          "texture": "#1",
+          "rotation": 180
+        },
+        "south": {
+          "uv": [
+            1.333333333333333,
+            0.0,
+            6.666666666666666,
+            3.333333333333333
+          ],
+          "texture": "#3"
+        },
+        "down": {
+          "uv": [
+            5.333333333333334,
+            13.0,
+            10.666666666666668,
+            14.0
+          ],
+          "texture": "#1",
+          "rotation": 180
+        }
+      },
+      "rotation": {
+        "origin": [
+          23.0,
+          27.0,
+          30.0
+        ],
+        "axis": "x",
+        "angle": 0
+      },
+      "type": "cube"
+    },
+    {
+      "name": "cube",
+      "from": [
+        0.0,
+        3.0,
+        9.0
+      ],
+      "to": [
+        16.0,
+        6.0,
+        16.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            5.333333333333333,
+            14.0,
+            10.666666666666666,
+            15.0
+          ],
+          "texture": "#1"
+        },
+        "up": {
+          "uv": [
+            1.333333333333334,
+            7.666666666666666,
+            6.666666666666667,
+            10.0
+          ],
+          "rotation": 180,
+          "texture": "#3"
+        },
+        "down": {
+          "uv": [
+            5.333333333333333,
+            3.0,
+            10.666666666666666,
+            5.333333333333334
+          ],
+          "texture": "#1"
+        }
+      },
+      "rotation": {
+        "origin": [
+          8.0,
+          27.0,
+          24.0
+        ],
+        "axis": "y",
+        "angle": 0
+      },
+      "type": "cube"
+    },
+    {
+      "name": "cube",
+      "from": [
+        0.0,
+        0.0,
+        15.0
+      ],
+      "to": [
+        16.0,
+        3.0,
+        16.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            5.333333333333333,
+            15.0,
+            10.666666666666666,
+            16.0
+          ],
+          "texture": "#1"
+        },
+        "up": {
+          "uv": [
+            1.333333333333334,
+            5.666666666666666,
+            6.666666666666667,
+            6.0
+          ],
+          "rotation": 180,
+          "texture": "#3"
+        },
+        "down": {
+          "uv": [
+            5.333333333333333,
+            5.0,
+            10.666666666666666,
+            5.333333333333334
+          ],
+          "texture": "#1"
+        }
+      },
+      "rotation": {
+        "origin": [
+          8.0,
+          24.0,
+          24.0
+        ],
+        "axis": "y",
+        "angle": 0
+      },
+      "type": "cube"
+    }
+  ]
+}

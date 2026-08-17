@@ -1,0 +1,105 @@
+{
+  "credit": "Generated from the Growthcraft rounded fermentation barrel model",
+  "ambientocclusion": false,
+  "render_type": "cutout",
+  "textures": {
+    "0": "growthcraft_cellar:block/barrel_ferment/oak_bottom",
+    "1": "growthcraft_cellar:block/barrel_ferment/oak_side",
+    "2": "growthcraft_cellar:block/barrel_ferment/oak_side_alt",
+    "3": "growthcraft_cellar:block/barrel_ferment/oak_top",
+    "missing": "#3",
+    "particle": "growthcraft_cellar:block/barrel_ferment/oak_bottom"
+  },
+  "elements": [
+    {
+      "name": "cube",
+      "from": [
+        0.0,
+        10.0,
+        0.0
+      ],
+      "to": [
+        16.0,
+        13.0,
+        16.0
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            5.333333333333333,
+            5.333333333333334,
+            10.666666666666666,
+            10.666666666666668
+          ],
+          "texture": "#1",
+          "rotation": 270
+        },
+        "down": {
+          "uv": [
+            1.333333333333334,
+            2.333333333333333,
+            6.666666666666667,
+            7.666666666666666
+          ],
+          "rotation": 90,
+          "texture": "#missing"
+        }
+      },
+      "rotation": {
+        "origin": [
+          8.0,
+          -11.0,
+          8.0
+        ],
+        "axis": "y",
+        "angle": 0
+      },
+      "type": "cube"
+    },
+    {
+      "name": "cube",
+      "from": [
+        0.0,
+        13.0,
+        0.0
+      ],
+      "to": [
+        16.0,
+        16.0,
+        16.0
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            5.333333333333333,
+            5.333333333333334,
+            10.666666666666666,
+            10.666666666666668
+          ],
+          "texture": "#1",
+          "rotation": 270
+        },
+        "down": {
+          "uv": [
+            1.333333333333334,
+            0.33333333333333304,
+            6.666666666666667,
+            5.666666666666666
+          ],
+          "rotation": 90,
+          "texture": "#missing"
+        }
+      },
+      "rotation": {
+        "origin": [
+          8.0,
+          -8.0,
+          8.0
+        ],
+        "axis": "y",
+        "angle": 0
+      },
+      "type": "cube"
+    }
+  ]
+}
