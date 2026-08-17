@@ -57,7 +57,7 @@ public record FluidTankRenderer(int width, int height, int capacityMb, float alp
         int amount = stack.getAmount();
         if (amount <= 0) return;
 
-        int filled = Math.max(1, (int) Math.floor((amount / (double) capacityMb) * height));
+        int filled = Math.min(height, Math.max(1, (int) Math.floor((amount / (double) capacityMb) * height)));
         int yTop = y + (height - filled);
 
         renderSprite(graphics, x, yTop, filled, stack);
@@ -79,7 +79,7 @@ public record FluidTankRenderer(int width, int height, int capacityMb, float alp
         int amount = stack.getAmount();
         if (amount <= 0) return;
 
-        int filled = Math.max(1, (int) Math.floor((amount / (double) capacityMb) * height));
+        int filled = Math.min(height, Math.max(1, (int) Math.floor((amount / (double) capacityMb) * height)));
         int yTop = y + (height - filled);
 
         renderSprite(graphics, x, yTop, filled, stack);

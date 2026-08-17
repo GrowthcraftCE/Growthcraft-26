@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "facing=north,part=bottom_near_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_north_bottom_near_left"
+    },
+    "facing=north,part=bottom_near_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_north_bottom_near_right"
+    },
+    "facing=north,part=bottom_far_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_north_bottom_far_left"
+    },
+    "facing=north,part=bottom_far_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_north_bottom_far_right"
+    },
+    "facing=north,part=top_near_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_north_top_near_left"
+    },
+    "facing=north,part=top_near_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_north_top_near_right"
+    },
+    "facing=north,part=top_far_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_north_top_far_left"
+    },
+    "facing=north,part=top_far_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_north_top_far_right"
+    },
+    "facing=south,part=bottom_near_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_south_bottom_near_left"
+    },
+    "facing=south,part=bottom_near_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_south_bottom_near_right"
+    },
+    "facing=south,part=bottom_far_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_south_bottom_far_left"
+    },
+    "facing=south,part=bottom_far_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_south_bottom_far_right"
+    },
+    "facing=south,part=top_near_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_south_top_near_left"
+    },
+    "facing=south,part=top_near_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_south_top_near_right"
+    },
+    "facing=south,part=top_far_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_south_top_far_left"
+    },
+    "facing=south,part=top_far_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_south_top_far_right"
+    },
+    "facing=east,part=bottom_near_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_east_bottom_near_left"
+    },
+    "facing=east,part=bottom_near_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_east_bottom_near_right"
+    },
+    "facing=east,part=bottom_far_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_east_bottom_far_left"
+    },
+    "facing=east,part=bottom_far_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_east_bottom_far_right"
+    },
+    "facing=east,part=top_near_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_east_top_near_left"
+    },
+    "facing=east,part=top_near_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_east_top_near_right"
+    },
+    "facing=east,part=top_far_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_east_top_far_left"
+    },
+    "facing=east,part=top_far_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_east_top_far_right"
+    },
+    "facing=west,part=bottom_near_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_west_bottom_near_left"
+    },
+    "facing=west,part=bottom_near_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_west_bottom_near_right"
+    },
+    "facing=west,part=bottom_far_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_west_bottom_far_left"
+    },
+    "facing=west,part=bottom_far_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_west_bottom_far_right"
+    },
+    "facing=west,part=top_near_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_west_top_near_left"
+    },
+    "facing=west,part=top_near_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_west_top_near_right"
+    },
+    "facing=west,part=top_far_left": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_west_top_far_left"
+    },
+    "facing=west,part=top_far_right": {
+      "model": "growthcraft_cellar:block/large_fermentation_barrel_mangrove_west_top_far_right"
+    }
+  }
+}

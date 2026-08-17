@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_cellar",
+  "key": {
+    "B": "growthcraft_cellar:fermentation_barrel_crimson"
+  },
+  "pattern": [
+    "BBB",
+    "B B",
+    "BBB"
+  ],
+  "result": {
+    "id": "growthcraft_cellar:large_fermentation_barrel_crimson"
+  }
+}

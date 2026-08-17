@@ -79,7 +79,32 @@ public class GrowthcraftCellarJeiPlugin implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.BREW_KETTLE.get()), BREW_KETTLE);
         registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.CULTURE_JAR.get()), CULTURE_JAR);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_ACACIA.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_APPLE.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_BAMBOO.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_BIRCH.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_CHERRY.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_CRIMSON.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_DARK_OAK.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_JUNGLE.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_MANGROVE.get()), FERMENTATION_BARREL);
         registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_PALE_OAK.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_SPRUCE.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_ACACIA.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_APPLE.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_BAMBOO.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_BIRCH.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_CHERRY.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_CRIMSON.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_DARK_OAK.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_JUNGLE.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_MANGROVE.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_OAK.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_PALE_OAK.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_SPRUCE.get()), FERMENTATION_BARREL);
+        registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_WARPED.get()), FERMENTATION_BARREL);
         registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.FRUIT_PRESS.get()), FRUIT_PRESS);
         registration.addRecipeCatalyst(new ItemStack(GrowthcraftCellarItems.ROASTER.get()), ROASTER);
     }

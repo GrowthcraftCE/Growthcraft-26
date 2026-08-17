@@ -1,0 +1,10 @@
+{
+  "parent": "growthcraft_cellar:block/large_storage_barrel/south_top_near_right",
+  "textures": {
+    "0": "growthcraft_cellar:block/barrel_storage/large/apple_bottom",
+    "1": "growthcraft_cellar:block/barrel_storage/large/apple_side",
+    "2": "growthcraft_cellar:block/barrel_storage/large/apple_side_alt",
+    "3": "growthcraft_cellar:block/barrel_storage/large/apple_top",
+    "particle": "growthcraft_cellar:block/barrel_storage/large/apple_bottom"
+  }
+}

@@ -1,6 +1,6 @@
 # Growthcraft 26.1.2 (NeoForge)
 
-[![Growthcraft Version](https://img.shields.io/badge/Growthcraft-26.1.2.0.rc3-orange.svg)](https://github.com/GrowthcraftCE/Growthcraft-26)
+[![Growthcraft Version](https://img.shields.io/badge/Growthcraft-26.1.2.0.rc4-orange.svg)](https://github.com/GrowthcraftCE/Growthcraft-26)
 [![](http://cf.way2muchnoise.eu/versions/growthcraft-community-edition_latest.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
 [![](http://cf.way2muchnoise.eu/short_growthcraft-community-edition.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
 [![NeoForge Version](https://img.shields.io/badge/NeoForge-26.1.x-yellow.svg)](https://projects.neoforged.net/neoforged/neoforge)
@@ -35,7 +35,7 @@ After generation, reload the Gradle project in IntelliJ if run configs do not ap
 ### Growthcraft 26.1 (Minecraft 26.1.2)
 
 End of Support: TBD<br>
-Latest Version: 26.1.2.0.rc3<br>
+Latest Version: 26.1.2.0.rc4<br>
 Stable Version: TBD
 
 ### Growthcraft 1.21 (Minecraft 1.21.1)

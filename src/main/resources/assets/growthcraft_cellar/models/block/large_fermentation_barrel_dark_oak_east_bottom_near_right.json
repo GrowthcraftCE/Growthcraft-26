@@ -1,0 +1,10 @@
+{
+  "parent": "growthcraft_cellar:block/large_fermentation_barrel/east_bottom_near_right",
+  "textures": {
+    "0": "growthcraft_cellar:block/barrel_ferment/large/dark_oak_bottom",
+    "1": "growthcraft_cellar:block/barrel_ferment/large/dark_oak_side",
+    "2": "growthcraft_cellar:block/barrel_ferment/large/dark_oak_side_alt",
+    "3": "growthcraft_cellar:block/barrel_ferment/large/dark_oak_top",
+    "particle": "growthcraft_cellar:block/barrel_ferment/large/dark_oak_bottom"
+  }
+}

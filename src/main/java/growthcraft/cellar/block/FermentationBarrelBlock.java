@@ -8,19 +8,24 @@ import growthcraft.milk.item.GrowthcraftMilkBucketItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BottleItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
@@ -32,8 +37,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -41,8 +51,18 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class FermentationBarrelBlock extends Block implements EntityBlock {
+public class FermentationBarrelBlock extends Block implements EntityBlock, LiquidBlockContainer {
     public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
+    private static final VoxelShape NORTH_SOUTH_SHAPE = Shapes.or(
+            box(5, 0, 4, 11, 1, 12),
+            box(3, 1, 0.1, 13, 2, 15.9),
+            box(2, 2, 0.1, 14, 3, 15.9),
+            box(1, 3, 0.1, 15, 5, 15.9),
+            box(1, 5, 0.1, 15, 11, 15.9),
+            box(1, 11, 0.1, 15, 13, 15.9),
+            box(2, 13, 0.1, 14, 14, 15.9),
+            box(3, 14, 0.1, 13, 15, 15.9),
+            box(5, 15, 4, 11, 16, 12));
 
     public FermentationBarrelBlock() {
         this(Properties.of()
@@ -53,8 +73,57 @@ public class FermentationBarrelBlock extends Block implements EntityBlock {
     }
 
     public FermentationBarrelBlock(Properties properties) {
-        super(properties);
+        super(properties.forceSolidOff());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    private static VoxelShape rotateShape(VoxelShape source, Direction.Axis axis) {
+        if (axis == Direction.Axis.Z) {
+            return source;
+        }
+
+        VoxelShape[] rotated = new VoxelShape[]{Shapes.empty()};
+        source.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            if (axis == Direction.Axis.X) {
+                rotated[0] = Shapes.or(rotated[0], box(
+                        minZ * 16.0, minY * 16.0, minX * 16.0,
+                        maxZ * 16.0, maxY * 16.0, maxX * 16.0));
+            } else {
+                rotated[0] = Shapes.or(rotated[0], box(
+                        minX * 16.0, minZ * 16.0, minY * 16.0,
+                        maxX * 16.0, maxZ * 16.0, maxY * 16.0));
+            }
+        });
+        return rotated[0];
+    }
+
+    private VoxelShape getBarrelShape(BlockState state) {
+        return rotateShape(NORTH_SOUTH_SHAPE, state.getValue(FACING).getAxis()).optimize();
+    }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return getBarrelShape(state);
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return getBarrelShape(state);
+    }
+
+    @Override
+    protected boolean useShapeForLightOcclusion(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+        return 1.0F;
+    }
+
+    @Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
     }
 
     @Override
@@ -85,6 +154,10 @@ public class FermentationBarrelBlock extends Block implements EntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        return useWithoutItemAt(level, pos, player);
+    }
+
+    public static InteractionResult useWithoutItemAt(Level level, BlockPos pos, Player player) {
         if (!level.isClientSide()) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof net.minecraft.world.MenuProvider provider) {
@@ -97,6 +170,24 @@ public class FermentationBarrelBlock extends Block implements EntityBlock {
 
     @Override
     protected InteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        return useItemOnAt(heldStack, state, level, pos, player, hand, hitResult.getDirection());
+    }
+
+    public static InteractionResult useItemOnAt(ItemStack heldStack, BlockState state, Level level, BlockPos pos,
+                                                Player player, InteractionHand hand, Direction interactionSide) {
+        boolean fluidMutation = heldStack.is(Items.MILK_BUCKET)
+                || heldStack.getItem() instanceof GrowthcraftMilkBucketItem
+                || isBottleForBarrel(heldStack)
+                || FluidUtil.getFluidHandler(heldStack).isPresent();
+        if (fluidMutation && level.getBlockEntity(pos) instanceof FermentationBarrelBlockEntity barrel
+                && barrel.isProcessing()) {
+            if (!level.isClientSide()) {
+                player.sendOverlayMessage(
+                        Component.translatable("growthcraft_cellar.message.fermentation.processing_locked"));
+            }
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+        }
+
         if (tryMilkBucketInteraction(heldStack, level, pos, player, hand)) {
             return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
@@ -124,7 +215,7 @@ public class FermentationBarrelBlock extends Block implements EntityBlock {
             }
         }
 
-        if (FluidUtil.getFluidHandler(heldStack).isPresent() && FluidUtil.interactWithFluidHandler(player, hand, level, pos, hitResult.getDirection())) {
+        if (FluidUtil.getFluidHandler(heldStack).isPresent() && FluidUtil.interactWithFluidHandler(player, hand, level, pos, interactionSide)) {
             return (level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER);
         }
         return InteractionResult.TRY_WITH_EMPTY_HAND;
@@ -153,7 +244,7 @@ public class FermentationBarrelBlock extends Block implements EntityBlock {
         return true;
     }
 
-    private boolean isBottleForBarrel(ItemStack stack) {
+    private static boolean isBottleForBarrel(ItemStack stack) {
         return stack.is(Items.GLASS_BOTTLE)
                 || stack.getItem() instanceof BottleItem
                 || stack.is(GrowthcraftCellarItems.POTION_ALE.get())
@@ -161,7 +252,7 @@ public class FermentationBarrelBlock extends Block implements EntityBlock {
                 || stack.is(GrowthcraftCellarItems.POTION_WINE.get());
     }
 
-    private void fillBottleFromBarrel(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
+    private static void fillBottleFromBarrel(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
                                       ItemStack heldStack, FermentationBarrelBlockEntity barrel, ItemStack result) {
         barrel.drainBottleAmount(state);
         if (!player.getAbilities().instabuild) {
@@ -204,5 +295,21 @@ public class FermentationBarrelBlock extends Block implements EntityBlock {
     @Override
     public PushReaction getPistonPushReaction(BlockState state) {
         return PushReaction.DESTROY;
+    }
+
+    @Override
+    protected boolean canBeReplaced(BlockState state, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public boolean canPlaceLiquid(@Nullable LivingEntity user, BlockGetter level, BlockPos pos,
+                                  BlockState state, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public boolean placeLiquid(LevelAccessor level, BlockPos pos, BlockState state, FluidState fluidState) {
+        return false;
     }
 }
