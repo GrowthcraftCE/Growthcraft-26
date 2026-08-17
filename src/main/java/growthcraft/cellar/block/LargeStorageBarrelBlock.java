@@ -134,7 +134,7 @@ public class LargeStorageBarrelBlock extends Block implements EntityBlock, Liqui
                                           Player player, InteractionHand hand, BlockHitResult hitResult) {
         BlockPos controllerPos = getControllerPos(pos, state);
         return FluidUtil.interactWithFluidHandler(player, hand, level, controllerPos, hitResult.getDirection())
-                ? InteractionResult.SUCCESS : InteractionResult.PASS;
+                ? InteractionResult.SUCCESS : InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Nullable

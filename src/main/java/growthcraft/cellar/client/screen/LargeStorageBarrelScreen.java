@@ -19,8 +19,8 @@ public class LargeStorageBarrelScreen extends TexturedMachineScreen<LargeStorage
             Reference.MODID, "textures/gui/large_storage_barrel_screen.png");
     private static final int TANK_X = 54;
     private static final int TANK_Y = 17;
-    private static final int TANK_W = 68;
-    private static final int TANK_H = 52;
+    private static final int TANK_W = 69;
+    private static final int TANK_H = 53;
 
     public LargeStorageBarrelScreen(LargeStorageBarrelMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, TEXTURE);
