@@ -39,26 +39,13 @@ public class LargeFermentationBarrelBlock extends Block implements EntityBlock {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<LargeBarrelPart> PART = EnumProperty.create("part", LargeBarrelPart.class);
 
-    private static final VoxelShape BOTTOM_LOW = Shapes.or(
-            box(10, 0, 0, 16, 2, 16),
-            box(6, 2, 0, 16, 4, 16),
-            box(4, 4, 0, 16, 6, 16),
-            box(2, 6, 0, 16, 16, 16));
-    private static final VoxelShape BOTTOM_HIGH = Shapes.or(
-            box(0, 0, 0, 6, 2, 16),
-            box(0, 2, 0, 10, 4, 16),
-            box(0, 4, 0, 12, 6, 16),
-            box(0, 6, 0, 14, 16, 16));
-    private static final VoxelShape TOP_LOW = Shapes.or(
-            box(2, 0, 0, 16, 10, 16),
-            box(4, 10, 0, 16, 12, 16),
-            box(6, 12, 0, 16, 14, 16),
-            box(10, 14, 0, 16, 16, 16));
-    private static final VoxelShape TOP_HIGH = Shapes.or(
-            box(0, 0, 0, 14, 10, 16),
-            box(0, 10, 0, 12, 12, 16),
-            box(0, 12, 0, 10, 14, 16),
-            box(0, 14, 0, 6, 16, 16));
+    private static final double[][] PROFILE = {
+            {0, 2, 10, 22, 8, 24}, {2, 4, 6, 26, 0, 32},
+            {4, 6, 4, 28, 0, 32}, {6, 10, 2, 30, 0, 32},
+            {10, 22, 2, 30, 0, 32}, {22, 26, 2, 30, 0, 32},
+            {26, 28, 4, 28, 0, 32}, {28, 30, 6, 26, 0, 32},
+            {30, 32, 10, 22, 8, 24}
+    };
 
     public LargeFermentationBarrelBlock(Properties properties) {
         super(properties);
@@ -190,25 +177,27 @@ public class LargeFermentationBarrelBlock extends Block implements EntityBlock {
     private VoxelShape getPartShape(BlockState state) {
         LargeBarrelPart part = state.getValue(PART);
         Direction facing = state.getValue(FACING);
-        boolean highHalf = part.rightOffset() == 1;
-        if (facing == Direction.SOUTH || facing == Direction.WEST) {
-            highHalf = !highHalf;
+        int rightPart = part.rightOffset();
+        int forwardPart = part.forwardOffset();
+        if (facing.getClockWise().getAxisDirection() == Direction.AxisDirection.NEGATIVE) rightPart = 1 - rightPart;
+        if (facing.getAxisDirection() == Direction.AxisDirection.NEGATIVE) forwardPart = 1 - forwardPart;
+        double cellX = (facing.getAxis() == Direction.Axis.Z ? rightPart : forwardPart) * 16.0;
+        double cellY = part.upOffset() * 16.0;
+        double cellZ = (facing.getAxis() == Direction.Axis.Z ? forwardPart : rightPart) * 16.0;
+        VoxelShape profile = Shapes.empty();
+        for (double[] band : PROFILE) {
+            double minY = Math.max(band[0], cellY);
+            double maxY = Math.min(band[1], cellY + 16.0);
+            double minX = Math.max(facing.getAxis() == Direction.Axis.Z ? band[2] : band[4], cellX);
+            double maxX = Math.min(facing.getAxis() == Direction.Axis.Z ? band[3] : band[5], cellX + 16.0);
+            double minZ = Math.max(facing.getAxis() == Direction.Axis.Z ? band[4] : band[2], cellZ);
+            double maxZ = Math.min(facing.getAxis() == Direction.Axis.Z ? band[5] : band[3], cellZ + 16.0);
+            if (minY < maxY && minX < maxX && minZ < maxZ) {
+                profile = Shapes.or(profile, box(minX - cellX, minY - cellY, minZ - cellZ,
+                        maxX - cellX, maxY - cellY, maxZ - cellZ));
+            }
         }
-
-        VoxelShape xProfile = part.upOffset() == 0
-                ? (highHalf ? BOTTOM_HIGH : BOTTOM_LOW)
-                : (highHalf ? TOP_HIGH : TOP_LOW);
-        if (facing.getAxis() == Direction.Axis.Z) {
-            return xProfile.optimize();
-        }
-
-        // Rotate the canonical X/Y cross-section into Z/Y for east/west barrels.
-        VoxelShape[] rotated = new VoxelShape[]{Shapes.empty()};
-        xProfile.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) ->
-                rotated[0] = Shapes.or(rotated[0], box(
-                        minZ * 16.0, minY * 16.0, minX * 16.0,
-                        maxZ * 16.0, maxY * 16.0, maxX * 16.0)));
-        return rotated[0].optimize();
+        return profile.optimize();
     }
 
     @Override

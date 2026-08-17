@@ -38,6 +38,10 @@ public enum LargeBarrelPart implements StringRepresentable {
         return upOffset;
     }
 
+    public int forwardOffset() {
+        return forwardOffset;
+    }
+
     public BlockPos fromController(BlockPos controllerPos, Direction forward) {
         return controllerPos.relative(forward.getClockWise(), rightOffset)
                 .above(upOffset)

@@ -38,9 +38,11 @@ public class LargeStorageBarrelBlock extends Block implements EntityBlock {
     public static final EnumProperty<StorageBarrelPart> PART = EnumProperty.create("part", StorageBarrelPart.class);
 
     private static final double[][] PROFILE = {
-            {0, 2, 14, 34}, {2, 4, 10, 38}, {4, 6, 6, 42}, {6, 10, 2, 46},
-            {10, 38, 0, 48}, {38, 42, 2, 46}, {42, 44, 6, 42},
-            {44, 46, 10, 38}, {46, 48, 14, 34}
+            {0, 3, 15, 33, 12, 36}, {3, 6, 9, 39, 0, 48},
+            {6, 9, 6, 42, 0, 48}, {9, 15, 3, 45, 0, 48},
+            {15, 33, 3, 45, 0, 48}, {33, 39, 3, 45, 0, 48},
+            {39, 42, 6, 42, 0, 48}, {42, 45, 9, 39, 0, 48},
+            {45, 48, 15, 33, 12, 36}
     };
 
     public LargeStorageBarrelBlock(Properties properties) {
@@ -148,28 +150,27 @@ public class LargeStorageBarrelBlock extends Block implements EntityBlock {
     private VoxelShape getPartShape(BlockState state) {
         StorageBarrelPart part = state.getValue(PART);
         Direction facing = state.getValue(FACING);
-        int horizontalPart = part.rightOffset();
-        if (facing == Direction.SOUTH || facing == Direction.WEST) horizontalPart = 2 - horizontalPart;
-        double cellX = horizontalPart * 16.0;
+        int rightPart = part.rightOffset();
+        int forwardPart = part.forwardOffset();
+        if (facing.getClockWise().getAxisDirection() == Direction.AxisDirection.NEGATIVE) rightPart = 2 - rightPart;
+        if (facing.getAxisDirection() == Direction.AxisDirection.NEGATIVE) forwardPart = 2 - forwardPart;
+        double cellX = (facing.getAxis() == Direction.Axis.Z ? rightPart : forwardPart) * 16.0;
         double cellY = part.upOffset() * 16.0;
+        double cellZ = (facing.getAxis() == Direction.Axis.Z ? forwardPart : rightPart) * 16.0;
         VoxelShape profile = Shapes.empty();
         for (double[] band : PROFILE) {
             double minY = Math.max(band[0], cellY);
             double maxY = Math.min(band[1], cellY + 16.0);
-            double minX = Math.max(band[2], cellX);
-            double maxX = Math.min(band[3], cellX + 16.0);
-            if (minY < maxY && minX < maxX) {
-                profile = Shapes.or(profile, box(minX - cellX, minY - cellY, 0,
-                        maxX - cellX, maxY - cellY, 16));
+            double minX = Math.max(facing.getAxis() == Direction.Axis.Z ? band[2] : band[4], cellX);
+            double maxX = Math.min(facing.getAxis() == Direction.Axis.Z ? band[3] : band[5], cellX + 16.0);
+            double minZ = Math.max(facing.getAxis() == Direction.Axis.Z ? band[4] : band[2], cellZ);
+            double maxZ = Math.min(facing.getAxis() == Direction.Axis.Z ? band[5] : band[3], cellZ + 16.0);
+            if (minY < maxY && minX < maxX && minZ < maxZ) {
+                profile = Shapes.or(profile, box(minX - cellX, minY - cellY, minZ - cellZ,
+                        maxX - cellX, maxY - cellY, maxZ - cellZ));
             }
         }
-        if (facing.getAxis() == Direction.Axis.Z) return profile.optimize();
-        VoxelShape[] rotated = {Shapes.empty()};
-        profile.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) ->
-                rotated[0] = Shapes.or(rotated[0], box(
-                        minZ * 16.0, minY * 16.0, minX * 16.0,
-                        maxZ * 16.0, maxY * 16.0, maxX * 16.0)));
-        return rotated[0].optimize();
+        return profile.optimize();
     }
 
     @Override

@@ -49,13 +49,15 @@ import org.jetbrains.annotations.Nullable;
 public class FermentationBarrelBlock extends Block implements EntityBlock {
     public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
     private static final VoxelShape NORTH_SOUTH_SHAPE = Shapes.or(
-            box(5, 0, 0, 11, 1, 16),
+            box(5, 0, 4, 11, 1, 12),
             box(3, 1, 0, 13, 2, 16),
             box(2, 2, 0, 14, 3, 16),
-            box(1, 3, 0, 15, 13, 16),
+            box(1, 3, 0, 15, 5, 16),
+            box(1, 5, 0, 15, 11, 16),
+            box(1, 11, 0, 15, 13, 16),
             box(2, 13, 0, 14, 14, 16),
             box(3, 14, 0, 13, 15, 16),
-            box(5, 15, 0, 11, 16, 16));
+            box(5, 15, 4, 11, 16, 12));
 
     public FermentationBarrelBlock() {
         this(Properties.of()
