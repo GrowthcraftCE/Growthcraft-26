@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BottleItem;
 import net.minecraft.world.item.Items;
@@ -20,9 +21,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
@@ -34,6 +37,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -46,17 +51,17 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class FermentationBarrelBlock extends Block implements EntityBlock {
+public class FermentationBarrelBlock extends Block implements EntityBlock, LiquidBlockContainer {
     public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
     private static final VoxelShape NORTH_SOUTH_SHAPE = Shapes.or(
             box(5, 0, 4, 11, 1, 12),
-            box(3, 1, 0, 13, 2, 16),
-            box(2, 2, 0, 14, 3, 16),
-            box(1, 3, 0, 15, 5, 16),
-            box(1, 5, 0, 15, 11, 16),
-            box(1, 11, 0, 15, 13, 16),
-            box(2, 13, 0, 14, 14, 16),
-            box(3, 14, 0, 13, 15, 16),
+            box(3, 1, 0.1, 13, 2, 15.9),
+            box(2, 2, 0.1, 14, 3, 15.9),
+            box(1, 3, 0.1, 15, 5, 15.9),
+            box(1, 5, 0.1, 15, 11, 15.9),
+            box(1, 11, 0.1, 15, 13, 15.9),
+            box(2, 13, 0.1, 14, 14, 15.9),
+            box(3, 14, 0.1, 13, 15, 15.9),
             box(5, 15, 4, 11, 16, 12));
 
     public FermentationBarrelBlock() {
@@ -290,5 +295,21 @@ public class FermentationBarrelBlock extends Block implements EntityBlock {
     @Override
     public PushReaction getPistonPushReaction(BlockState state) {
         return PushReaction.DESTROY;
+    }
+
+    @Override
+    protected boolean canBeReplaced(BlockState state, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public boolean canPlaceLiquid(@Nullable LivingEntity user, BlockGetter level, BlockPos pos,
+                                  BlockState state, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public boolean placeLiquid(LevelAccessor level, BlockPos pos, BlockState state, FluidState fluidState) {
+        return false;
     }
 }
