@@ -7,6 +7,7 @@ import growthcraft.cellar.block.entity.CultureJarBlockEntity;
 import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
 import growthcraft.cellar.block.entity.FruitPressBlockEntity;
 import growthcraft.cellar.block.entity.LargeFermentationBarrelBlockEntity;
+import growthcraft.cellar.block.entity.LargeStorageBarrelBlockEntity;
 import growthcraft.cellar.block.entity.RoasterBlockEntity;
 import growthcraft.cellar.config.Reference;
 import net.minecraft.core.registries.Registries;
@@ -48,7 +49,31 @@ public final class GrowthcraftCellarBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LargeFermentationBarrelBlockEntity>> LARGE_FERMENTATION_BARREL = BLOCK_ENTITY_TYPES.register(
             Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_OAK,
             () -> new BlockEntityType<>(LargeFermentationBarrelBlockEntity::new,
-                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK.get())
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_ACACIA.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_APPLE.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_BAMBOO.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_BIRCH.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_CHERRY.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_CRIMSON.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_DARK_OAK.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_JUNGLE.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_MANGROVE.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_PALE_OAK.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_SPRUCE.get(),
+                    GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_WARPED.get())
+    );
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LargeStorageBarrelBlockEntity>> LARGE_STORAGE_BARREL = BLOCK_ENTITY_TYPES.register(
+            Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_OAK,
+            () -> new BlockEntityType<>(LargeStorageBarrelBlockEntity::new,
+                    GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_ACACIA.get(), GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_APPLE.get(),
+                    GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_BAMBOO.get(), GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_BIRCH.get(),
+                    GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_CHERRY.get(), GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_CRIMSON.get(),
+                    GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_DARK_OAK.get(), GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_JUNGLE.get(),
+                    GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_MANGROVE.get(), GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_OAK.get(),
+                    GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_PALE_OAK.get(), GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_SPRUCE.get(),
+                    GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_WARPED.get())
     );
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FruitPressBlockEntity>> FRUIT_PRESS = BLOCK_ENTITY_TYPES.register(

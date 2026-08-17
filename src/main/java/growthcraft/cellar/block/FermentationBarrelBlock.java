@@ -91,7 +91,7 @@ public class FermentationBarrelBlock extends Block implements EntityBlock {
     }
 
     private VoxelShape getBarrelShape(BlockState state) {
-        return rotateShape(NORTH_SOUTH_SHAPE, state.getValue(FACING).getAxis());
+        return rotateShape(NORTH_SOUTH_SHAPE, state.getValue(FACING).getAxis()).optimize();
     }
 
     @Override

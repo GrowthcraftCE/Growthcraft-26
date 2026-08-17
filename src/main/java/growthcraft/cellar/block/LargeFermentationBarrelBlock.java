@@ -1,6 +1,5 @@
 package growthcraft.cellar.block;
 
-import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
 import growthcraft.cellar.block.entity.LargeFermentationBarrelBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -133,7 +132,7 @@ public class LargeFermentationBarrelBlock extends Block implements EntityBlock {
                 }
             }
             if (!brokenPart.isController() && !player.getAbilities().instabuild) {
-                popResource(level, pos, new ItemStack(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK.get()));
+                popResource(level, pos, new ItemStack(this));
             }
         }
         return super.playerWillDestroy(level, pos, state, player);
@@ -200,7 +199,7 @@ public class LargeFermentationBarrelBlock extends Block implements EntityBlock {
                 ? (highHalf ? BOTTOM_HIGH : BOTTOM_LOW)
                 : (highHalf ? TOP_HIGH : TOP_LOW);
         if (facing.getAxis() == Direction.Axis.Z) {
-            return xProfile;
+            return xProfile.optimize();
         }
 
         // Rotate the canonical X/Y cross-section into Z/Y for east/west barrels.
@@ -209,7 +208,7 @@ public class LargeFermentationBarrelBlock extends Block implements EntityBlock {
                 rotated[0] = Shapes.or(rotated[0], box(
                         minZ * 16.0, minY * 16.0, minX * 16.0,
                         maxZ * 16.0, maxY * 16.0, maxX * 16.0)));
-        return rotated[0];
+        return rotated[0].optimize();
     }
 
     @Override

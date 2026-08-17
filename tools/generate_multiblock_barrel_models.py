@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate structure-relative models for the 2x2x2 fermentation barrel."""
+"""Generate structure-relative models for rounded multiblock barrels."""
 
 from __future__ import annotations
 
@@ -9,16 +9,8 @@ import json
 from pathlib import Path
 
 
-PARTS = {
-    (0, 0, 0): "bottom_near_left",
-    (1, 0, 0): "bottom_near_right",
-    (0, 0, 1): "bottom_far_left",
-    (1, 0, 1): "bottom_far_right",
-    (0, 1, 0): "top_near_left",
-    (1, 1, 0): "top_near_right",
-    (0, 1, 1): "top_far_left",
-    (1, 1, 1): "top_far_right",
-}
+SCALE = 2
+PARTS: dict[tuple[int, int, int], str] = {}
 
 FACINGS = {
     "north": ((1, 0), (0, -1)),
@@ -26,6 +18,11 @@ FACINGS = {
     "east": ((0, 1), (1, 0)),
     "west": ((0, -1), (-1, 0)),
 }
+
+WOODS = (
+    "acacia", "apple", "bamboo", "birch", "cherry", "crimson", "dark_oak",
+    "jungle", "mangrove", "oak", "pale_oak", "spruce", "warped",
+)
 
 FACE_MAPS = {
     "north": {"north": "south", "south": "north", "east": "east", "west": "west"},
@@ -47,8 +44,8 @@ HORIZONTAL_FACE_ROTATIONS = {
 }
 
 
-def scaled(values: list[float], factor: float = 2.0) -> list[float]:
-    return [value * factor for value in values]
+def scaled(values: list[float]) -> list[float]:
+    return [value * SCALE for value in values]
 
 
 FACE_AXES = {
@@ -94,6 +91,11 @@ def rotated_fraction_bounds(
 
 def crop_face_uv(face: dict, direction: str, original: dict, clipped: dict) -> dict:
     cropped = copy.deepcopy(face)
+    # The original Blockbench model used a placeholder texture variable for
+    # several lid/end-cap faces. Point generated faces directly at the top
+    # texture; aliases do not reliably survive the parent/child model chain.
+    if cropped.get("texture") == "#missing":
+        cropped["texture"] = "#3"
     if "uv" not in cropped:
         return cropped
 
@@ -124,8 +126,9 @@ def clip_element_to_cell(source_element: dict, cell: tuple[int, int, int]) -> di
     # Cell boundaries are eight source-model units because the final geometry is
     # scaled by two. Clipping here keeps every generated element inside its
     # owning Minecraft block, which is required for correct neighbour lighting.
-    cell_from = [coordinate * 8.0 for coordinate in cell]
-    cell_to = [(coordinate + 1) * 8.0 for coordinate in cell]
+    cell_size = 16.0 / SCALE
+    cell_from = [coordinate * cell_size for coordinate in cell]
+    cell_to = [(coordinate + 1) * cell_size for coordinate in cell]
     clipped = copy.deepcopy(source_element)
     clipped["from"] = [max(source_element["from"][axis], cell_from[axis]) for axis in range(3)]
     clipped["to"] = [min(source_element["to"][axis], cell_to[axis]) for axis in range(3)]
@@ -167,9 +170,9 @@ def orient_element(source_element: dict, cell: tuple[int, int, int], facing: str
     element = copy.deepcopy(source_element)
     corners = [
         transform_point([x, y, z], facing)
-        for x in (source_element["from"][0] * 2.0, source_element["to"][0] * 2.0)
-        for y in (source_element["from"][1] * 2.0, source_element["to"][1] * 2.0)
-        for z in (source_element["from"][2] * 2.0, source_element["to"][2] * 2.0)
+        for x in (source_element["from"][0] * SCALE, source_element["to"][0] * SCALE)
+        for y in (source_element["from"][1] * SCALE, source_element["to"][1] * SCALE)
+        for z in (source_element["from"][2] * SCALE, source_element["to"][2] * SCALE)
     ]
     origin = part_origin(cell, facing)
     element["from"] = [min(point[axis] for point in corners) - origin[axis] for axis in range(3)]
@@ -197,9 +200,30 @@ def orient_element(source_element: dict, cell: tuple[int, int, int], facing: str
     return element
 
 
-def generate(source_path: Path, output_root: Path) -> None:
+def build_parts(size: int) -> dict[tuple[int, int, int], str]:
+    horizontal = ("left", "right") if size == 2 else ("left", "center", "right")
+    depth = ("near", "far") if size == 2 else ("near", "center", "far")
+    vertical = ("bottom", "top") if size == 2 else ("bottom", "middle", "top")
+    parts = {}
+    for y in range(size):
+        for z in range(size):
+            for x in range(size):
+                # Avoid the awkward "center_center" suffix for the exact
+                # middle of a 3x3 layer. These names are persisted in worlds.
+                if size == 3 and x == 1 and z == 1:
+                    parts[(x, y, z)] = f"{vertical[y]}_center"
+                else:
+                    parts[(x, y, z)] = f"{vertical[y]}_{depth[z]}_{horizontal[x]}"
+    return parts
+
+
+def generate(source_path: Path, output_root: Path, size: int, name: str,
+             texture_dir: str, item_parent: str) -> None:
+    global SCALE, PARTS
+    SCALE = size
+    PARTS = build_parts(size)
     source = json.loads(source_path.read_text(encoding="utf-8"))
-    geometry_dir = output_root / "models" / "block" / "large_fermentation_barrel"
+    geometry_dir = output_root / "models" / "block" / name
     geometry_dir.mkdir(parents=True, exist_ok=True)
 
     for facing in FACINGS:
@@ -221,39 +245,57 @@ def generate(source_path: Path, output_root: Path) -> None:
             }
             (geometry_dir / f"{model_name}.json").write_text(json.dumps(model, indent=2) + "\n", encoding="utf-8")
 
-            child = {
-                "parent": f"growthcraft_cellar:block/large_fermentation_barrel/{model_name}",
-                "textures": {
-                    "0": "growthcraft_cellar:block/barrel_ferment/large/oak_bottom",
-                    "1": "growthcraft_cellar:block/barrel_ferment/large/oak_side",
-                    "2": "growthcraft_cellar:block/barrel_ferment/large/oak_side_alt",
-                    "3": "growthcraft_cellar:block/barrel_ferment/large/oak_top",
-                    "particle": "growthcraft_cellar:block/barrel_ferment/large/oak_bottom"
-                },
-            }
-            child_path = output_root / "models" / "block" / f"large_fermentation_barrel_oak_{model_name}.json"
-            child_path.write_text(json.dumps(child, indent=2) + "\n", encoding="utf-8")
-
-    variants = {}
-    for facing in FACINGS:
-        for part_name in PARTS.values():
-            variants[f"facing={facing},part={part_name}"] = {
-                "model": f"growthcraft_cellar:block/large_fermentation_barrel_oak_{facing}_{part_name}"
-            }
+            for wood in WOODS:
+                child = {
+                    "parent": f"growthcraft_cellar:block/{name}/{model_name}",
+                    "textures": {
+                        "0": f"growthcraft_cellar:block/{texture_dir}/{wood}_bottom",
+                        "1": f"growthcraft_cellar:block/{texture_dir}/{wood}_side",
+                        "2": f"growthcraft_cellar:block/{texture_dir}/{wood}_side_alt",
+                        "3": f"growthcraft_cellar:block/{texture_dir}/{wood}_top",
+                        "particle": f"growthcraft_cellar:block/{texture_dir}/{wood}_bottom",
+                    },
+                }
+                child_path = output_root / "models" / "block" / f"{name}_{wood}_{model_name}.json"
+                child_path.write_text(json.dumps(child, indent=2) + "\n", encoding="utf-8")
 
     blockstate_dir = output_root / "blockstates"
     blockstate_dir.mkdir(parents=True, exist_ok=True)
-    (blockstate_dir / "large_fermentation_barrel_oak.json").write_text(
-        json.dumps({"variants": variants}, indent=2) + "\n", encoding="utf-8"
-    )
+    model_item_dir = output_root / "models" / "item"
+    model_item_dir.mkdir(parents=True, exist_ok=True)
+    item_dir = output_root / "items"
+    item_dir.mkdir(parents=True, exist_ok=True)
+    for wood in WOODS:
+        variants = {}
+        for facing in FACINGS:
+            for part_name in PARTS.values():
+                variants[f"facing={facing},part={part_name}"] = {
+                    "model": f"growthcraft_cellar:block/{name}_{wood}_{facing}_{part_name}"
+                }
+        variant_name = f"{name}_{wood}"
+        (blockstate_dir / f"{variant_name}.json").write_text(
+            json.dumps({"variants": variants}, indent=2) + "\n", encoding="utf-8"
+        )
+        (model_item_dir / f"{variant_name}.json").write_text(
+            json.dumps({"parent": f"growthcraft_cellar:block/{item_parent}_{wood}"}, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        (item_dir / f"{variant_name}.json").write_text(
+            json.dumps({"model": {"type": "minecraft:model", "model": f"growthcraft_cellar:item/{variant_name}"}}, indent=2) + "\n",
+            encoding="utf-8",
+        )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--size", type=int, choices=(2, 3), default=2)
+    parser.add_argument("--name", default="large_fermentation_barrel")
+    parser.add_argument("--texture-dir", default="barrel_ferment/large")
+    parser.add_argument("--item-parent", default="fermentation_barrel")
     args = parser.parse_args()
-    generate(args.source, args.output)
+    generate(args.source, args.output, args.size, args.name, args.texture_dir, args.item_parent)
 
 
 if __name__ == "__main__":

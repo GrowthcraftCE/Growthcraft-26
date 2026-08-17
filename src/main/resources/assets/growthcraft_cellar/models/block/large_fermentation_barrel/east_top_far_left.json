@@ -7,7 +7,7 @@
     "1": "growthcraft_cellar:block/barrel_ferment/oak_side",
     "2": "growthcraft_cellar:block/barrel_ferment/oak_side_alt",
     "3": "growthcraft_cellar:block/barrel_ferment/oak_top",
-    "missing": "growthcraft:block/missing",
+    "missing": "#3",
     "particle": "growthcraft_cellar:block/barrel_ferment/oak_bottom"
   },
   "elements": [
@@ -32,7 +32,7 @@
             3.0
           ],
           "rotation": 180,
-          "texture": "#missing"
+          "texture": "#3"
         },
         "east": {
           "uv": [
@@ -123,7 +123,7 @@
             4.0,
             5.0
           ],
-          "texture": "#missing"
+          "texture": "#3"
         }
       },
       "rotation": {
@@ -158,7 +158,7 @@
             5.0
           ],
           "rotation": 180,
-          "texture": "#missing"
+          "texture": "#3"
         },
         "east": {
           "uv": [
@@ -222,7 +222,7 @@
             6.0
           ],
           "rotation": 180,
-          "texture": "#missing"
+          "texture": "#3"
         },
         "east": {
           "uv": [
@@ -313,7 +313,7 @@
             4.0,
             3.0
           ],
-          "texture": "#missing"
+          "texture": "#3"
         }
       },
       "rotation": {
@@ -674,7 +674,7 @@
             1.0,
             10.0
           ],
-          "texture": "#missing"
+          "texture": "#3"
         },
         "up": {
           "uv": [
@@ -683,7 +683,7 @@
             5.0,
             1.0
           ],
-          "texture": "#missing",
+          "texture": "#3",
           "rotation": 90
         }
       },
@@ -727,7 +727,7 @@
             1.0,
             1.0
           ],
-          "texture": "#missing"
+          "texture": "#3"
         },
         "up": {
           "uv": [
@@ -736,7 +736,7 @@
             3.0,
             1.0
           ],
-          "texture": "#missing",
+          "texture": "#3",
           "rotation": 90
         },
         "down": {
@@ -746,7 +746,7 @@
             3.0,
             1.0
           ],
-          "texture": "#missing",
+          "texture": "#3",
           "rotation": 90
         }
       },
@@ -781,7 +781,7 @@
             1.0,
             6.0
           ],
-          "texture": "#missing"
+          "texture": "#3"
         },
         "east": {
           "uv": [
@@ -799,7 +799,7 @@
             1.0,
             6.0
           ],
-          "texture": "#missing"
+          "texture": "#3"
         },
         "up": {
           "uv": [
@@ -808,7 +808,7 @@
             1.0,
             1.0
           ],
-          "texture": "#missing",
+          "texture": "#3",
           "rotation": 90
         }
       },

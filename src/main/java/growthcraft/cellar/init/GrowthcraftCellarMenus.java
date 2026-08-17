@@ -5,6 +5,7 @@ import growthcraft.cellar.menu.BrewKettleMenu;
 import growthcraft.cellar.menu.CultureJarMenu;
 import growthcraft.cellar.menu.FermentationBarrelMenu;
 import growthcraft.cellar.menu.FruitPressMenu;
+import growthcraft.cellar.menu.LargeStorageBarrelMenu;
 import growthcraft.cellar.menu.RoasterMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.flag.FeatureFlags;
@@ -31,6 +32,10 @@ public final class GrowthcraftCellarMenus {
     public static final DeferredHolder<MenuType<?>, MenuType<FruitPressMenu>> FRUIT_PRESS = MENUS.register(
             Reference.UnlocalizedName.Block.FRUIT_PRESS,
             () -> new MenuType<>(FruitPressMenu::new, FeatureFlags.DEFAULT_FLAGS)
+    );
+    public static final DeferredHolder<MenuType<?>, MenuType<LargeStorageBarrelMenu>> LARGE_STORAGE_BARREL = MENUS.register(
+            Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_OAK,
+            () -> new MenuType<>(LargeStorageBarrelMenu::new, FeatureFlags.DEFAULT_FLAGS)
     );
     public static final DeferredHolder<MenuType<?>, MenuType<RoasterMenu>> ROASTER = MENUS.register(
             Reference.UnlocalizedName.Block.ROASTER,

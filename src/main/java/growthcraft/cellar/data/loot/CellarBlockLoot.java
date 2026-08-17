@@ -2,6 +2,8 @@ package growthcraft.cellar.data.loot;
 
 import growthcraft.cellar.block.LargeBarrelPart;
 import growthcraft.cellar.block.LargeFermentationBarrelBlock;
+import growthcraft.cellar.block.LargeStorageBarrelBlock;
+import growthcraft.cellar.block.StorageBarrelPart;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.cellar.init.GrowthcraftCellarItems;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
@@ -40,7 +42,32 @@ public class CellarBlockLoot extends BlockLootSubProvider {
         dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_PALE_OAK.get());
         dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_SPRUCE.get());
         dropSelf(GrowthcraftCellarBlocks.FERMENTATION_BARREL_WARPED.get());
-        add(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK.get(), createLargeBarrelDrop());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_ACACIA.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_APPLE.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_BAMBOO.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_BIRCH.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_CHERRY.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_CRIMSON.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_DARK_OAK.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_JUNGLE.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_MANGROVE.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_PALE_OAK.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_SPRUCE.get());
+        addLargeBarrelDrop(GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_WARPED.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_ACACIA.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_APPLE.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_BAMBOO.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_BIRCH.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_CHERRY.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_CRIMSON.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_DARK_OAK.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_JUNGLE.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_MANGROVE.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_OAK.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_PALE_OAK.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_SPRUCE.get());
+        addStorageBarrelDrop(GrowthcraftCellarBlocks.LARGE_STORAGE_BARREL_WARPED.get());
         dropSelf(GrowthcraftCellarBlocks.FRUIT_PRESS.get());
         add(GrowthcraftCellarBlocks.FRUIT_PRESS_PISTON.get(), noDrop());
         dropSelf(GrowthcraftCellarBlocks.ROASTER.get());
@@ -66,8 +93,11 @@ public class CellarBlockLoot extends BlockLootSubProvider {
         dropSelf(GrowthcraftCellarBlocks.CORK_WOOD_STRIPPED.get());
     }
 
-    private LootTable.Builder createLargeBarrelDrop() {
-        Block barrel = GrowthcraftCellarBlocks.LARGE_FERMENTATION_BARREL_OAK.get();
+    private void addLargeBarrelDrop(Block barrel) {
+        add(barrel, createLargeBarrelDrop(barrel));
+    }
+
+    private LootTable.Builder createLargeBarrelDrop(Block barrel) {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1.0F))
@@ -75,6 +105,15 @@ public class CellarBlockLoot extends BlockLootSubProvider {
                                 .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(barrel)
                                         .setProperties(StatePropertiesPredicate.Builder.properties()
                                                 .hasProperty(LargeFermentationBarrelBlock.PART, LargeBarrelPart.BOTTOM_NEAR_LEFT))))));
+    }
+
+    private void addStorageBarrelDrop(Block barrel) {
+        add(barrel, LootTable.lootTable().withPool(LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1.0F))
+                .add(applyExplosionCondition(barrel, LootItem.lootTableItem(barrel)
+                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(barrel)
+                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(LargeStorageBarrelBlock.PART, StorageBarrelPart.BOTTOM_NEAR_LEFT)))))));
     }
 
     @Override

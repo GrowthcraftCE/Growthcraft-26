@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "growthcraft_cellar",
+  "key": {
+    "F": "growthcraft_cellar:fermentation_barrel_acacia",
+    "L": "growthcraft_cellar:large_fermentation_barrel_acacia"
+  },
+  "pattern": [
+    " F ",
+    "F F",
+    "LLL"
+  ],
+  "result": {
+    "id": "growthcraft_cellar:large_storage_barrel_acacia"
+  }
+}

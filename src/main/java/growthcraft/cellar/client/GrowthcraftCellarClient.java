@@ -3,6 +3,8 @@ package growthcraft.cellar.client;
 import growthcraft.cellar.GrowthcraftCellar;
 import growthcraft.cellar.block.LargeBarrelPart;
 import growthcraft.cellar.block.LargeFermentationBarrelBlock;
+import growthcraft.cellar.block.LargeStorageBarrelBlock;
+import growthcraft.cellar.block.StorageBarrelPart;
 import growthcraft.cellar.client.renderer.BrewKettleBlockEntityRenderer;
 import growthcraft.cellar.client.renderer.CorkCoasterBlockEntityRenderer;
 import growthcraft.cellar.client.renderer.CultureJarBlockEntityRenderer;
@@ -11,6 +13,7 @@ import growthcraft.cellar.client.screen.BrewKettleScreen;
 import growthcraft.cellar.client.screen.CultureJarScreen;
 import growthcraft.cellar.client.screen.FermentationBarrelScreen;
 import growthcraft.cellar.client.screen.FruitPressScreen;
+import growthcraft.cellar.client.screen.LargeStorageBarrelScreen;
 import growthcraft.cellar.client.screen.RoasterScreen;
 import growthcraft.cellar.config.Reference;
 import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
@@ -75,6 +78,7 @@ public final class GrowthcraftCellarClient {
         event.register(GrowthcraftCellarMenus.CULTURE_JAR.get(), CultureJarScreen::new);
         event.register(GrowthcraftCellarMenus.BREW_KETTLE.get(), BrewKettleScreen::new);
         event.register(GrowthcraftCellarMenus.FERMENTATION_BARREL.get(), FermentationBarrelScreen::new);
+        event.register(GrowthcraftCellarMenus.LARGE_STORAGE_BARREL.get(), LargeStorageBarrelScreen::new);
         event.register(GrowthcraftCellarMenus.FRUIT_PRESS.get(), FruitPressScreen::new);
         event.register(GrowthcraftCellarMenus.ROASTER.get(), RoasterScreen::new);
     }
@@ -82,6 +86,10 @@ public final class GrowthcraftCellarClient {
     @SubscribeEvent
     public static void onExtractBlockOutline(ExtractBlockOutlineRenderStateEvent event) {
         BlockState targetedState = event.getBlockState();
+        if (targetedState.getBlock() instanceof LargeStorageBarrelBlock) {
+            addStorageBarrelOutline(event, targetedState);
+            return;
+        }
         if (!(targetedState.getBlock() instanceof LargeFermentationBarrelBlock)) {
             return;
         }
@@ -108,7 +116,7 @@ public final class GrowthcraftCellarClient {
             combinedShape = Shapes.or(combinedShape, partShape);
         }
 
-        VoxelShape outlineShape = combinedShape;
+        VoxelShape outlineShape = combinedShape.optimize();
         Vec3 cameraPos = event.getCamera().position();
         boolean translucentPass = event.isInTranslucentPass();
         boolean highContrast = event.isHighContrast();
@@ -137,6 +145,43 @@ public final class GrowthcraftCellarClient {
                         offsetZ,
                         highContrast ? -11010079 : ARGB.black(102),
                         1.0F);
+                buffer.endLastBatch();
+            }
+            return true;
+        });
+    }
+
+    private static void addStorageBarrelOutline(ExtractBlockOutlineRenderStateEvent event, BlockState targetedState) {
+        Direction facing = targetedState.getValue(LargeStorageBarrelBlock.FACING);
+        StorageBarrelPart targetedPart = targetedState.getValue(LargeStorageBarrelBlock.PART);
+        BlockPos controllerPos = targetedPart.controllerFrom(event.getBlockPos(), facing);
+        VoxelShape combinedShape = Shapes.empty();
+        for (StorageBarrelPart part : StorageBarrelPart.values()) {
+            BlockPos partPos = part.fromController(controllerPos, facing);
+            BlockState partState = event.getLevel().getBlockState(partPos);
+            if (partState.getBlock() != targetedState.getBlock()
+                    || partState.getValue(LargeStorageBarrelBlock.FACING) != facing
+                    || partState.getValue(LargeStorageBarrelBlock.PART) != part) continue;
+            VoxelShape partShape = partState.getShape(event.getLevel(), partPos, event.getCollisionContext())
+                    .move(partPos.getX() - controllerPos.getX(), partPos.getY() - controllerPos.getY(),
+                            partPos.getZ() - controllerPos.getZ());
+            combinedShape = Shapes.or(combinedShape, partShape);
+        }
+        VoxelShape outlineShape = combinedShape.optimize();
+        Vec3 cameraPos = event.getCamera().position();
+        boolean translucentPass = event.isInTranslucentPass();
+        boolean highContrast = event.isHighContrast();
+        event.addCustomRenderer((renderState, buffer, poseStack, currentTranslucentPass, levelRenderState) -> {
+            if (currentTranslucentPass == translucentPass) {
+                double x = controllerPos.getX() - cameraPos.x;
+                double y = controllerPos.getY() - cameraPos.y;
+                double z = controllerPos.getZ() - cameraPos.z;
+                if (highContrast) {
+                    ShapeRenderer.renderShape(poseStack, buffer.getBuffer(RenderTypes.secondaryBlockOutline()),
+                            outlineShape, x, y, z, 0xFF000000, 7.0F);
+                }
+                ShapeRenderer.renderShape(poseStack, buffer.getBuffer(RenderTypes.lines()), outlineShape,
+                        x, y, z, highContrast ? -11010079 : ARGB.black(102), 1.0F);
                 buffer.endLastBatch();
             }
             return true;

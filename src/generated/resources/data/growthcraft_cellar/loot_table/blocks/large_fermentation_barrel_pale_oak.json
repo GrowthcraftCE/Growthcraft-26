@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "growthcraft_cellar:large_fermentation_barrel_pale_oak",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "part": "bottom_near_left"
+              }
+            },
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ],
+          "name": "growthcraft_cellar:large_fermentation_barrel_pale_oak"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "growthcraft_cellar:blocks/large_fermentation_barrel_pale_oak"
+}
