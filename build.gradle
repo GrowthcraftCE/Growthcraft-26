@@ -182,10 +182,13 @@ dependencies {
     // AppleSkin is only needed for runtime compatibility checks.
     runtimeOnly "maven.modrinth:appleskin:${appleskin_version}"
 
-    // Keep compatibility mods out of normal development runs while making supported-mod validation reproducible.
+    // Mystical Agriculture and its Cucumber dependency are included in development runs so its
+    // optional Growthcraft recipes and crop integrations can be tested without making it required by users.
+    runtimeOnly "maven.modrinth:cucumber:${cucumber_version}"
+    runtimeOnly "maven.modrinth:mystical-agriculture:${mystical_agriculture_version}"
+
+    // Keep other compatibility mods out of normal development runs while making validation reproducible.
     if (providers.gradleProperty("growthcraftCompatibilityRuntime").getOrElse("false").toBoolean()) {
-        runtimeOnly "maven.modrinth:cucumber:${cucumber_version}"
-        runtimeOnly "maven.modrinth:mystical-agriculture:${mystical_agriculture_version}"
         runtimeOnly "curse.maven:packing-tape-238659:${packing_tape_version}"
     }
 

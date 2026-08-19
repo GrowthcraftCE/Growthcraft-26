@@ -157,6 +157,10 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
         return manuallyStopped;
     }
 
+    public boolean allowsManualUnlock() {
+        return true;
+    }
+
     public void cancelProcessing() {
         resetProgress();
         this.manuallyStopped = true;
@@ -182,6 +186,9 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
         boolean powered = barrel.hasPauseSignal(level, pos, state);
         barrel.setRedstonePaused(powered && barrel.isProcessing(), state);
         if (powered) return;
+        if (barrel.manuallyStopped && !barrel.allowsManualUnlock()) {
+            barrel.resumeProcessing();
+        }
         if (barrel.manuallyStopped) return;
 
         ItemStack yeast = barrel.getItem(SLOT_YEAST);

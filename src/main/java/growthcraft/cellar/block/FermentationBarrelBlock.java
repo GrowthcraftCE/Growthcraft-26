@@ -183,7 +183,9 @@ public class FermentationBarrelBlock extends Block implements EntityBlock, Liqui
                 && barrel.isProcessing()) {
             if (!level.isClientSide()) {
                 player.sendOverlayMessage(
-                        Component.translatable("growthcraft_cellar.message.fermentation.processing_locked"));
+                        Component.translatable(barrel.allowsManualUnlock()
+                                ? "growthcraft_cellar.message.fermentation.processing_locked_unlockable"
+                                : "growthcraft_cellar.message.fermentation.processing_locked"));
             }
             return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }

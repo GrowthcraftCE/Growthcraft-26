@@ -3,6 +3,7 @@ package growthcraft.cellar.block.entity;
 import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import growthcraft.cellar.block.LargeBarrelPart;
 import growthcraft.cellar.block.LargeFermentationBarrelBlock;
+import growthcraft.cellar.config.GrowthcraftCellarConfig;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -19,6 +20,11 @@ public class LargeFermentationBarrelBlockEntity extends FermentationBarrelBlockE
     @Override
     public Component getDisplayName() {
         return Component.translatable("container.growthcraft_cellar.large_fermentation_barrel");
+    }
+
+    @Override
+    public boolean allowsManualUnlock() {
+        return GrowthcraftCellarConfig.isLargeFermentationBarrelManualUnlockAllowed();
     }
 
     @Override
