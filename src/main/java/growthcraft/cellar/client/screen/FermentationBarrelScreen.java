@@ -78,7 +78,7 @@ public class FermentationBarrelScreen extends TexturedMachineScreen<Fermentation
         }
         new FluidTankRenderer(TANK_W, TANK_H, this.menu.getTankCapacity(), 0.85F)
                 .render(graphics, this.leftPos + TANK_X, this.topPos + TANK_Y, this.menu.getFluidStack());
-        if (this.menu.isProcessing() || this.menu.isManuallyStopped()) {
+        if (this.menu.allowsManualUnlock() && (this.menu.isProcessing() || this.menu.isManuallyStopped())) {
             graphics.blit(RenderPipelines.GUI_TEXTURED,
                     this.menu.isProcessing() ? LOCK_TEXTURE : UNLOCK_TEXTURE,
                     this.leftPos + STOP_X, this.topPos + STOP_Y,
@@ -88,7 +88,7 @@ public class FermentationBarrelScreen extends TexturedMachineScreen<Fermentation
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if ((this.menu.isProcessing() || this.menu.isManuallyStopped())
+        if (this.menu.allowsManualUnlock() && (this.menu.isProcessing() || this.menu.isManuallyStopped())
                 && this.minecraft != null && this.minecraft.gameMode != null
                 && isMouseAbove((int) event.x(), (int) event.y(),
                 this.leftPos + STOP_X, this.topPos + STOP_Y, STOP_W, STOP_H)) {
@@ -110,7 +110,7 @@ public class FermentationBarrelScreen extends TexturedMachineScreen<Fermentation
                             + this.menu.getPercentProgress() + "% — " + this.menu.getRemainingSeconds() + "s remaining"), mouseX, mouseY);
             return;
         }
-        if ((this.menu.isProcessing() || this.menu.isManuallyStopped()) && isMouseAbove(mouseX, mouseY,
+        if (this.menu.allowsManualUnlock() && (this.menu.isProcessing() || this.menu.isManuallyStopped()) && isMouseAbove(mouseX, mouseY,
                 this.leftPos + STOP_X, this.topPos + STOP_Y, STOP_W, STOP_H)) {
             graphics.setTooltipForNextFrame(this.font,
                     (this.menu.isProcessing()

@@ -14,6 +14,7 @@ public class GrowthcraftCellarConfig {
     private static ModConfigSpec.BooleanValue brewKettleDebugEnabled;
     private static ModConfigSpec.BooleanValue cultureJarDebugEnabled;
     private static ModConfigSpec.BooleanValue fermentationBarrelDebugEnabled;
+    private static ModConfigSpec.BooleanValue largeFermentationBarrelManualUnlockAllowed;
     private static ModConfigSpec.BooleanValue fruitPressDebugEnabled;
     private static ModConfigSpec.BooleanValue roasterDebugEnabled;
     private static ModConfigSpec.BooleanValue cropsDebugEnabled;
@@ -54,6 +55,9 @@ public class GrowthcraftCellarConfig {
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("fermentation_barrel");
+        largeFermentationBarrelManualUnlockAllowed = SERVER_BUILDER
+                .comment("Allow players to stop and resume Large Fermentation Barrel processing from its GUI.")
+                .define("allow_large_barrel_manual_unlock", false);
         fermentationBarrelDebugEnabled = SERVER_BUILDER
                 .comment("Set to true to add additional logging to debug the Fermentation Barrel.")
                 .define("debugEnabled", false);
@@ -93,6 +97,13 @@ public class GrowthcraftCellarConfig {
     public static boolean isBrewKettleDebugEnabled() { return brewKettleDebugEnabled.get(); }
     public static boolean isCultureJarDebugEnabled() { return cultureJarDebugEnabled.get(); }
     public static boolean isFermentationBarrelDebugEnabled() { return fermentationBarrelDebugEnabled.get(); }
+    public static boolean isLargeFermentationBarrelManualUnlockAllowed() {
+        return largeFermentationBarrelManualUnlockAllowed.get();
+    }
+    public static void setLargeFermentationBarrelManualUnlockAllowed(boolean allowed) {
+        largeFermentationBarrelManualUnlockAllowed.set(allowed);
+        largeFermentationBarrelManualUnlockAllowed.save();
+    }
     public static boolean isFruitPressDebugEnabled() { return fruitPressDebugEnabled.get(); }
     public static boolean isRoasterDebugEnabled() { return roasterDebugEnabled.get(); }
     public static boolean isCropsDebugEnabled() { return cropsDebugEnabled.get(); }

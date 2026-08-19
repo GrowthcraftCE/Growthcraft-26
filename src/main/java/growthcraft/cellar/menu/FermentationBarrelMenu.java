@@ -31,6 +31,7 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
     private int clientTankCapacity = FermentationBarrelBlockEntity.TANK_CAPACITY;
     private int clientRedstonePaused;
     private int clientManuallyStopped;
+    private int clientManualUnlockAllowed = 1;
 
     private final ContainerData data = new ContainerData() {
         @Override
@@ -46,6 +47,7 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
                     case 6 -> clientTankCapacity;
                     case 7 -> clientRedstonePaused;
                     case 8 -> clientManuallyStopped;
+                    case 9 -> clientManualUnlockAllowed;
                     default -> 0;
                 };
             }
@@ -59,6 +61,7 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
                 case 6 -> barrelBE.getTankCapacity();
                 case 7 -> barrelBE.isRedstonePaused() ? 1 : 0;
                 case 8 -> barrelBE.isManuallyStopped() ? 1 : 0;
+                case 9 -> barrelBE.allowsManualUnlock() ? 1 : 0;
                 default -> 0;
             };
         }
@@ -76,12 +79,13 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
                 case 6 -> clientTankCapacity = value;
                 case 7 -> clientRedstonePaused = value;
                 case 8 -> clientManuallyStopped = value;
+                case 9 -> clientManualUnlockAllowed = value;
             }
         }
 
         @Override
         public int getCount() {
-            return 9;
+            return 10;
         }
     };
 
@@ -177,13 +181,17 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
         return data.get(8) == 1;
     }
 
+    public boolean allowsManualUnlock() {
+        return data.get(9) == 1;
+    }
+
     public int getRemainingSeconds() {
         return Math.max(0, (data.get(3) - data.get(2) + 19) / 20);
     }
 
     @Override
     public boolean clickMenuButton(Player player, int buttonId) {
-        if (buttonId != 0 || barrelBE == null) return false;
+        if (buttonId != 0 || barrelBE == null || !barrelBE.allowsManualUnlock()) return false;
         if (barrelBE.isProcessing()) {
             barrelBE.cancelProcessing();
             return true;
@@ -203,7 +211,7 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         if (isProcessing()) {
-            showProcessingLocked(player);
+            showProcessingLocked(player, barrelBE != null && barrelBE.allowsManualUnlock());
             return ItemStack.EMPTY;
         }
         ItemStack itemstack = ItemStack.EMPTY;
@@ -237,17 +245,19 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
     @Override
     public void clicked(int slotId, int button, ContainerInput input, Player player) {
         if (isProcessing() && slotId == YEAST_SLOT) {
-            showProcessingLocked(player);
+            showProcessingLocked(player, barrelBE != null && barrelBE.allowsManualUnlock());
             return;
         }
         super.clicked(slotId, button, input, player);
     }
 
-    private static void showProcessingLocked(Player player) {
+    private static void showProcessingLocked(Player player, boolean manualUnlockAllowed) {
         if (!player.level().isClientSide()) {
             player.sendOverlayMessage(
                     net.minecraft.network.chat.Component.translatable(
-                            "growthcraft_cellar.message.fermentation.processing_locked"));
+                            manualUnlockAllowed
+                                    ? "growthcraft_cellar.message.fermentation.processing_locked_unlockable"
+                                    : "growthcraft_cellar.message.fermentation.processing_locked"));
         }
     }
 }

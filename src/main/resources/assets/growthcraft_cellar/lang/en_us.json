@@ -68,7 +68,8 @@
   "container.growthcraft_cellar.fermentation_barrel": "Fermentation Barrel",
   "container.growthcraft_cellar.large_fermentation_barrel": "Large Fermentation Barrel",
   "container.growthcraft_cellar.large_storage_barrel": "Large Storage Barrel",
-  "growthcraft_cellar.message.fermentation.processing_locked": "Fermentation is in progress. Use Stop in the barrel GUI to change its contents.",
+  "growthcraft_cellar.message.fermentation.processing_locked": "Fermentation is in progress. The barrel's contents are locked.",
+  "growthcraft_cellar.message.fermentation.processing_locked_unlockable": "Fermentation is in progress. Use the lock button in the barrel GUI to stop processing and unlock its contents.",
   "container.growthcraft_cellar.fruit_press": "Fruit Press",
   "container.growthcraft_cellar.roaster": "Roaster",
   "fluid_type.growthcraft_cellar.amber_ale": "Amber Ale",
@@ -189,5 +190,7 @@
   "emi.category.growthcraft_cellar.jar2": "Culturing",
   "emi.category.growthcraft_cellar.book": "Other",
   "label.growthcraft_cellar.roaster_level": "Roaster level: %s",
-  "gui.growthcraft_cellar.empty": "Empty"
+  "gui.growthcraft_cellar.empty": "Empty",
+  "growthcraft_cellar.command.large_barrel_manual_unlock.status": "Large Fermentation Barrel manual unlocking is %s.",
+  "growthcraft_cellar.command.large_barrel_manual_unlock.changed": "Large Fermentation Barrel manual unlocking set to %s."
 }
