@@ -98,6 +98,22 @@ class ManualCompatibilityTest {
         assertTrue(duplicateKeys.isEmpty(), "Duplicate recipe keys: " + duplicateKeys);
     }
 
+    @Test
+    void everySmallBarrelVariantHasAnExplicitBookHint() throws IOException {
+        String registrations = Files.readString(Path.of("src/main/java/growthcraft/cellar/init/GrowthcraftCellarBlocks.java"));
+        String entry = Files.readString(MANUAL.resolve("entries/cellar/ferment_barrel.json"));
+        Matcher variants = Pattern.compile("DeferredBlock<Block> FERMENTATION_BARREL_([A-Z_]+) =").matcher(registrations);
+        Set<String> missing = new HashSet<>();
+        int count = 0;
+        while (variants.find()) {
+            count++;
+            String id = "growthcraft_cellar:fermentation_barrel_" + variants.group(1).toLowerCase(java.util.Locale.ROOT);
+            if (!Pattern.compile(Pattern.quote("\"" + id + "\"") + "\\s*:\\s*0").matcher(entry).find()) missing.add(id);
+        }
+        assertTrue(count >= 13, "Expected all registered small barrel variants");
+        assertTrue(missing.isEmpty(), "Missing page-zero book hints: " + missing);
+    }
+
     private static void collectRecipeIds(Path dataRoot, Set<String> recipes) throws IOException {
         if (!Files.isDirectory(dataRoot)) {
             return;

@@ -5,6 +5,7 @@ import growthcraft.cellar.block.BrewKettleBlock;
 import growthcraft.cellar.block.CultureJarBlock;
 import growthcraft.cellar.block.RoasterBlock;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
+import growthcraft.cellar.init.FermentationBarrelGameTests;
 import growthcraft.cellar.init.GrowthcraftCellarItems;
 import growthcraft.core.config.Reference;
 import growthcraft.core.worldgen.SaltWorldgenGameTests;
@@ -52,6 +53,12 @@ public final class GrowthcraftGameTests {
     private static final DeferredHolder<Consumer<GameTestHelper>, Consumer<GameTestHelper>> SALT_WORLDGEN =
             TEST_FUNCTIONS.register("salt_worldgen_config", () -> SaltWorldgenGameTests::saltRespectsRuntimeConfig);
 
+    private static final DeferredHolder<Consumer<GameTestHelper>, Consumer<GameTestHelper>> BARREL_FEEDBACK =
+            TEST_FUNCTIONS.register("barrel_feedback_controls", () -> FermentationBarrelGameTests::feedbackControlsAndHoppers);
+
+    private static final DeferredHolder<Consumer<GameTestHelper>, Consumer<GameTestHelper>> LARGE_BARREL_HOPPERS =
+            TEST_FUNCTIONS.register("large_barrel_hopper_ports", () -> FermentationBarrelGameTests::largeBarrelHopperPorts);
+
     private GrowthcraftGameTests() {
     }
 
@@ -60,6 +67,12 @@ public final class GrowthcraftGameTests {
                 ENVIRONMENT_ID,
                 new TestEnvironmentDefinition.AllOf()
         );
+        event.registerTest(Identifier.fromNamespaceAndPath(Reference.MODID, "large_barrel_hopper_ports"),
+                new FunctionGameTestInstance(LARGE_BARREL_HOPPERS.getKey(),
+                        new TestData<>(environment, EMPTY_STRUCTURE, 100, 0, true)));
+        event.registerTest(Identifier.fromNamespaceAndPath(Reference.MODID, "barrel_feedback_controls"),
+                new FunctionGameTestInstance(BARREL_FEEDBACK.getKey(),
+                        new TestData<>(environment, EMPTY_STRUCTURE, 100, 0, true)));
         event.registerTest(Identifier.fromNamespaceAndPath(Reference.MODID, "salt_worldgen_config"),
                 new FunctionGameTestInstance(SALT_WORLDGEN.getKey(),
                         new TestData<>(environment, EMPTY_STRUCTURE, 100, 0, true)));

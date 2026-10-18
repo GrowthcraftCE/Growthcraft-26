@@ -38,6 +38,12 @@ public class GrowthcraftCellar {
         // Add creative tab contributions
         modEventBus.addListener(this::buildCreativeTab);
 
+        try {
+            growthcraft.cellar.config.CellarConfigMigration.migrate(
+                    net.neoforged.fml.loading.FMLPaths.CONFIGDIR.get().resolve(MODID + "-common.toml"));
+        } catch (java.io.IOException exception) {
+            throw new IllegalStateException("Could not migrate Cellar manual-unlock config.", exception);
+        }
         modContainer.registerConfig(ModConfig.Type.COMMON, GrowthcraftCellarConfig.SPEC);
     }
 

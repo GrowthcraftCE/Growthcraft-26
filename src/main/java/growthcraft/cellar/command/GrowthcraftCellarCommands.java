@@ -16,28 +16,32 @@ public final class GrowthcraftCellarCommands {
 
     @SubscribeEvent
     static void registerCommands(RegisterCommandsEvent event) {
+        var manualUnlock = Commands.literal("barrelManualUnlock")
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                .executes(context -> reportValue(context.getSource()))
+                .then(Commands.argument("enabled", BoolArgumentType.bool())
+                        .executes(context -> setValue(context.getSource(), BoolArgumentType.getBool(context, "enabled"))))
+                .build();
         event.getDispatcher().register(Commands.literal("growthcraft")
                 .then(Commands.literal("cellar")
+                        .then(manualUnlock)
                         .then(Commands.literal("largeBarrelManualUnlock")
                                 .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                                 .executes(context -> reportValue(context.getSource()))
-                                .then(Commands.argument("enabled", BoolArgumentType.bool())
-                                        .executes(context -> setValue(
-                                                context.getSource(),
-                                                BoolArgumentType.getBool(context, "enabled")))))));
+                                .redirect(manualUnlock))));
     }
 
     private static int reportValue(net.minecraft.commands.CommandSourceStack source) {
-        boolean allowed = GrowthcraftCellarConfig.isLargeFermentationBarrelManualUnlockAllowed();
+        boolean allowed = GrowthcraftCellarConfig.isFermentationBarrelManualUnlockAllowed();
         source.sendSuccess(() -> Component.translatable(
-                "growthcraft_cellar.command.large_barrel_manual_unlock.status", allowed), false);
+                "growthcraft_cellar.command.barrel_manual_unlock.status", allowed), false);
         return allowed ? 1 : 0;
     }
 
     private static int setValue(net.minecraft.commands.CommandSourceStack source, boolean allowed) {
-        GrowthcraftCellarConfig.setLargeFermentationBarrelManualUnlockAllowed(allowed);
+        GrowthcraftCellarConfig.setFermentationBarrelManualUnlockAllowed(allowed);
         source.sendSuccess(() -> Component.translatable(
-                "growthcraft_cellar.command.large_barrel_manual_unlock.changed", allowed), true);
+                "growthcraft_cellar.command.barrel_manual_unlock.changed", allowed), true);
         return allowed ? 1 : 0;
     }
 }
