@@ -6,6 +6,11 @@
   "pages": [
     {
       "type": "patchouli:text",
+      "title": "26.1.2.0.rc6",
+      "text": "$(li)Apple fruit now spawns only beneath the randomly ticked leaf, preserving local population limits.$(li)Breaking apple or grape fruit yields produce only at full maturity."
+    },
+    {
+      "type": "patchouli:text",
       "text": "26.1.2.0.rc3$(br)Third UAT candidate for the Growthcraft Minecraft 26.1.2 port."
     },
     {
