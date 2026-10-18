@@ -1,6 +1,8 @@
 package growthcraft.lib.client.screen;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import growthcraft.lib.utils.FluidVolumeFormat;
+import java.util.List;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -38,8 +40,21 @@ public class TexturedMachineScreen<T extends AbstractContainerMenu> extends Abst
     }
 
     protected boolean extractTankTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int x, int y, int width, int height, FluidStack stack, int capacity) {
+        return extractTankTooltip(graphics, mouseX, mouseY, x, y, width, height, stack, capacity, false);
+    }
+
+    /** Barrel tooltips use exact bucket units and separate name and volume lines. */
+    protected boolean extractTankTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int x, int y, int width, int height,
+                                         FluidStack stack, int capacity, boolean bucketUnits) {
         if (!isMouseAbove(mouseX, mouseY, this.leftPos + x, this.topPos + y, width, height)) {
             return false;
+        }
+        if (bucketUnits) {
+            Component name = stack.isEmpty() ? Component.translatable("growthcraft.tooltip.empty_tank") : stack.getHoverName();
+            graphics.setTooltipForNextFrame(this.font,
+                    List.of(name, Component.literal(FluidVolumeFormat.tank(stack.getAmount(), capacity))).stream()
+                            .map(Component::getVisualOrderText).toList(), mouseX, mouseY);
+            return true;
         }
         Component name = stack.isEmpty() ? Component.literal("Empty") : stack.getHoverName();
         Component tooltip = Component.empty()

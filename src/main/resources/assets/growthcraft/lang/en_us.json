@@ -61,5 +61,6 @@
   "manual.growthcraft.milk.description": "Welcome to milk ...",
   "manual.growthcraft.milk.name": "Growthcraft Milk",
   "manual.growthcraft.rice.description": "Welcome to rice...",
-  "manual.growthcraft.rice.name": "Growthcraft Rice"
+  "manual.growthcraft.rice.name": "Growthcraft Rice",
+  "growthcraft.tooltip.empty_tank": "Empty"
 }

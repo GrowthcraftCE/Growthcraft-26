@@ -42,7 +42,7 @@ public class LargeStorageBarrelScreen extends TexturedMachineScreen<LargeStorage
     @Override
     protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
         if (!extractTankTooltip(graphics, mouseX, mouseY, TANK_X, TANK_Y, TANK_W, TANK_H,
-                menu.getFluidStack(), menu.getTankCapacity())) {
+                menu.getFluidStack(), menu.getTankCapacity(), true)) {
             super.extractTooltip(graphics, mouseX, mouseY);
         }
     }
