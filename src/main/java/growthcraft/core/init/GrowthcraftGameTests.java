@@ -7,6 +7,7 @@ import growthcraft.cellar.block.RoasterBlock;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.cellar.init.GrowthcraftCellarItems;
 import growthcraft.core.config.Reference;
+import growthcraft.core.worldgen.SaltWorldgenGameTests;
 import growthcraft.milk.block.entity.MixingVatBlockEntity;
 import growthcraft.milk.init.GrowthcraftMilkBlocks;
 import growthcraft.rice.init.GrowthcraftRiceBlocks;
@@ -48,6 +49,9 @@ public final class GrowthcraftGameTests {
     private static final DeferredHolder<Consumer<GameTestHelper>, Consumer<GameTestHelper>> FRUIT_GROWTH_AND_LOOT =
             TEST_FUNCTIONS.register("fruit_growth_and_loot", () -> GrowthcraftGameTests::fruitGrowthAndLoot);
 
+    private static final DeferredHolder<Consumer<GameTestHelper>, Consumer<GameTestHelper>> SALT_WORLDGEN =
+            TEST_FUNCTIONS.register("salt_worldgen_config", () -> SaltWorldgenGameTests::saltRespectsRuntimeConfig);
+
     private GrowthcraftGameTests() {
     }
 
@@ -56,6 +60,9 @@ public final class GrowthcraftGameTests {
                 ENVIRONMENT_ID,
                 new TestEnvironmentDefinition.AllOf()
         );
+        event.registerTest(Identifier.fromNamespaceAndPath(Reference.MODID, "salt_worldgen_config"),
+                new FunctionGameTestInstance(SALT_WORLDGEN.getKey(),
+                        new TestData<>(environment, EMPTY_STRUCTURE, 100, 0, true)));
         event.registerTest(Identifier.fromNamespaceAndPath(Reference.MODID, "fruit_growth_and_loot"),
                 new FunctionGameTestInstance(FRUIT_GROWTH_AND_LOOT.getKey(),
                         new TestData<>(environment, EMPTY_STRUCTURE, 100, 0, true)));

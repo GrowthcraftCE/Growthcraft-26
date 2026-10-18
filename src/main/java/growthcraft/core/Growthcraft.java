@@ -6,6 +6,8 @@ import growthcraft.core.init.GrowthcraftBlocks;
 import growthcraft.core.init.GrowthcraftConditions;
 import growthcraft.core.init.GrowthcraftCreativeTabs;
 import growthcraft.core.init.GrowthcraftGameTests;
+import growthcraft.core.init.GrowthcraftGameRules;
+import growthcraft.core.init.GrowthcraftWorldgen;
 import growthcraft.core.init.GrowthcraftItems;
 import growthcraft.core.init.GrowthcraftParticles;
 import growthcraft.core.init.GrowthcraftRecipes;
@@ -38,6 +40,9 @@ public class Growthcraft {
         GrowthcraftConditions.CONDITION_CODECS.register(modEventBus);
         GrowthcraftParticles.PARTICLE_TYPES.register(modEventBus);
         GrowthcraftRecipes.SERIALIZERS.register(modEventBus);
+        GrowthcraftWorldgen.FEATURES.register(modEventBus);
+        GrowthcraftWorldgen.PLACEMENTS.register(modEventBus);
+        GrowthcraftGameRules.GAME_RULES.register(modEventBus);
         GrowthcraftGameTests.TEST_FUNCTIONS.register(modEventBus);
         modEventBus.addListener(GrowthcraftGameTests::registerTests);
 
