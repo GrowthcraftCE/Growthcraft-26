@@ -5,9 +5,10 @@ import growthcraft.cellar.block.BrewKettleBlock;
 import growthcraft.cellar.block.CultureJarBlock;
 import growthcraft.cellar.block.RoasterBlock;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
+import growthcraft.cellar.init.GrowthcraftCellarItems;
 import growthcraft.core.config.Reference;
-import growthcraft.milk.init.GrowthcraftMilkBlocks;
 import growthcraft.milk.block.entity.MixingVatBlockEntity;
+import growthcraft.milk.init.GrowthcraftMilkBlocks;
 import growthcraft.rice.init.GrowthcraftRiceBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -17,8 +18,15 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestData;
 import net.minecraft.gametest.framework.TestEnvironmentDefinition;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -37,6 +45,9 @@ public final class GrowthcraftGameTests {
     private static final DeferredHolder<Consumer<GameTestHelper>, Consumer<GameTestHelper>> REPRESENTATIVE_BLOCK_LIFECYCLE =
             TEST_FUNCTIONS.register("representative_block_lifecycle", () -> GrowthcraftGameTests::representativeBlockLifecycle);
 
+    private static final DeferredHolder<Consumer<GameTestHelper>, Consumer<GameTestHelper>> FRUIT_GROWTH_AND_LOOT =
+            TEST_FUNCTIONS.register("fruit_growth_and_loot", () -> GrowthcraftGameTests::fruitGrowthAndLoot);
+
     private GrowthcraftGameTests() {
     }
 
@@ -45,6 +56,9 @@ public final class GrowthcraftGameTests {
                 ENVIRONMENT_ID,
                 new TestEnvironmentDefinition.AllOf()
         );
+        event.registerTest(Identifier.fromNamespaceAndPath(Reference.MODID, "fruit_growth_and_loot"),
+                new FunctionGameTestInstance(FRUIT_GROWTH_AND_LOOT.getKey(),
+                        new TestData<>(environment, EMPTY_STRUCTURE, 100, 0, true)));
         event.registerTest(
                 TEST_ID,
                 new FunctionGameTestInstance(
@@ -52,6 +66,55 @@ public final class GrowthcraftGameTests {
                         new TestData<>(environment, EMPTY_STRUCTURE, 100, 0, true)
                 )
         );
+    }
+
+    private static void fruitGrowthAndLoot(GameTestHelper helper) {
+        BlockPos leaf = new BlockPos(1, 3, 1);
+        BlockPos neighbor = leaf.east();
+        BlockState leaves = GrowthcraftApplesBlocks.APPLE_TREE_LEAVES.get().defaultBlockState()
+                .setValue(LeavesBlock.PERSISTENT, true);
+        helper.setBlock(leaf, leaves);
+        helper.setBlock(neighbor, leaves);
+        RandomSource random = RandomSource.create(88L);
+        for (int attempt = 0; attempt < 32; attempt++) {
+            helper.setBlock(leaf.below(), Blocks.AIR);
+            helper.setBlock(neighbor.below(), Blocks.AIR);
+            // Neighbor-update ticks must update leaf distance without spawning fruit.
+            helper.tickBlock(leaf);
+            helper.assertBlockPresent(Blocks.AIR, leaf.below());
+            leaves.randomTick(helper.getLevel(), helper.absolutePos(leaf), random);
+            helper.assertBlockPresent(GrowthcraftApplesBlocks.APPLE_TREE_FRUIT.get(), leaf.below());
+            helper.assertBlockPresent(Blocks.AIR, neighbor.below());
+        }
+        helper.setBlock(leaf.below(), GrowthcraftApplesBlocks.APPLE_TREE_FRUIT.get());
+        helper.setBlock(neighbor.below(), GrowthcraftApplesBlocks.APPLE_TREE_FRUIT.get());
+        BlockPos third = leaf.south();
+        helper.setBlock(third, leaves);
+        leaves.randomTick(helper.getLevel(), helper.absolutePos(third), random);
+        helper.assertBlockPresent(Blocks.AIR, third.below());
+        // A decaying leaf must not spawn fruit beneath another surviving leaf.
+        helper.setBlock(leaf.below(), Blocks.AIR);
+        helper.setBlock(neighbor.below(), Blocks.AIR);
+        BlockState decaying = leaves.setValue(LeavesBlock.PERSISTENT, false).setValue(LeavesBlock.DISTANCE, 7);
+        helper.setBlock(leaf, decaying);
+        decaying.randomTick(helper.getLevel(), helper.absolutePos(leaf), random);
+        helper.assertBlockPresent(Blocks.AIR, neighbor.below());
+        helper.assertBlockPresent(Blocks.AIR, third.below());
+
+        verifyFruitLoot(helper, GrowthcraftApplesBlocks.APPLE_TREE_FRUIT.get(), Items.APPLE);
+        verifyFruitLoot(helper, GrowthcraftCellarBlocks.PURPLE_GRAPE_VINE_FRUIT.get(), GrowthcraftCellarItems.GRAPE_PURPLE.get());
+        verifyFruitLoot(helper, GrowthcraftCellarBlocks.RED_GRAPE_VINE_FRUIT.get(), GrowthcraftCellarItems.GRAPE_RED.get());
+        verifyFruitLoot(helper, GrowthcraftCellarBlocks.WHITE_GRAPE_VINE_FRUIT.get(), GrowthcraftCellarItems.GRAPE_WHITE.get());
+        helper.succeed();
+    }
+
+    private static void verifyFruitLoot(GameTestHelper helper, Block fruit, Item item) {
+        for (int age = 0; age <= 7; age++) {
+            BlockState state = fruit.defaultBlockState().setValue(BlockStateProperties.AGE_7, age);
+            var drops = Block.getDrops(state, helper.getLevel(), helper.absolutePos(new BlockPos(1, 2, 1)), null);
+            int count = drops.stream().filter(stack -> stack.is(item)).mapToInt(ItemStack::getCount).sum();
+            helper.assertTrue(count == (age == 7 ? 1 : 0), fruit + " age " + age + " has incorrect fruit drops");
+        }
     }
 
     private static void representativeBlockLifecycle(GameTestHelper helper) {
