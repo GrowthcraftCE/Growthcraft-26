@@ -165,7 +165,7 @@
   "item.growthcraft_cellar.yeast_lager_ethereal": "Lager Yeast (Ethereal)",
   "item.growthcraft_cellar.cork_bark": "Cork Bark",
   "growthcraft_cellar.tooltip.roaster.progress": "Roast Level %s (%d%%)",
-  "growthcraft_cellar.tooltip.fermentation.progress": "Fermenting %s%%",
+  "growthcraft_cellar.tooltip.fermentation.progress": "Fermenting: %s%%",
   "growthcraft_cellar.tooltip.fruit_press.progress": "Pressing %s%%",
   "growthcraft_cellar.tooltip.fermentation.yeast_warning": "Insufficient yeast.",
   "growthcraft_cellar.tooltip.fermentation.yeast_error": "Not a valid yeast for this fluid.",
@@ -199,5 +199,8 @@
   "growthcraft_cellar.tooltip.fermentation.paused": "Fermentation paused by redstone",
   "growthcraft_cellar.tooltip.fermentation.discards_progress": "Discards progress",
   "growthcraft_cellar.tooltip.fermentation.unlocks_contents": "Unlocks contents",
-  "growthcraft_cellar.tooltip.fermentation.locks_contents": "Locks contents"
+  "growthcraft_cellar.tooltip.fermentation.locks_contents": "Locks contents",
+  "growthcraft_cellar.tooltip.fermentation.progress_paused": "Paused by redstone: %s%%",
+  "growthcraft_cellar.tooltip.fermentation.stopped": "Fermentation stopped",
+  "growthcraft_cellar.tooltip.fermentation.idle": "Not fermenting"
 }

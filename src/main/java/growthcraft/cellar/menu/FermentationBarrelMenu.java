@@ -3,6 +3,7 @@ package growthcraft.cellar.menu;
 import growthcraft.cellar.block.entity.FermentationBarrelBlockEntity;
 import growthcraft.cellar.init.GrowthcraftCellarMenus;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -185,8 +186,12 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
         return data.get(9) == 1;
     }
 
-    public int getRemainingSeconds() {
-        return Math.max(0, (data.get(3) - data.get(2) + 19) / 20);
+    public Component getProgressTooltip() {
+        String key = isManuallyStopped() ? "growthcraft_cellar.tooltip.fermentation.stopped"
+                : isRedstonePaused() ? "growthcraft_cellar.tooltip.fermentation.progress_paused"
+                : isProcessing() ? "growthcraft_cellar.tooltip.fermentation.progress"
+                : "growthcraft_cellar.tooltip.fermentation.idle";
+        return Component.translatable(key, getPercentProgress());
     }
 
     @Override

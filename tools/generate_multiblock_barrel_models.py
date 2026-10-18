@@ -31,17 +31,27 @@ FACE_MAPS = {
     "west": {"north": "east", "south": "west", "east": "north", "west": "south"},
 }
 
-# The structure geometry is baked for each horizontal facing rather than rotated
-# by the blockstate (blockstate rotation would rotate every quarter around its
-# own block centre). Horizontal faces therefore need the equivalent texture
-# rotation baked into their face metadata as well. Without this, the lid and
-# bottom hardware turn independently from the barrel and break at part seams.
-HORIZONTAL_FACE_ROTATIONS = {
-    "north": 0,
-    "east": 90,
-    "south": 180,
-    "west": 270,
+# Minecraft FaceInfo vertex order (from/to selectors for x, y, z). Preserve UVs
+# at these vertices when baking the structure's rotation/reflection into parts.
+FACE_VERTICES = {
+    "down": ((0, 0, 1), (0, 0, 0), (1, 0, 0), (1, 0, 1)),
+    "up": ((0, 1, 0), (0, 1, 1), (1, 1, 1), (1, 1, 0)),
+    "north": ((1, 1, 0), (1, 0, 0), (0, 0, 0), (0, 1, 0)),
+    "south": ((0, 1, 1), (0, 0, 1), (1, 0, 1), (1, 1, 1)),
+    "west": ((0, 1, 0), (0, 0, 0), (0, 0, 1), (0, 1, 1)),
+    "east": ((1, 1, 1), (1, 0, 1), (1, 0, 0), (1, 1, 0)),
 }
+
+
+def face_vertices(element: dict, direction: str) -> list[list[float]]:
+    return [[element["to" if end else "from"][axis] for axis, end in enumerate(vertex)]
+            for vertex in FACE_VERTICES[direction]]
+
+
+def vertex_uv(face: dict, vertex: int) -> tuple[float, float]:
+    index = (vertex + face.get("rotation", 0) // 90) % 4
+    uv = face["uv"]
+    return (uv[0 if index in (0, 1) else 2], uv[1 if index in (0, 3) else 3])
 
 
 def scaled(values: list[float]) -> list[float]:
@@ -109,6 +119,12 @@ def crop_face_uv(face: dict, direction: str, original: dict, clipped: dict) -> d
     s_to = (clipped["to"][u_axis] - original["from"][u_axis]) / original_size_u
     t_from = (clipped["from"][v_axis] - original["from"][v_axis]) / original_size_v
     t_to = (clipped["to"][v_axis] - original["from"][v_axis]) / original_size_v
+    # Face UV axes are not uniformly positive world axes. In particular, side
+    # faces run downwards in V, and north/east run backwards in U.
+    if direction in ("north", "east"):
+        s_from, s_to = 1.0 - s_to, 1.0 - s_from
+    if direction != "up":
+        t_from, t_to = 1.0 - t_to, 1.0 - t_from
     q_from_u, q_from_v, q_to_u, q_to_v = rotated_fraction_bounds(
         s_from, s_to, t_from, t_to, cropped.get("rotation", 0)
     )
@@ -188,14 +204,28 @@ def orient_element(source_element: dict, cell: tuple[int, int, int], facing: str
     mapped_faces = {}
     for face_name, face in element.get("faces", {}).items():
         mapped_face = copy.deepcopy(face)
-        if face_name in ("up", "down"):
-            existing_rotation = mapped_face.get("rotation", 0)
-            rotation = (existing_rotation + HORIZONTAL_FACE_ROTATIONS[facing]) % 360
-            if rotation:
+        mapped_direction = FACE_MAPS[facing].get(face_name, face_name)
+        if "uv" in face:
+            source_vertices = [
+                [value - origin[axis] for axis, value in enumerate(transform_point(scaled(point), facing))]
+                for point in face_vertices(source_element, face_name)
+            ]
+            destination_uvs = [vertex_uv(face, source_vertices.index(point))
+                               for point in face_vertices(element, mapped_direction)]
+            # A reflected facing also reverses one UV axis; adding a rotation
+            # alone cannot preserve the texture. Fit the exact four corners.
+            for rotation in (0, 90, 180, 270):
+                first = destination_uvs[(-rotation // 90) % 4]
+                opposite = destination_uvs[(2 - rotation // 90) % 4]
+                mapped_face["uv"] = [*first, *opposite]
                 mapped_face["rotation"] = rotation
+                if all(vertex_uv(mapped_face, i) == uv for i, uv in enumerate(destination_uvs)):
+                    break
             else:
+                raise ValueError(f"Cannot preserve {face_name} UVs for {facing}")
+            if not mapped_face["rotation"]:
                 mapped_face.pop("rotation", None)
-        mapped_faces[FACE_MAPS[facing].get(face_name, face_name)] = mapped_face
+        mapped_faces[mapped_direction] = mapped_face
     element["faces"] = mapped_faces
     return element
 

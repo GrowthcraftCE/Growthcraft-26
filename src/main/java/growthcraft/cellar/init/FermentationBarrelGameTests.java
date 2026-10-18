@@ -75,6 +75,7 @@ public final class FermentationBarrelGameTests {
             @Override public boolean isClientAuthoritative() { return false; }
             @Override public void sendOverlayMessage(Component message) { overlays.incrementAndGet(); }
         };
+        verifyProgressTooltips(helper, player);
         var menu = new FermentationBarrelMenu(0, player.getInventory(), barrel);
         helper.assertTrue(menu.isProcessing(), "Menu must expose processing state for the yeast tooltip and stop control");
         menu.clicked(FermentationBarrelMenu.YEAST_SLOT, 0, ContainerInput.PICKUP, player);
@@ -118,6 +119,23 @@ public final class FermentationBarrelGameTests {
         FermentationBarrelBlockEntity.serverTick(level, absolute, barrel.getBlockState(), barrel);
         helper.assertTrue(barrel.isProcessing(), "Automation must still restart a barrel after ingredient edits");
     }
+    private static void verifyProgressTooltips(GameTestHelper helper, Player player) {
+        // Exercise the same synchronized menu data consumed by both barrel screens.
+        var menu = new FermentationBarrelMenu(1, player.getInventory());
+        helper.assertTrue(menu.getProgressTooltip().getString().equals("Not fermenting"), "Idle tooltip");
+        menu.setData(2, 1800);
+        menu.setData(3, 7200);
+        helper.assertTrue(menu.getProgressTooltip().getString().equals("Fermenting: 25%"),
+                "Progress tooltip must show percent without a countdown");
+        menu.setData(7, 1);
+        helper.assertTrue(menu.getProgressTooltip().getString().equals("Paused by redstone: 25%"), "Paused tooltip");
+        menu.setData(7, 0);
+        menu.setData(8, 1);
+        menu.setData(2, 0);
+        menu.setData(3, 0);
+        helper.assertTrue(menu.getProgressTooltip().getString().equals("Fermentation stopped"), "Manually stopped tooltip");
+    }
+
     public static void largeBarrelHopperPorts(GameTestHelper helper) {
         var level = helper.getLevel();
         BlockPos origin = new BlockPos(2, 1, 2);

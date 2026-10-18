@@ -115,13 +115,12 @@ public class FermentationBarrelScreen extends TexturedMachineScreen<Fermentation
     @Override
     protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
         if (extractTankTooltip(graphics, mouseX, mouseY, TANK_X, TANK_Y, TANK_W, TANK_H,
-                this.menu.getFluidStack(), this.menu.getTankCapacity())) {
+                this.menu.getFluidStack(), this.menu.getTankCapacity(), true)) {
             return;
         }
         if (isMouseAbove(mouseX, mouseY, this.leftPos + PROGRESS_X, this.topPos + PROGRESS_Y, PROGRESS_W, PROGRESS_H)) {
             graphics.setTooltipForNextFrame(this.font,
-                    Component.literal((this.menu.isRedstonePaused() ? "Paused — " : "")
-                            + this.menu.getPercentProgress() + "% — " + this.menu.getRemainingSeconds() + "s remaining"), mouseX, mouseY);
+                    this.menu.getProgressTooltip(), mouseX, mouseY);
             return;
         }
         if (this.menu.allowsManualUnlock() && (this.menu.isProcessing() || this.menu.isManuallyStopped()) && isMouseAbove(mouseX, mouseY,
