@@ -2,6 +2,7 @@ package growthcraft.lib.fluid;
 
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
@@ -28,6 +29,12 @@ public class LegacyFluidResourceHandler implements ResourceHandler<FluidResource
 
         @Override
         protected void revertToSnapshot(List<FluidStack> snapshot) {
+            if (handler instanceof FluidTank tank) {
+                // Rollback restores existing contents, not a new insertion. A
+                // runtime validator may now reject fluid loaded from a save.
+                tank.setFluid(snapshot.getFirst().copy());
+                return;
+            }
             for (int i = 0; i < snapshot.size(); i++) {
                 FluidStack current = handler.getFluidInTank(i);
                 if (!current.isEmpty()) {
