@@ -19,8 +19,18 @@ public class GrowthcraftCellarConfig {
     private static ModConfigSpec.BooleanValue roasterDebugEnabled;
     private static ModConfigSpec.BooleanValue cropsDebugEnabled;
     private static ModConfigSpec.BooleanValue capabilitiesDebugEnabled;
+    private static ModConfigSpec.IntValue barrelFluidTemperatureLimit;
 
     static {
+        SERVER_BUILDER.push("barrels");
+        barrelFluidTemperatureLimit = SERVER_BUILDER
+                .comment("Reject incoming fluids at or above this temperature in Kelvin in all fermentation and storage barrels.",
+                        "Server-wide ceiling: the lower of this value and the growthcraft:barrel_temperature_limit gamerule applies.",
+                        "Default 2147483647 K leaves temperature control to the gamerule (default 573 K). Existing contents remain drainable.",
+                        "The growthcraft_cellar:barrel_blocked_fluids tag always blocks insertion, regardless of temperature.")
+                .defineInRange("fluid_temperature_limit", Integer.MAX_VALUE, 1, Integer.MAX_VALUE);
+        SERVER_BUILDER.pop();
+
         SERVER_BUILDER.push("brewing");
         secondaryAdjunctGrainsAllowed = SERVER_BUILDER
                 .comment("Do we allow rice and corn as adjunct grains")
@@ -91,6 +101,10 @@ public class GrowthcraftCellarConfig {
 
     public static int getGrapeVineMaxHeight() {
         return grapeVineMaxHeight.get();
+    }
+
+    public static int getBarrelFluidTemperatureLimit() {
+        return barrelFluidTemperatureLimit.get();
     }
 
     public static boolean isDebugEnabled() { return debugEnabled.get(); }

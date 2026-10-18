@@ -7,6 +7,7 @@ import growthcraft.cellar.block.RoasterBlock;
 import growthcraft.cellar.init.GrowthcraftCellarBlocks;
 import growthcraft.cellar.init.FermentationBarrelGameTests;
 import growthcraft.cellar.init.StorageBarrelGameTests;
+import growthcraft.cellar.init.BarrelFluidGameTests;
 import growthcraft.cellar.init.GrowthcraftCellarItems;
 import growthcraft.core.config.Reference;
 import growthcraft.core.worldgen.SaltWorldgenGameTests;
@@ -63,6 +64,9 @@ public final class GrowthcraftGameTests {
     private static final DeferredHolder<Consumer<GameTestHelper>, Consumer<GameTestHelper>> STORAGE_BARREL_AUTOMATION =
             TEST_FUNCTIONS.register("storage_barrel_automation", () -> StorageBarrelGameTests::sharedTankAutomation);
 
+    private static final DeferredHolder<Consumer<GameTestHelper>, Consumer<GameTestHelper>> BARREL_FLUID_RESTRICTIONS =
+            TEST_FUNCTIONS.register("barrel_fluid_restrictions", () -> BarrelFluidGameTests::insertionRestrictionsAndExistingContents);
+
     private GrowthcraftGameTests() {
     }
 
@@ -73,6 +77,9 @@ public final class GrowthcraftGameTests {
         );
         event.registerTest(Identifier.fromNamespaceAndPath(Reference.MODID, "storage_barrel_automation"),
                 new FunctionGameTestInstance(STORAGE_BARREL_AUTOMATION.getKey(),
+                        new TestData<>(environment, EMPTY_STRUCTURE, 100, 0, true)));
+        event.registerTest(Identifier.fromNamespaceAndPath(Reference.MODID, "barrel_fluid_restrictions"),
+                new FunctionGameTestInstance(BARREL_FLUID_RESTRICTIONS.getKey(),
                         new TestData<>(environment, EMPTY_STRUCTURE, 100, 0, true)));
         event.registerTest(Identifier.fromNamespaceAndPath(Reference.MODID, "large_barrel_hopper_ports"),
                 new FunctionGameTestInstance(LARGE_BARREL_HOPPERS.getKey(),
