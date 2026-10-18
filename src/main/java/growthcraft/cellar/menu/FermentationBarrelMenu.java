@@ -211,7 +211,6 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         if (isProcessing()) {
-            showProcessingLocked(player, barrelBE != null && barrelBE.allowsManualUnlock());
             return ItemStack.EMPTY;
         }
         ItemStack itemstack = ItemStack.EMPTY;
@@ -245,19 +244,9 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
     @Override
     public void clicked(int slotId, int button, ContainerInput input, Player player) {
         if (isProcessing() && slotId == YEAST_SLOT) {
-            showProcessingLocked(player, barrelBE != null && barrelBE.allowsManualUnlock());
             return;
         }
         super.clicked(slotId, button, input, player);
     }
 
-    private static void showProcessingLocked(Player player, boolean manualUnlockAllowed) {
-        if (!player.level().isClientSide()) {
-            player.sendOverlayMessage(
-                    net.minecraft.network.chat.Component.translatable(
-                            manualUnlockAllowed
-                                    ? "growthcraft_cellar.message.fermentation.processing_locked_unlockable"
-                                    : "growthcraft_cellar.message.fermentation.processing_locked"));
-        }
-    }
 }

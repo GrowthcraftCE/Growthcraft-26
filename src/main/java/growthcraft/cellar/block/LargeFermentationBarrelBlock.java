@@ -7,6 +7,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Containers;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.WorldlyContainerHolder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
@@ -39,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class LargeFermentationBarrelBlock extends Block implements EntityBlock, LiquidBlockContainer {
+public class LargeFermentationBarrelBlock extends Block implements EntityBlock, LiquidBlockContainer, WorldlyContainerHolder {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<LargeBarrelPart> PART = EnumProperty.create("part", LargeBarrelPart.class);
 
@@ -142,6 +144,14 @@ public class LargeFermentationBarrelBlock extends Block implements EntityBlock, 
         BlockState controllerState = level.getBlockState(controllerPos);
         return FermentationBarrelBlock.useItemOnAt(
                 heldStack, controllerState, level, controllerPos, player, hand, hitResult.getDirection());
+    }
+
+    @Nullable
+    @Override
+    public WorldlyContainer getContainer(BlockState state, LevelAccessor level, BlockPos pos) {
+        // Every multiblock part exposes the controller's sided inventory, including its processing locks.
+        BlockEntity controller = level.getBlockEntity(getControllerPos(pos, state));
+        return controller instanceof LargeFermentationBarrelBlockEntity barrel ? barrel : null;
     }
 
     @Nullable

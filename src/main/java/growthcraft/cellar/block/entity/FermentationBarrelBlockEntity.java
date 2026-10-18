@@ -158,7 +158,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
     }
 
     public boolean allowsManualUnlock() {
-        return true;
+        return growthcraft.cellar.config.GrowthcraftCellarConfig.isFermentationBarrelManualUnlockAllowed();
     }
 
     public void cancelProcessing() {

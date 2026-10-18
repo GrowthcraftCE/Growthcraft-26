@@ -69,7 +69,7 @@
   "container.growthcraft_cellar.large_fermentation_barrel": "Large Fermentation Barrel",
   "container.growthcraft_cellar.large_storage_barrel": "Large Storage Barrel",
   "growthcraft_cellar.message.fermentation.processing_locked": "Fermentation is in progress. The barrel's contents are locked.",
-  "growthcraft_cellar.message.fermentation.processing_locked_unlockable": "Fermentation is in progress. Use the lock button in the barrel GUI to stop processing and unlock its contents.",
+  "growthcraft_cellar.message.fermentation.processing_locked_unlockable": "Fermentation is in progress. Use the stop button in the barrel GUI to stop processing and unlock its contents.",
   "container.growthcraft_cellar.fruit_press": "Fruit Press",
   "container.growthcraft_cellar.roaster": "Roaster",
   "fluid_type.growthcraft_cellar.amber_ale": "Amber Ale",
@@ -191,6 +191,13 @@
   "emi.category.growthcraft_cellar.book": "Other",
   "label.growthcraft_cellar.roaster_level": "Roaster level: %s",
   "gui.growthcraft_cellar.empty": "Empty",
-  "growthcraft_cellar.command.large_barrel_manual_unlock.status": "Large Fermentation Barrel manual unlocking is %s.",
-  "growthcraft_cellar.command.large_barrel_manual_unlock.changed": "Large Fermentation Barrel manual unlocking set to %s."
+  "growthcraft_cellar.command.barrel_manual_unlock.status": "Fermentation barrel manual controls are %s (standard and large).",
+  "growthcraft_cellar.command.barrel_manual_unlock.changed": "Fermentation barrel manual controls set to %s (standard and large).",
+  "growthcraft_cellar.control.fermentation.stop": "Stop fermentation",
+  "growthcraft_cellar.control.fermentation.start": "Start fermentation",
+  "growthcraft_cellar.tooltip.fermentation.processing": "Fermentation in progress",
+  "growthcraft_cellar.tooltip.fermentation.paused": "Fermentation paused by redstone",
+  "growthcraft_cellar.tooltip.fermentation.discards_progress": "Discards progress",
+  "growthcraft_cellar.tooltip.fermentation.unlocks_contents": "Unlocks contents",
+  "growthcraft_cellar.tooltip.fermentation.locks_contents": "Locks contents"
 }
