@@ -3,13 +3,14 @@
   "category": "misc",
   "group": "growthcraft_cellar",
   "key": {
-    "F": "growthcraft_cellar:fermentation_barrel_acacia",
-    "L": "growthcraft_cellar:large_fermentation_barrel_acacia"
+    "B": "growthcraft_cellar:fermentation_barrel_acacia",
+    "L": "minecraft:acacia_log",
+    "N": "#c:nuggets/iron"
   },
   "pattern": [
-    " F ",
-    "F F",
-    "LLL"
+    "NLN",
+    "BBB",
+    "NLN"
   ],
   "result": {
     "id": "growthcraft_cellar:large_storage_barrel_acacia"

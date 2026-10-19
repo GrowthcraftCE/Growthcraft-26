@@ -143,7 +143,7 @@ public class GrowthcraftRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_glass_panes", has(Tags.Items.GLASS_PANES))
                 .save(output, recipeKey(growthcraft.cellar.config.Reference.MODID, growthcraft.cellar.config.Reference.UnlocalizedName.Block.CULTURE_JAR));
 
-        addCellarMachineRecipes(output, IRON_INGOTS);
+        addCellarMachineRecipes(output, IRON_INGOTS, IRON_NUGGETS);
 
         shapeless(RecipeCategory.MISC, GrowthcraftCellarItems.HOPS_SEEDS.get(), 2)
                 .requires(GrowthcraftCellarItems.HOPS.get())
@@ -191,7 +191,7 @@ public class GrowthcraftRecipeProvider extends RecipeProvider {
                         growthcraft.bamboo.config.Reference.UnlocalizedName.Block.BAMBOO_POST_VERTICAL));
     }
 
-    private void addCellarMachineRecipes(RecipeOutput output, TagKey<Item> ironIngots) {
+    private void addCellarMachineRecipes(RecipeOutput output, TagKey<Item> ironIngots, TagKey<Item> ironNuggets) {
         shapeless(RecipeCategory.MISC, GrowthcraftCellarItems.BREW_KETTLE.get())
                 .requires(Blocks.CAULDRON)
                 .group(growthcraft.cellar.config.Reference.MODID)
@@ -227,33 +227,33 @@ public class GrowthcraftRecipeProvider extends RecipeProvider {
         addFermentationBarrelRecipe(output, ironIngots, GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED.get(),
                 Blocks.WARPED_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.FERMENT_BARREL_WARPED);
 
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_ACACIA.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_ACACIA.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_ACACIA);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_APPLE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_APPLE.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_APPLE);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_BAMBOO.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_BAMBOO.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_BAMBOO);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_BIRCH.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_BIRCH.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_BIRCH);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_CHERRY.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_CHERRY.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_CHERRY);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_CRIMSON.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_CRIMSON.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_CRIMSON);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_DARK_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_DARK_OAK.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_DARK_OAK);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_JUNGLE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_JUNGLE.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_JUNGLE);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_MANGROVE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_MANGROVE.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_MANGROVE);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_OAK);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_PALE_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_PALE_OAK.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_PALE_OAK);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_SPRUCE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_SPRUCE.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_SPRUCE);
-        addLargeFermentationBarrelRecipe(output, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_WARPED.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_WARPED);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_ACACIA.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_ACACIA.get(), Blocks.ACACIA_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_ACACIA);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_APPLE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_APPLE.get(), GrowthcraftApplesItems.APPLE_PLANK.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_APPLE);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_BAMBOO.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_BAMBOO.get(), Blocks.BAMBOO_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_BAMBOO);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_BIRCH.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_BIRCH.get(), Blocks.BIRCH_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_BIRCH);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_CHERRY.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_CHERRY.get(), Blocks.CHERRY_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_CHERRY);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_CRIMSON.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_CRIMSON.get(), Blocks.CRIMSON_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_CRIMSON);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_DARK_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_DARK_OAK.get(), Blocks.DARK_OAK_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_DARK_OAK);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_JUNGLE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_JUNGLE.get(), Blocks.JUNGLE_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_JUNGLE);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_MANGROVE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_MANGROVE.get(), Blocks.MANGROVE_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_MANGROVE);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get(), Blocks.OAK_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_OAK);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_PALE_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_PALE_OAK.get(), Blocks.PALE_OAK_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_PALE_OAK);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_SPRUCE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_SPRUCE.get(), Blocks.SPRUCE_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_SPRUCE);
+        addLargeFermentationBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_WARPED.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED.get(), Blocks.WARPED_PLANKS, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_FERMENT_BARREL_WARPED);
 
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_ACACIA.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_ACACIA.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_ACACIA.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_ACACIA);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_APPLE.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_APPLE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_APPLE.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_APPLE);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_BAMBOO.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_BAMBOO.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_BAMBOO.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_BAMBOO);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_BIRCH.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_BIRCH.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_BIRCH.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_BIRCH);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_CHERRY.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_CHERRY.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_CHERRY.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_CHERRY);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_CRIMSON.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_CRIMSON.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_CRIMSON.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_CRIMSON);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_DARK_OAK.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_DARK_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_DARK_OAK.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_DARK_OAK);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_JUNGLE.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_JUNGLE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_JUNGLE.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_JUNGLE);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_MANGROVE.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_MANGROVE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_MANGROVE.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_MANGROVE);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_OAK.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_OAK);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_PALE_OAK.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_PALE_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_PALE_OAK.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_PALE_OAK);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_SPRUCE.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_SPRUCE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_SPRUCE.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_SPRUCE);
-        addLargeStorageBarrelRecipe(output, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_WARPED.get(), GrowthcraftCellarItems.LARGE_FERMENTATION_BARREL_WARPED.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_WARPED);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_ACACIA.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_ACACIA.get(), Blocks.ACACIA_LOG, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_ACACIA);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_APPLE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_APPLE.get(), GrowthcraftApplesItems.APPLE_WOOD_LOG.get(), growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_APPLE);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_BAMBOO.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_BAMBOO.get(), Blocks.BAMBOO_BLOCK, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_BAMBOO);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_BIRCH.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_BIRCH.get(), Blocks.BIRCH_LOG, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_BIRCH);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_CHERRY.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_CHERRY.get(), Blocks.CHERRY_LOG, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_CHERRY);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_CRIMSON.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_CRIMSON.get(), Blocks.CRIMSON_STEM, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_CRIMSON);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_DARK_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_DARK_OAK.get(), Blocks.DARK_OAK_LOG, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_DARK_OAK);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_JUNGLE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_JUNGLE.get(), Blocks.JUNGLE_LOG, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_JUNGLE);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_MANGROVE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_MANGROVE.get(), Blocks.MANGROVE_LOG, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_MANGROVE);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_OAK.get(), Blocks.OAK_LOG, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_OAK);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_PALE_OAK.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_PALE_OAK.get(), Blocks.PALE_OAK_LOG, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_PALE_OAK);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_SPRUCE.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_SPRUCE.get(), Blocks.SPRUCE_LOG, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_SPRUCE);
+        addLargeStorageBarrelRecipe(output, ironNuggets, GrowthcraftCellarItems.LARGE_STORAGE_BARREL_WARPED.get(), GrowthcraftCellarItems.FERMENTATION_BARREL_WARPED.get(), Blocks.WARPED_STEM, growthcraft.cellar.config.Reference.UnlocalizedName.Block.LARGE_STORAGE_BARREL_WARPED);
 
         shaped(RecipeCategory.MISC, GrowthcraftCellarItems.FRUIT_PRESS.get())
                 .pattern("ABA")
@@ -297,28 +297,31 @@ public class GrowthcraftRecipeProvider extends RecipeProvider {
                         recipeName));
     }
 
-    private void addLargeFermentationBarrelRecipe(RecipeOutput output, ItemLike largeBarrel,
-                                                   ItemLike barrel, String recipeName) {
+    private void addLargeFermentationBarrelRecipe(RecipeOutput output, TagKey<Item> ironNuggets,
+                                                   ItemLike largeBarrel, ItemLike barrel, ItemLike planks, String recipeName) {
         shaped(RecipeCategory.MISC, largeBarrel)
-                .pattern("BBB")
-                .pattern("B B")
-                .pattern("BBB")
+                .pattern("NBN")
+                .pattern("PPP")
+                .pattern("NBN")
+                .define('P', planks)
                 .define('B', barrel)
+                .define('N', ironNuggets)
                 .group(growthcraft.cellar.config.Reference.MODID)
                 .unlockedBy(getHasName(barrel), has(barrel))
                 .save(output, recipeKey(growthcraft.cellar.config.Reference.MODID, recipeName));
     }
 
-    private void addLargeStorageBarrelRecipe(RecipeOutput output, ItemLike storageBarrel,
-                                             ItemLike largeBarrel, ItemLike barrel, String recipeName) {
+    private void addLargeStorageBarrelRecipe(RecipeOutput output, TagKey<Item> ironNuggets,
+                                             ItemLike storageBarrel, ItemLike barrel, ItemLike logs, String recipeName) {
         shaped(RecipeCategory.MISC, storageBarrel)
-                .pattern(" F ")
-                .pattern("F F")
-                .pattern("LLL")
-                .define('F', barrel)
-                .define('L', largeBarrel)
+                .pattern("NLN")
+                .pattern("BBB")
+                .pattern("NLN")
+                .define('L', logs)
+                .define('B', barrel)
+                .define('N', ironNuggets)
                 .group(growthcraft.cellar.config.Reference.MODID)
-                .unlockedBy(getHasName(largeBarrel), has(largeBarrel))
+                .unlockedBy(getHasName(barrel), has(barrel))
                 .save(output, recipeKey(growthcraft.cellar.config.Reference.MODID, recipeName));
     }
 

@@ -3,12 +3,14 @@
   "category": "misc",
   "group": "growthcraft_cellar",
   "key": {
-    "B": "growthcraft_cellar:fermentation_barrel_birch"
+    "B": "growthcraft_cellar:fermentation_barrel_birch",
+    "N": "#c:nuggets/iron",
+    "P": "minecraft:birch_planks"
   },
   "pattern": [
-    "BBB",
-    "B B",
-    "BBB"
+    "NBN",
+    "PPP",
+    "NBN"
   ],
   "result": {
     "id": "growthcraft_cellar:large_fermentation_barrel_birch"

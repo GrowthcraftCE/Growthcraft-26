@@ -25,6 +25,11 @@
       "type": "patchouli:text",
       "title": "Manual Controls",
       "text": "Manual controls use one setting for standard and large fermentation barrels.$(br2)In growthcraft_cellar-common.toml, under [fermentation_barrel], set allow_manual_unlock to true. The default is false.$(br2)Automatic processing and hopper input work with either setting.$(br2)See $(l:server_settings/fermentation_barrels)Server Settings$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Larger Barrels",
+      "text": "For larger fermentation batches, see $(l:cellar/large_ferment_barrel)Large Fermentation Barrels$(), which hold 32 buckets.$(br2)For bulk storage, see $(l:cellar/large_storage_barrel)Large Storage Barrels$(), which hold 128 buckets.$(br2)Both recipes use matching standard fermentation barrels and additional wood and iron nuggets."
     }
   ],
   "extra_recipe_mappings": {
