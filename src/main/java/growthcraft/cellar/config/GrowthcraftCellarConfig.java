@@ -14,13 +14,23 @@ public class GrowthcraftCellarConfig {
     private static ModConfigSpec.BooleanValue brewKettleDebugEnabled;
     private static ModConfigSpec.BooleanValue cultureJarDebugEnabled;
     private static ModConfigSpec.BooleanValue fermentationBarrelDebugEnabled;
-    private static ModConfigSpec.BooleanValue largeFermentationBarrelManualUnlockAllowed;
+    private static ModConfigSpec.BooleanValue fermentationBarrelManualUnlockAllowed;
     private static ModConfigSpec.BooleanValue fruitPressDebugEnabled;
     private static ModConfigSpec.BooleanValue roasterDebugEnabled;
     private static ModConfigSpec.BooleanValue cropsDebugEnabled;
     private static ModConfigSpec.BooleanValue capabilitiesDebugEnabled;
+    private static ModConfigSpec.IntValue barrelFluidTemperatureLimit;
 
     static {
+        SERVER_BUILDER.push("barrels");
+        barrelFluidTemperatureLimit = SERVER_BUILDER
+                .comment("Reject incoming fluids at or above this temperature in Kelvin in all fermentation and storage barrels.",
+                        "Server-wide ceiling: the lower of this value and the growthcraft:barrel_temperature_limit gamerule applies.",
+                        "Default 2147483647 K leaves temperature control to the gamerule (default 573 K). Existing contents remain drainable.",
+                        "The growthcraft_cellar:barrel_blocked_fluids tag always blocks insertion, regardless of temperature.")
+                .defineInRange("fluid_temperature_limit", Integer.MAX_VALUE, 1, Integer.MAX_VALUE);
+        SERVER_BUILDER.pop();
+
         SERVER_BUILDER.push("brewing");
         secondaryAdjunctGrainsAllowed = SERVER_BUILDER
                 .comment("Do we allow rice and corn as adjunct grains")
@@ -55,9 +65,9 @@ public class GrowthcraftCellarConfig {
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("fermentation_barrel");
-        largeFermentationBarrelManualUnlockAllowed = SERVER_BUILDER
-                .comment("Allow players to stop and resume Large Fermentation Barrel processing from its GUI.")
-                .define("allow_large_barrel_manual_unlock", false);
+        fermentationBarrelManualUnlockAllowed = SERVER_BUILDER
+                .comment("Allow players to stop and restart processing from standard and large fermentation barrel GUIs.")
+                .define("allow_manual_unlock", false);
         fermentationBarrelDebugEnabled = SERVER_BUILDER
                 .comment("Set to true to add additional logging to debug the Fermentation Barrel.")
                 .define("debugEnabled", false);
@@ -93,16 +103,20 @@ public class GrowthcraftCellarConfig {
         return grapeVineMaxHeight.get();
     }
 
+    public static int getBarrelFluidTemperatureLimit() {
+        return barrelFluidTemperatureLimit.get();
+    }
+
     public static boolean isDebugEnabled() { return debugEnabled.get(); }
     public static boolean isBrewKettleDebugEnabled() { return brewKettleDebugEnabled.get(); }
     public static boolean isCultureJarDebugEnabled() { return cultureJarDebugEnabled.get(); }
     public static boolean isFermentationBarrelDebugEnabled() { return fermentationBarrelDebugEnabled.get(); }
-    public static boolean isLargeFermentationBarrelManualUnlockAllowed() {
-        return largeFermentationBarrelManualUnlockAllowed.get();
+    public static boolean isFermentationBarrelManualUnlockAllowed() {
+        return fermentationBarrelManualUnlockAllowed.get();
     }
-    public static void setLargeFermentationBarrelManualUnlockAllowed(boolean allowed) {
-        largeFermentationBarrelManualUnlockAllowed.set(allowed);
-        largeFermentationBarrelManualUnlockAllowed.save();
+    public static void setFermentationBarrelManualUnlockAllowed(boolean allowed) {
+        fermentationBarrelManualUnlockAllowed.set(allowed);
+        fermentationBarrelManualUnlockAllowed.save();
     }
     public static boolean isFruitPressDebugEnabled() { return fruitPressDebugEnabled.get(); }
     public static boolean isRoasterDebugEnabled() { return roasterDebugEnabled.get(); }

@@ -8,6 +8,7 @@ import growthcraft.cellar.menu.FermentationBarrelMenu;
 import growthcraft.cellar.recipe.FermentationBarrelRecipe;
 import growthcraft.cellar.recipe.input.FermentationBarrelInput;
 import growthcraft.lib.util.FluidTankPersistence;
+import growthcraft.cellar.fluid.BarrelFluidPolicy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -65,7 +66,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
 
     protected FermentationBarrelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int tankCapacity) {
         super(type, pos, state);
-        this.tank = new FluidTank(tankCapacity) {
+        this.tank = new FluidTank(tankCapacity, resource -> BarrelFluidPolicy.allowsInsertion(resource, getLevel())) {
             @Override
             public int fill(FluidStack resource, IFluidHandler.FluidAction action) {
                 return isProcessing() ? 0 : super.fill(resource, action);
@@ -158,7 +159,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements Worldl
     }
 
     public boolean allowsManualUnlock() {
-        return true;
+        return growthcraft.cellar.config.GrowthcraftCellarConfig.isFermentationBarrelManualUnlockAllowed();
     }
 
     public void cancelProcessing() {

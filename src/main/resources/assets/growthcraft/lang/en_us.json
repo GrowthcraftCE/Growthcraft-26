@@ -1,4 +1,8 @@
 {
+  "gamerule.growthcraft.barrel_temperature_limit": "Growthcraft barrel temperature limit (K)",
+  "gamerule.growthcraft.barrel_temperature_limit.description": "Reject incoming barrel fluids at or above this temperature in Kelvin. The lower of this value and the common config limit applies. Blocked-fluid tags always apply; existing contents remain drainable.",
+  "gamerule.growthcraft.salt_generation": "Generate Growthcraft salt ore",
+  "gamerule.growthcraft.salt_generation.description": "Allow Growthcraft salt ore in newly generated chunks. The Growthcraft config must also allow generation. Existing ore is unchanged.",
   "advancements.growthcraft.root.description": " ",
   "advancements.growthcraft.root.title": "Growthcraft",
   "block.growthcraft.rope_linen": "Rope",
@@ -59,5 +63,6 @@
   "manual.growthcraft.milk.description": "Welcome to milk ...",
   "manual.growthcraft.milk.name": "Growthcraft Milk",
   "manual.growthcraft.rice.description": "Welcome to rice...",
-  "manual.growthcraft.rice.name": "Growthcraft Rice"
+  "manual.growthcraft.rice.name": "Growthcraft Rice",
+  "growthcraft.tooltip.empty_tank": "Empty"
 }

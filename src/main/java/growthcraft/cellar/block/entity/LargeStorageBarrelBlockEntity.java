@@ -3,6 +3,7 @@ package growthcraft.cellar.block.entity;
 import growthcraft.cellar.init.GrowthcraftCellarBlockEntities;
 import growthcraft.cellar.menu.LargeStorageBarrelMenu;
 import growthcraft.lib.util.FluidTankPersistence;
+import growthcraft.cellar.fluid.BarrelFluidPolicy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -23,7 +24,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 public class LargeStorageBarrelBlockEntity extends BlockEntity implements MenuProvider {
     public static final int TANK_CAPACITY = 128_000;
 
-    private final FluidTank tank = new FluidTank(TANK_CAPACITY) {
+    private final FluidTank tank = new FluidTank(TANK_CAPACITY, resource -> BarrelFluidPolicy.allowsInsertion(resource, getLevel())) {
         @Override
         protected void onContentsChanged() {
             setChanged();

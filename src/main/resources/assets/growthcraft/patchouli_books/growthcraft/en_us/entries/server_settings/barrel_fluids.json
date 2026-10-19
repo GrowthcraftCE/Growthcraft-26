@@ -1,0 +1,33 @@
+{
+  "name": "Barrel Fluid Restrictions",
+  "icon": "minecraft:lava_bucket",
+  "category": "growthcraft:server_settings",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Fluid Temperature",
+      "text": "Standard and large fermentation barrels and large storage barrels reject incoming fluids at or above a shared temperature limit.$(br2)In growthcraft_cellar-common.toml, under [barrels], the default is:$(br2)fluid_temperature_limit = 2147483647$(br2)This maximum integer ceiling leaves normal temperature control to the world gamerule. Server owners can lower it."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "World Temperature Limit",
+      "text": "Under Game Rules > World Updates, find Growthcraft barrel temperature limit (K). It defaults to 573.$(br2)With operator permission, use:$(br2)/gamerule growthcraft:barrel_temperature_limit 573$(br2)The lower of the world rule and config ceiling applies. Fluids at or above that value are rejected; lava is blocked by default."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Allowing Lava",
+      "text": "Lava reports 1300 K. With the default config ceiling, allow it using:$(br2)/gamerule growthcraft:barrel_temperature_limit 1301$(br2)Restore the default restriction with 573.$(br2)A lower custom config ceiling still applies. Fluids in the blocked-fluid tag remain blocked regardless of either temperature setting."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Blocked Fluids",
+      "text": "Datapacks can also block fluids using the growthcraft_cellar:barrel_blocked_fluids fluid tag. It is empty by default.$(br2)Add fluid IDs under data/growthcraft_cellar/tags/fluid/barrel_blocked_fluids.json.$(br2)Tagged fluids are blocked even below the temperature limit. This is useful when another mod does not report a fluid's temperature accurately."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Existing Contents",
+      "text": "Restrictions apply to incoming fluids through buckets and automation. They do not delete existing contents.$(br2)Stored fluids that become blocked can still be drained, subject to the normal fermentation processing lock.$(br2)The gamerule takes effect immediately and is saved with the world. Use values of 1 or higher. Restart after editing the common config; reload datapacks after changing the tag."
+    }
+  ]
+}

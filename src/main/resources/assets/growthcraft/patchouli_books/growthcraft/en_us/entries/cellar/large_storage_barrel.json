@@ -1,0 +1,35 @@
+{
+  "name": "Large Storage Barrel",
+  "icon": "growthcraft_cellar:large_storage_barrel_oak",
+  "category": "growthcraft:cellar",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "growthcraft_cellar:large_storage_barrel_oak",
+      "title": "Large Storage Barrel",
+      "text": "A large storage barrel holds 128 buckets of one fluid in a 3x3x3 structure. It stores fluid without fermenting it.$(br2)Four 32-bucket gauges fill from left to right, with the exact total below.$(br2)See $(l:server_settings/barrel_fluids)Barrel Fluid Restrictions$() for temperature limits and blocked fluids."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "growthcraft_cellar:large_storage_barrel_oak",
+      "title": "Crafting",
+      "text": "Use three matching standard barrels, two matching logs or stems, and four iron nuggets. Bamboo uses bamboo blocks."
+    }
+  ],
+  "extra_recipe_mappings": {
+    "growthcraft_cellar:large_storage_barrel_acacia": 1,
+    "growthcraft_cellar:large_storage_barrel_apple": 1,
+    "growthcraft_cellar:large_storage_barrel_bamboo": 1,
+    "growthcraft_cellar:large_storage_barrel_birch": 1,
+    "growthcraft_cellar:large_storage_barrel_cherry": 1,
+    "growthcraft_cellar:large_storage_barrel_crimson": 1,
+    "growthcraft_cellar:large_storage_barrel_dark_oak": 1,
+    "growthcraft_cellar:large_storage_barrel_jungle": 1,
+    "growthcraft_cellar:large_storage_barrel_mangrove": 1,
+    "growthcraft_cellar:large_storage_barrel_oak": 1,
+    "growthcraft_cellar:large_storage_barrel_pale_oak": 1,
+    "growthcraft_cellar:large_storage_barrel_spruce": 1,
+    "growthcraft_cellar:large_storage_barrel_warped": 1
+  }
+}

@@ -3,12 +3,14 @@
   "category": "misc",
   "group": "growthcraft_cellar",
   "key": {
-    "B": "growthcraft_cellar:fermentation_barrel_apple"
+    "B": "growthcraft_cellar:fermentation_barrel_apple",
+    "N": "#c:nuggets/iron",
+    "P": "growthcraft_apples:apple_plank"
   },
   "pattern": [
-    "BBB",
-    "B B",
-    "BBB"
+    "NBN",
+    "PPP",
+    "NBN"
   ],
   "result": {
     "id": "growthcraft_cellar:large_fermentation_barrel_apple"

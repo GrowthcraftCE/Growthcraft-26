@@ -1,0 +1,23 @@
+{
+  "name": "Fermentation Barrels",
+  "icon": "growthcraft_cellar:fermentation_barrel_oak",
+  "category": "growthcraft:server_settings",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Manual Controls",
+      "text": "One setting controls manual stop/start for standard and large fermentation barrels.$(br2)Edit growthcraft_cellar-common.toml under [fermentation_barrel]:$(br2)allow_manual_unlock = true$(br2)The default is false. Hopper automation remains enabled."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Operator Command",
+      "text": "With operator permission, change the shared setting using:$(br2)/growthcraft cellar barrelManualUnlock true$(br2)Use false to disable the controls. The command saves the config. Both barrel sizes use the same value."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Existing Configs",
+      "text": "The previous allow_large_barrel_manual_unlock value is migrated to allow_manual_unlock, with a backup saved before writing.$(br2)If both keys exist, the new key takes precedence.$(br2)The previous largeBarrelManualUnlock command remains an alias for the shared setting."
+    }
+  ]
+}

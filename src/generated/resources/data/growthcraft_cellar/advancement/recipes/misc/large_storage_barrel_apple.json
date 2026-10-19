@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_large_fermentation_barrel_apple": {
+    "has_fermentation_barrel_apple": {
       "conditions": {
         "items": [
           {
-            "items": "growthcraft_cellar:large_fermentation_barrel_apple"
+            "items": "growthcraft_cellar:fermentation_barrel_apple"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_large_fermentation_barrel_apple"
+      "has_fermentation_barrel_apple"
     ]
   ],
   "rewards": {
