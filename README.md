@@ -1,6 +1,6 @@
 # Growthcraft 26.1.2 (NeoForge)
 
-[![Growthcraft Version](https://img.shields.io/badge/Growthcraft-26.1.2.0.rc6-orange.svg)](https://github.com/GrowthcraftCE/Growthcraft-26)
+[![Growthcraft Version](https://img.shields.io/badge/Growthcraft-26.1.2.1-green.svg)](https://github.com/GrowthcraftCE/Growthcraft-26)
 [![](http://cf.way2muchnoise.eu/versions/growthcraft-community-edition_latest.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
 [![](http://cf.way2muchnoise.eu/short_growthcraft-community-edition.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
 [![NeoForge Version](https://img.shields.io/badge/NeoForge-26.1.x-yellow.svg)](https://projects.neoforged.net/neoforged/neoforge)
@@ -17,7 +17,7 @@ effects.
 There are multiple starting points to Growthcraft. The in-game manual is the primary gameplay reference for Growthcraft
 26.1.2 and includes getting started notes, recipes, machine guidance, and release information.
 
-This repository is the active porting workspace for Minecraft 26.1.2. Internal porting notes live under the local
+This repository targets Minecraft 26.1.2 and NeoForge 26.1.x. Internal porting notes live under the local
 `docs/` directory and are intentionally ignored by Git.
 
 ### IDE Run Configurations
@@ -35,8 +35,8 @@ After generation, reload the Gradle project in IntelliJ if run configs do not ap
 ### Growthcraft 26.1 (Minecraft 26.1.2)
 
 End of Support: TBD<br>
-Latest Version: 26.1.2.0.rc6<br>
-Stable Version: TBD
+Latest Version: 26.1.2.1<br>
+Stable Version: 26.1.2.1
 
 ### Growthcraft 1.21 (Minecraft 1.21.1)
 
