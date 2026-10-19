@@ -314,9 +314,9 @@ public class GrowthcraftRecipeProvider extends RecipeProvider {
     private void addLargeStorageBarrelRecipe(RecipeOutput output, TagKey<Item> ironNuggets,
                                              ItemLike storageBarrel, ItemLike barrel, ItemLike logs, String recipeName) {
         shaped(RecipeCategory.MISC, storageBarrel)
-                .pattern("LNL")
+                .pattern("NLN")
                 .pattern("BBB")
-                .pattern("LNL")
+                .pattern("NLN")
                 .define('L', logs)
                 .define('B', barrel)
                 .define('N', ironNuggets)

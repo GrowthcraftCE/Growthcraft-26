@@ -8,9 +8,9 @@
     "N": "#c:nuggets/iron"
   },
   "pattern": [
-    "LNL",
+    "NLN",
     "BBB",
-    "LNL"
+    "NLN"
   ],
   "result": {
     "id": "growthcraft_cellar:large_storage_barrel_mangrove"

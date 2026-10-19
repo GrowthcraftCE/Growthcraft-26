@@ -37,14 +37,14 @@ class BarrelCraftingRecipeTest {
     @ParameterizedTest
     @ValueSource(strings = {"acacia", "apple", "bamboo", "birch", "cherry", "crimson", "dark_oak",
             "jungle", "mangrove", "oak", "pale_oak", "spruce", "warped"})
-    void storageRecipeUsesThreeStandardBarrelsFourLogsAndTwoNuggets(String wood) throws IOException {
+    void storageRecipeUsesThreeStandardBarrelsTwoLogsAndFourNuggets(String wood) throws IOException {
         String material = switch (wood) {
             case "apple" -> "growthcraft_apples:apple_wood_log";
             case "bamboo" -> "minecraft:bamboo_block";
             case "crimson", "warped" -> "minecraft:" + wood + "_stem";
             default -> "minecraft:" + wood + "_log";
         };
-        assertUpgradeRecipe("large_storage_barrel_" + wood, wood, "L", material, List.of("LNL", "BBB", "LNL"));
+        assertUpgradeRecipe("large_storage_barrel_" + wood, wood, "L", material, List.of("NLN", "BBB", "NLN"));
     }
 
     private static void assertUpgradeRecipe(String id, String variant, String woodKey, String wood, List<String> expectedPattern) throws IOException {
