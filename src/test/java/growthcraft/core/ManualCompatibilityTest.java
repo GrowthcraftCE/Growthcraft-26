@@ -1,5 +1,6 @@
 package growthcraft.core;
 
+import com.google.gson.JsonParser;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ManualCompatibilityTest {
@@ -112,6 +114,36 @@ class ManualCompatibilityTest {
         }
         assertTrue(count >= 13, "Expected all registered small barrel variants");
         assertTrue(missing.isEmpty(), "Missing page-zero book hints: " + missing);
+    }
+
+    @Test
+    void largeBarrelEntriesLinkEveryVariantToItsCraftingPage() throws IOException {
+        String registrations = Files.readString(Path.of("src/main/java/growthcraft/cellar/init/GrowthcraftCellarBlocks.java"));
+        String standardEntry = Files.readString(MANUAL.resolve("entries/cellar/ferment_barrel.json"));
+        for (String kind : java.util.List.of("fermentation", "storage")) {
+            String entryName = kind.equals("fermentation") ? "large_ferment_barrel" : "large_storage_barrel";
+            var entry = JsonParser.parseString(Files.readString(MANUAL.resolve("entries/cellar/" + entryName + ".json"))).getAsJsonObject();
+            var pages = entry.getAsJsonArray("pages");
+            var crafting = pages.get(1).getAsJsonObject();
+            String prefix = "large_" + kind + "_barrel_";
+            assertEquals("patchouli:crafting", crafting.get("type").getAsString());
+            assertEquals("growthcraft_cellar:" + prefix + "oak", crafting.get("recipe").getAsString());
+            assertTrue(pages.get(0).getAsJsonObject().get("text").getAsString()
+                    .contains(kind.equals("fermentation") ? "32 buckets" : "128 buckets"));
+            assertTrue(standardEntry.contains("$(l:cellar/" + entryName + ")"), "Standard barrel must link to " + entryName);
+            var mappings = entry.getAsJsonObject("extra_recipe_mappings");
+            Matcher variants = Pattern.compile("DeferredBlock<Block> " + prefix.toUpperCase(java.util.Locale.ROOT) + "([A-Z_]+) =")
+                    .matcher(registrations);
+            int count = 0;
+            while (variants.find()) {
+                count++;
+                String id = "growthcraft_cellar:" + prefix + variants.group(1).toLowerCase(java.util.Locale.ROOT);
+                assertTrue(mappings.has(id), "Missing large barrel book hint: " + id);
+                assertEquals(1, mappings.get(id).getAsInt(), "Book hint must open the crafting page: " + id);
+            }
+            assertTrue(count >= 13, "Expected all large barrel variants");
+            assertEquals(count, mappings.size());
+        }
     }
 
     private static void collectRecipeIds(Path dataRoot, Set<String> recipes) throws IOException {
