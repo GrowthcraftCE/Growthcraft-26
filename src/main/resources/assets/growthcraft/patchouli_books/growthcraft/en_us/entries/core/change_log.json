@@ -6,6 +6,31 @@
   "pages": [
     {
       "type": "patchouli:text",
+      "title": "26.1.2.1",
+      "text": "Stable release for Minecraft 26.1.2, NeoForge 26.1.2.77 or newer, and Java 25.$(br2)$(li)Corrected salt generation settings and added the growthcraft:salt_generation world rule.$(li)Apple and grape fruit drop produce only at full maturity; apple spawning respects the ticked leaf and local population limits."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Barrel Controls",
+      "text": "$(li)Standard and large fermentation barrels share one manual stop/start setting, disabled by default.$(li)Improved yeast feedback and book hints.$(li)Fixed top-hopper yeast insertion on large fermentation barrels.$(li)Migrated the previous large-barrel setting while preserving its command alias."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Barrel Displays",
+      "text": "$(li)Storage barrels show four sequential 32-bucket gauges and an exact total.$(li)Barrel tooltips separate fluid names and volumes and show fermentation state without a seconds countdown.$(li)Corrected dark-band texture alignment on large barrels."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Barrel Recipes",
+      "text": "$(li)Standard fermentation barrel recipes are unchanged.$(li)Large fermentation barrels use two matching standard barrels, three planks, and four iron nuggets.$(li)Storage barrels use three matching standard barrels, two logs or stems, and four iron nuggets.$(li)Added crafting entries and book hints for all wood variants."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Barrel Fluid Limits",
+      "text": "$(li)The growthcraft:barrel_temperature_limit world rule defaults to 573 K.$(li)The config provides a server-wide ceiling, defaulting to 2147483647 K.$(li)A blocked-fluid tag can reject additional fluids.$(li)Existing contents remain drainable.$(br2)See $(l:server_settings/barrel_fluids)Barrel Fluid Restrictions$()."
+    },
+    {
+      "type": "patchouli:text",
       "title": "26.1.2.0.rc6",
       "text": "$(li)Apple fruit now spawns only beneath the randomly ticked leaf, preserving local population limits.$(li)Breaking apple or grape fruit yields produce only at full maturity."
     },
