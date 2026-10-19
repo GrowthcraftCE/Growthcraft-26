@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_large_fermentation_barrel_bamboo": {
+    "has_fermentation_barrel_bamboo": {
       "conditions": {
         "items": [
           {
-            "items": "growthcraft_cellar:large_fermentation_barrel_bamboo"
+            "items": "growthcraft_cellar:fermentation_barrel_bamboo"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_large_fermentation_barrel_bamboo"
+      "has_fermentation_barrel_bamboo"
     ]
   ],
   "rewards": {

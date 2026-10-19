@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_large_fermentation_barrel_jungle": {
+    "has_fermentation_barrel_jungle": {
       "conditions": {
         "items": [
           {
-            "items": "growthcraft_cellar:large_fermentation_barrel_jungle"
+            "items": "growthcraft_cellar:fermentation_barrel_jungle"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_large_fermentation_barrel_jungle"
+      "has_fermentation_barrel_jungle"
     ]
   ],
   "rewards": {
